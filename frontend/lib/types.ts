@@ -13,6 +13,7 @@ export interface IndustrialApplication {
   waste_management: string;
   nearby_homes: string;
   water_level_depth: string;
+  document_url?: string; // New field
 }
 
 // Compliance Report Types
@@ -46,6 +47,11 @@ export interface SavedApplication extends ApplicationSubmission {
   id: string;
   submitted_at: string;
   status: string;
+  // Officer Review Fields
+  officer_action?: string;
+  officer_notes?: string;
+  rejection_reason?: string;
+  time_saved_seconds: number;
 }
 
 // Regulation Search Types

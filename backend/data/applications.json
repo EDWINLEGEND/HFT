@@ -50,7 +50,10 @@
     "submission_reason": "Your application is not fully compliant. You must provide a reason or mitigation plan to proceed.",
     "id": "f6484349-61d0-48fd-b16a-332ff5b90e66",
     "submitted_at": "2026-01-04T14:13:00.581068",
-    "status": "submitted"
+    "status": "approved",
+    "officer_action": "approve",
+    "officer_notes": "",
+    "rejection_reason": ""
   },
   {
     "application_data": {
@@ -103,6 +106,9 @@
     "submission_reason": "ok submit for me please",
     "id": "c4a21d73-b3d6-45ff-bb99-383040011917",
     "submitted_at": "2026-01-04T16:03:29.056877",
-    "status": "submitted"
+    "status": "rejected",
+    "officer_action": "reject",
+    "officer_notes": "adasda",
+    "rejection_reason": "Incomplete Documents"
   }
 ]

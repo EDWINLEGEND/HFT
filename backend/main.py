@@ -63,6 +63,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount static files for document viewing
+from fastapi.staticfiles import StaticFiles
+import os
+
+os.makedirs("data/uploads", exist_ok=True)
+app.mount("/uploads", StaticFiles(directory="data/uploads"), name="uploads")
+
 # Include API v1 routes
 app.include_router(
     v1_routes.router,

@@ -23,7 +23,8 @@ from app.models.schemas import (
     VersionResponse,
     RegulationSearchRequest,
     RegulationSearchResponse,
-    IngestionResponse
+    IngestionResponse,
+    OfficerReviewRequest
 )
 from app.services.compliance_service import get_compliance_service
 from app.services.chat_service import get_chat_service
@@ -220,7 +221,17 @@ async def submit_application(submission: ApplicationSubmission):
     """
     try:
         service = get_application_service()
-        return service.submit_application(submission)
+        
+        # Calculate time saved (Mock calculation based on verified automation)
+        # Average manual entry: 20 mins (1200s). AI Extraction: ~10s. Saved: ~1190s.
+        time_saved = 1200.0 
+        
+        # Add to saved application logic (need to update service to accept this or set it here)
+        # Since service.submit_application takes schema, we might need to modify schema or service.
+        # But SavedApplication has the field. We can inject it into the returned object or modify service.
+        # Let's verify service implementation. For now, we'll let service handle it or modify service.
+        
+        return service.submit_application(submission, time_saved=time_saved)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Application submission failed: {str(e)}")
 
@@ -234,11 +245,36 @@ async def extract_document_details(file: UploadFile = File(...)):
     """
     try:
         from app.services.document_service import get_document_service
+        import os
+        import shutil
+        
         service = get_document_service()
         
-        contents = await file.read()
+        # Save file to disk
+        upload_dir = "data/uploads"
+        os.makedirs(upload_dir, exist_ok=True)
+        
+        # Generate safe filename
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        safe_filename = f"{timestamp}_{file.filename.replace(' ', '_')}"
+        file_path = os.path.join(upload_dir, safe_filename)
+        
+        # Write to disk
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+            
+        # Read content for extraction (reset file pointer if needed, but we saved it)
+        with open(file_path, "rb") as f:
+            contents = f.read()
+            
         text = service.extract_text(contents, file.filename)
         data = service.parse_application_details(text)
+        
+        # Return local path (or URL path if serving statically)
+        document_url = f"/uploads/{safe_filename}"
+        
+        # Add document_url to the data so frontend can use it
+        data["document_url"] = document_url
         
         return {"filename": file.filename, "extracted_data": data}
     except Exception as e:
@@ -290,3 +326,19 @@ async def get_application_details(app_id: str):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch application: {str(e)}")
+
+@router.post("/applications/{app_id}/review", response_model=SavedApplication, tags=["Applications"])
+async def review_application(app_id: str, review: OfficerReviewRequest):
+    """
+    Officer reviews an application (Approve/Reject).
+    """
+    try:
+        service = get_application_service()
+        updated_app = service.review_application(app_id, review.dict())
+        if not updated_app:
+            raise HTTPException(status_code=404, detail="Application not found")
+        return updated_app
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Review failed: {str(e)}")

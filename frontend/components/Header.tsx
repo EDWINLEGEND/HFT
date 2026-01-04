@@ -5,9 +5,13 @@ import { useRouter } from 'next/navigation';
 
 interface HeaderProps {
     currentRole?: 'applicant' | 'officer' | 'home';
+    showNav?: boolean; // Prop added for compatibility
+    activeTab?: string; // Prop added for compatibility
 }
 
-export default function Header({ currentRole = 'home' }: HeaderProps) {
+export default function Header({ currentRole = 'home', activeTab, showNav }: HeaderProps) {
+    // Sync activeTab to currentRole if provided
+    const effectiveRole = activeTab && (activeTab === 'applicant' || activeTab === 'officer') ? activeTab : currentRole;
     const router = useRouter();
 
     const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -38,7 +42,7 @@ export default function Header({ currentRole = 'home' }: HeaderProps) {
                     </label>
                     <select
                         id="role-select"
-                        value={currentRole}
+                        value={effectiveRole}
                         onChange={handleRoleChange}
                         className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 min-w-[150px]"
                     >

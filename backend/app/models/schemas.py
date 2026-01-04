@@ -21,6 +21,7 @@ class IndustrialApplication(BaseModel):
     waste_management: str = Field(..., description="Waste management plan")
     nearby_homes: str = Field(..., description="Distance to nearest residential area")
     water_level_depth: str = Field(..., description="Groundwater level depth")
+    document_url: Optional[str] = Field(None, description="URL/Path to the uploaded proposal document")
     
     class Config:
         json_schema_extra = {
@@ -214,4 +215,17 @@ class SavedApplication(ApplicationSubmission):
     id: str = Field(..., description="Unique application ID")
     submitted_at: datetime = Field(default_factory=datetime.utcnow)
     status: str = Field("submitted", description="Current workflow status: submitted, under_review, approved, rejected")
+    
+    # Officer Review Fields
+    officer_action: Optional[str] = Field(None, description="Action taken: approve, reject, manual_review")
+    officer_notes: Optional[str] = Field(None, description="Notes from the officer")
+    rejection_reason: Optional[str] = Field(None, description="Reason if rejected")
+    time_saved_seconds: float = Field(0.0, description="Estimated time saved by AI automation")
+
+
+class OfficerReviewRequest(BaseModel):
+    """Schema for officer reviewing an application."""
+    action: str = Field(..., description="approve, reject, or manual_review")
+    notes: Optional[str] = Field(None, description="Reply to applicant or internal notes")
+    rejection_reason: Optional[str] = Field(None, description="Selected reason from dropdown")
 

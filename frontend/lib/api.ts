@@ -103,7 +103,7 @@ export class CivicAssistAPI {
         return response.json();
     }
 
-    static async extractDocumentDetails(file: File): Promise<any> {
+    static async extractDocumentDetails(file: File): Promise<{ filename: string; extracted_data: IndustrialApplication & { document_url?: string } }> {
         const formData = new FormData();
         formData.append('file', file);
 
@@ -120,7 +120,7 @@ export class CivicAssistAPI {
         return response.json();
     }
 
-    static async validateDocument(file: File, docType: string): Promise<any> {
+    static async validateDocument(file: File, docType: string): Promise<{ is_valid: boolean; reason?: string }> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('doc_type', docType);
@@ -147,6 +147,22 @@ export class CivicAssistAPI {
             throw new Error(`Fetch failed: ${response.statusText}`);
         }
 
+        return response.json();
+    }
+
+    static async getApplicationDetails(id: string): Promise<SavedApplication> {
+        const response = await fetch(`${API_BASE_URL}/api/v1/applications/${id}`);
+        if (!response.ok) throw new Error('Failed to fetch application details');
+        return response.json();
+    }
+
+    static async reviewApplication(id: string, action: 'approve' | 'reject' | 'manual_review', notes?: string, reason?: string): Promise<SavedApplication> {
+        const response = await fetch(`${API_BASE_URL}/api/v1/applications/${id}/review`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action, notes, rejection_reason: reason })
+        });
+        if (!response.ok) throw new Error('Review failed');
         return response.json();
     }
 }

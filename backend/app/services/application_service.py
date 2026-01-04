@@ -2,7 +2,7 @@
 import json
 import os
 import uuid
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
 from datetime import datetime
 from app.models.schemas import ApplicationSubmission, SavedApplication
 
@@ -38,7 +38,7 @@ class ApplicationService:
         with open(self.data_file, 'w') as f:
             json.dump(apps, f, indent=2, default=str)
             
-    def submit_application(self, submission: ApplicationSubmission) -> SavedApplication:
+    def submit_application(self, submission: ApplicationSubmission, time_saved: float = 0.0) -> SavedApplication:
         """
         Save a new application submission.
         """
@@ -52,6 +52,7 @@ class ApplicationService:
             id=new_id,
             submitted_at=timestamp,
             status="submitted",
+            time_saved_seconds=time_saved,
             **submission.dict()
         )
         
@@ -79,5 +80,24 @@ class ApplicationService:
         apps = self._load_applications()
         for app in apps:
             if app['id'] == app_id:
+                return SavedApplication(**app)
+        return None
+
+    def review_application(self, app_id: str, review_data: Dict[str, Any]) -> Optional[SavedApplication]:
+        """
+        Update application with officer review.
+        """
+        apps = self._load_applications()
+        for i, app in enumerate(apps):
+            if app['id'] == app_id:
+                # Update fields
+                app['status'] = 'approved' if review_data['action'] == 'approve' else 'rejected' if review_data['action'] == 'reject' else 'under_review'
+                app['officer_action'] = review_data['action']
+                app['officer_notes'] = review_data.get('notes')
+                app['rejection_reason'] = review_data.get('rejection_reason')
+                
+                # Save
+                apps[i] = app
+                self._save_applications(apps)
                 return SavedApplication(**app)
         return None

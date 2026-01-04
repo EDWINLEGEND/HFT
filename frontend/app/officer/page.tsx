@@ -2,277 +2,363 @@
 
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
-import { CivicAssistAPI, formatConfidence, formatCoverage, getStatusColor, getRiskColor, getRiskBadgeColor } from '@/lib/api';
-import type { SavedApplication, ComplianceIssue } from '@/lib/types';
+import { CivicAssistAPI, getStatusColor, formatConfidence } from '@/lib/api';
+import type { SavedApplication } from '@/lib/types';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { ArrowLeft, ExternalLink, Clock, FileText, CheckCircle, XCircle, AlertTriangle, ArrowRight, ShieldAlert } from "lucide-react";
 
-export default function OfficerMode() {
+export default function OfficerPage() {
     const [applications, setApplications] = useState<SavedApplication[]>([]);
-    const [selectedAppId, setSelectedAppId] = useState<string>('');
+    const [selectedApp, setSelectedApp] = useState<SavedApplication | null>(null);
+    const [viewMode, setViewMode] = useState<'list' | 'detail'>('list');
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [selectedIssue, setSelectedIssue] = useState<ComplianceIssue | null>(null);
+    const [processing, setProcessing] = useState(false);
 
-    // Fetch applications on mount
+    // Review State
+    const [rejectionReason, setRejectionReason] = useState('');
+    const [replyNote, setReplyNote] = useState('');
+    const [showRejectModal, setShowRejectModal] = useState(false);
+
     useEffect(() => {
-        const fetchApplications = async () => {
-            try {
-                const apps = await CivicAssistAPI.getApplications();
-                setApplications(apps);
-            } catch (err) {
-                setError('Failed to load application queue.');
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchApplications();
+        loadApplications();
     }, []);
 
-    const selectedApplication = applications.find(app => app.id === selectedAppId);
-    const report = selectedApplication?.compliance_report;
-
-    const handleCopyChecklist = () => {
-        if (!report) return;
-        const checklist = report.recommendations.map((rec, i) => `${i + 1}. ${rec}`).join('\n');
-        navigator.clipboard.writeText(checklist);
-        alert('Checklist copied to clipboard!');
+    const loadApplications = async () => {
+        try {
+            const data = await CivicAssistAPI.getApplications();
+            setApplications(data);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
     };
 
+    const handleViewApp = (app: SavedApplication) => {
+        setSelectedApp(app);
+        setViewMode('detail');
+    };
+
+    const handleBack = () => {
+        setSelectedApp(null);
+        setViewMode('list');
+        loadApplications(); // Refresh list
+    };
+
+    const handleAction = async (action: 'approve' | 'reject' | 'manual_review') => {
+        if (!selectedApp) return;
+
+        if (action === 'reject' && !showRejectModal) {
+            setShowRejectModal(true);
+            return;
+        }
+
+        setProcessing(true);
+        try {
+            await CivicAssistAPI.reviewApplication(selectedApp.id, action, replyNote, rejectionReason);
+            setShowRejectModal(false);
+            handleBack(); // Return to list on success
+        } catch (err) {
+            alert('Action failed');
+            console.error(err);
+        } finally {
+            setProcessing(false);
+        }
+    };
+
+    // Helper to get PDF URL
+    const getPdfUrl = (url?: string) => {
+        if (!url) return null;
+        if (url.startsWith('http')) return url;
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+        return `${baseUrl}${url}`;
+    };
+
+    if (loading) return <div className="p-8 text-center text-muted-foreground">Loading Dashboard...</div>;
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
-            <Header currentRole="officer" />
+        <div className="min-h-screen bg-background text-foreground font-sans">
+            <Header showNav={true} activeTab="officer" />
 
             <main className="max-w-7xl mx-auto px-4 py-8">
-                {/* Human-in-the-Loop Notice */}
-                <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded">
-                    <p className="text-green-900">
-                        <strong>Advisory System:</strong> All AI outputs are recommendations only.
-                        Final approval decisions remain with you, the qualified officer.
-                    </p>
-                </div>
-
-                {/* Application Selector */}
-                <div className="bg-white p-6 rounded-lg shadow mb-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-4">Application Queue</h2>
-
-                    {loading ? (
-                        <p className="text-gray-600">Loading applications...</p>
-                    ) : (
-                        <div className="flex gap-4">
-                            <select
-                                value={selectedAppId}
-                                onChange={(e) => setSelectedAppId(e.target.value)}
-                                className="flex-1 border border-gray-300 rounded px-3 py-2 text-gray-900 bg-white"
-                            >
-                                <option value="">
-                                    {applications.length > 0
-                                        ? `-- Select from ${applications.length} submitted applications --`
-                                        : 'No applications submitted yet'}
-                                </option>
-                                {applications.map((app) => (
-                                    <option key={app.id} value={app.id}>
-                                        {new Date(app.submitted_at).toLocaleDateString()} - {app.application_data.industry_name} ({app.status})
-                                    </option>
-                                ))}
-                            </select>
+                {viewMode === 'list' && (
+                    <>
+                        <div className="mb-8">
+                            <h1 className="text-3xl font-bold tracking-tight mb-2">
+                                Officer/Reviewer Dashboard
+                            </h1>
+                            <p className="text-muted-foreground">Review and process industrial applications.</p>
                         </div>
-                    )}
-                </div>
 
-                {/* Error Display */}
-                {error && (
-                    <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
-                        <p className="text-red-900"><strong>Error:</strong> {error}</p>
-                    </div>
+                        <Card>
+                            <CardContent className="p-0">
+                                <div className="rounded-md border">
+                                    <table className="w-full text-left text-sm">
+                                        <thead className="bg-muted/50 border-b">
+                                            <tr>
+                                                <th className="p-4 font-medium text-muted-foreground uppercase">Application ID</th>
+                                                <th className="p-4 font-medium text-muted-foreground uppercase">Applicant</th>
+                                                <th className="p-4 font-medium text-muted-foreground uppercase">Status</th>
+                                                <th className="p-4 font-medium text-muted-foreground uppercase">AI Confidence</th>
+                                                <th className="p-4 font-medium text-muted-foreground uppercase">Time Saved</th>
+                                                <th className="p-4 font-medium text-muted-foreground uppercase">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y">
+                                            {applications.length === 0 ? (
+                                                <tr>
+                                                    <td colSpan={6} className="p-8 text-center text-muted-foreground">No applications found.</td>
+                                                </tr>
+                                            ) : (
+                                                applications.map((app) => (
+                                                    <tr key={app.id} className="hover:bg-muted/50 transition-colors">
+                                                        <td className="p-4 font-mono text-xs">{app.id.slice(0, 8)}...</td>
+                                                        <td className="p-4 font-medium">{app.application_data.industry_name}</td>
+                                                        <td className="p-4">
+                                                            <Badge variant="outline" className={`${getStatusColor(app.status)}`}>
+                                                                {app.status.replace('_', ' ').toUpperCase()}
+                                                            </Badge>
+                                                        </td>
+                                                        <td className="p-4">
+                                                            {formatConfidence(app.compliance_report.confidence_score)}
+                                                        </td>
+                                                        <td className="p-4 font-medium text-green-600 dark:text-green-400">
+                                                            {Math.round(app.time_saved_seconds / 60)} mins
+                                                        </td>
+                                                        <td className="p-4">
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                onClick={() => handleViewApp(app)}
+                                                                className="text-primary hover:text-primary"
+                                                            >
+                                                                Review <ArrowRight className="ml-1 w-4 h-4" />
+                                                            </Button>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </>
                 )}
 
-                {/* Results */}
-                {selectedApplication && report && (
-                    <div className="grid lg:grid-cols-3 gap-6">
-                        {/* Main Report */}
-                        <div className="lg:col-span-2 space-y-6">
+                {viewMode === 'detail' && selectedApp && (
+                    <div className="animate-in slide-in-from-right-10 duration-500">
+                        <Button variant="ghost" onClick={handleBack} className="mb-4 pl-0 hover:bg-transparent hover:text-primary">
+                            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
+                        </Button>
 
-                            {/* Submission Metadata Card */}
-                            <div className="bg-white p-6 rounded-lg shadow border border-blue-100">
-                                <h2 className="text-lg font-bold text-gray-900 mb-3">Submission Details</h2>
-                                <div className="grid md:grid-cols-2 gap-4 text-sm">
-                                    <div>
-                                        <span className="text-gray-500 block">Industry Name</span>
-                                        <span className="font-medium text-gray-900">{selectedApplication.application_data.industry_name}</span>
-                                    </div>
-                                    <div>
-                                        <span className="text-gray-500 block">Submitted At</span>
-                                        <span className="font-medium text-gray-900">{new Date(selectedApplication.submitted_at).toLocaleString()}</span>
-                                    </div>
-                                    <div>
-                                        <span className="text-gray-500 block">Submission ID</span>
-                                        <span className="font-mono text-gray-900 text-xs">{selectedApplication.id}</span>
-                                    </div>
-                                </div>
-
-                                {selectedApplication.submission_reason && (
-                                    <div className="mt-4 pt-4 border-t">
-                                        <label className="text-sm font-bold text-yellow-800 block mb-1">
-                                            Applicant Justification / Mitigation Plan
-                                        </label>
-                                        <p className="text-sm text-gray-800 bg-yellow-50 p-3 rounded italic">
-                                            "{selectedApplication.submission_reason}"
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Overview Card */}
-                            <div className="bg-white p-6 rounded-lg shadow">
-                                <h2 className="text-xl font-bold text-gray-900 mb-4">Compliance Status</h2>
-
-                                <div className="grid md:grid-cols-2 gap-4 mb-6">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Overall Status</label>
-                                        <div className={`inline-block px-4 py-2 rounded border-2 font-semibold ${getStatusColor(report.status)}`}>
-                                            {report.status.toUpperCase().replace('_', ' ')}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[85vh]">
+                            {/* Left: Document Viewer */}
+                            <Card className="flex flex-col h-full overflow-hidden">
+                                <CardHeader className="py-3 px-4 bg-muted/50 border-b flex flex-row justify-between items-center space-y-0">
+                                    <h3 className="font-semibold flex items-center"><FileText className="mr-2 h-4 w-4" /> Application Document</h3>
+                                    <a
+                                        href={getPdfUrl(selectedApp.application_data.document_url) || '#'}
+                                        target="_blank"
+                                        className="text-xs text-primary hover:underline flex items-center"
+                                    >
+                                        Open in New Tab <ExternalLink className="ml-1 h-3 w-3" />
+                                    </a>
+                                </CardHeader>
+                                <div className="flex-1 bg-muted/20 relative">
+                                    {selectedApp.application_data.document_url ? (
+                                        <iframe
+                                            src={getPdfUrl(selectedApp.application_data.document_url)!}
+                                            className="w-full h-full"
+                                            title="Document Viewer"
+                                        />
+                                    ) : (
+                                        <div className="flex items-center justify-center h-full text-muted-foreground">
+                                            No document attached
                                         </div>
-                                    </div>
+                                    )}
+                                </div>
+                            </Card>
 
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Confidence Score</label>
-                                        <div className="flex items-center gap-3">
-                                            <div className="flex-1 bg-gray-200 rounded-full h-3">
-                                                <div
-                                                    className="bg-blue-600 h-3 rounded-full"
-                                                    style={{ width: formatConfidence(report.confidence_score) }}
-                                                />
+                            {/* Right: Review Panel */}
+                            <div className="flex flex-col h-full gap-6">
+                                {/* AI Analysis Summary */}
+                                <Card className="flex-1 overflow-y-auto">
+                                    <CardHeader>
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <CardTitle>{selectedApp.application_data.industry_name}</CardTitle>
+                                                <CardDescription>Submitted: {new Date(selectedApp.submitted_at).toLocaleDateString()}</CardDescription>
                                             </div>
-                                            <span className="font-semibold text-lg">{formatConfidence(report.confidence_score)}</span>
+                                            <div className="flex flex-col items-end gap-2">
+                                                <Badge variant="secondary" className="flex items-center">
+                                                    <Clock className="w-3 h-3 mr-1" /> {Math.round(selectedApp.time_saved_seconds / 60)} mins saved
+                                                </Badge>
+                                                <Badge variant="outline" className={getStatusColor(selectedApp.compliance_report.status)}>
+                                                    AI Status: {selectedApp.compliance_report.status}
+                                                </Badge>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <div className="bg-blue-50 p-4 rounded">
-                                        <div className="text-sm text-gray-600">Regulation Coverage</div>
-                                        <div className="text-2xl font-bold text-blue-900">{formatCoverage(report.regulation_coverage)}</div>
-                                    </div>
-
-                                    <div className="bg-purple-50 p-4 rounded">
-                                        <div className="text-sm text-gray-600">Issues Found</div>
-                                        <div className="text-2xl font-bold text-purple-900">{report.issues.length}</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Issues List */}
-                            {report.issues.length > 0 && (
-                                <div className="bg-white p-6 rounded-lg shadow">
-                                    <h2 className="text-xl font-bold text-gray-900 mb-4">Flagged Issues</h2>
-                                    <div className="space-y-3">
-                                        {report.issues.map((issue, i) => (
-                                            <div
-                                                key={i}
-                                                onClick={() => setSelectedIssue(issue)}
-                                                className={`border-l-4 p-4 rounded cursor-pointer hover:shadow-md transition ${getRiskColor(issue.severity)} ${selectedIssue === issue ? 'ring-2 ring-blue-500' : ''}`}
-                                            >
-                                                <div className="flex items-start justify-between mb-2">
-                                                    <span className={`text-xs px-2 py-1 rounded font-semibold ${getRiskBadgeColor(issue.severity)}`}>
-                                                        {issue.severity.toUpperCase()} RISK
-                                                    </span>
-                                                    {issue.department && (
-                                                        <span className="text-xs bg-gray-200 px-2 py-1 rounded">{issue.department}</span>
-                                                    )}
+                                    </CardHeader>
+                                    <CardContent className="space-y-6">
+                                        <div>
+                                            <h4 className="text-sm font-semibold tracking-wide mb-3 flex items-center">
+                                                <ShieldAlert className="w-4 h-4 mr-2" /> Compliance Issues
+                                            </h4>
+                                            {selectedApp.compliance_report.issues.length > 0 ? (
+                                                <div className="space-y-3">
+                                                    {selectedApp.compliance_report.issues.map((issue, idx) => (
+                                                        <Alert key={idx} variant="destructive" className="bg-destructive/10 border-destructive/20 text-destructive-foreground">
+                                                            <AlertTriangle className="h-4 w-4" />
+                                                            <AlertTitle className="text-sm font-bold flex items-center gap-2">
+                                                                {issue.severity.toUpperCase()} <span className="font-normal opacity-80">- {issue.issue_type}</span>
+                                                            </AlertTitle>
+                                                            <AlertDescription>
+                                                                {issue.description}
+                                                            </AlertDescription>
+                                                        </Alert>
+                                                    ))}
                                                 </div>
-                                                <p className="font-medium text-gray-900 mb-1">{issue.description}</p>
-                                                <p className="text-xs text-blue-600 mt-2">Click to view details →</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Recommendations */}
-                            {report.recommendations.length > 0 && (
-                                <div className="bg-white p-6 rounded-lg shadow">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <h2 className="text-xl font-bold text-gray-900">Recommended Actions</h2>
-                                        <button
-                                            onClick={handleCopyChecklist}
-                                            className="text-sm bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded"
-                                        >
-                                            📋 Copy Checklist
-                                        </button>
-                                    </div>
-                                    <ol className="space-y-2">
-                                        {report.recommendations.map((rec, i) => (
-                                            <li key={i} className="flex gap-3">
-                                                <span className="font-semibold text-gray-600">{i + 1}.</span>
-                                                <span className="text-gray-900">{rec}</span>
-                                            </li>
-                                        ))}
-                                    </ol>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Explainability Panel */}
-                        <div className="lg:col-span-1">
-                            <div className="bg-white p-6 rounded-lg shadow sticky top-4">
-                                <h2 className="text-xl font-bold text-gray-900 mb-4">📖 Issue Details</h2>
-
-                                {selectedIssue ? (
-                                    <div className="space-y-4">
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-600 mb-1">Risk Level</label>
-                                            <span className={`inline-block px-3 py-1 rounded font-semibold ${getRiskBadgeColor(selectedIssue.severity)}`}>
-                                                {selectedIssue.severity.toUpperCase()}
-                                            </span>
+                                            ) : (
+                                                <Alert className="bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300 border-green-200 dark:border-green-800">
+                                                    <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+                                                    <AlertTitle>Clean Report</AlertTitle>
+                                                    <AlertDescription>No major compliance issues detected by AI.</AlertDescription>
+                                                </Alert>
+                                            )}
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-600 mb-1">Issue Type</label>
-                                            <p className="text-gray-900">{selectedIssue.issue_type.replace('_', ' ')}</p>
-                                        </div>
-
-                                        {selectedIssue.department && (
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-600 mb-1">Department</label>
-                                                <p className="text-gray-900">{selectedIssue.department}</p>
-                                            </div>
-                                        )}
-
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-600 mb-1">Explanation</label>
-                                            <p className="text-gray-900 leading-relaxed">{selectedIssue.description}</p>
-                                        </div>
-
-                                        {selectedIssue.regulation_reference && (
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-600 mb-1">Regulation Reference</label>
-                                                <div className="bg-blue-50 p-3 rounded border border-blue-200">
-                                                    <p className="text-sm text-blue-900">{selectedIssue.regulation_reference}</p>
+                                            <h4 className="text-sm font-semibold tracking-wide mb-3">Extracted Data</h4>
+                                            <div className="grid grid-cols-2 gap-4 text-sm">
+                                                <div className="p-3 bg-muted/50 rounded-md border">
+                                                    <span className="text-muted-foreground block text-xs mb-1">Water Source</span>
+                                                    <span className="font-medium">{selectedApp.application_data.water_source}</span>
+                                                </div>
+                                                <div className="p-3 bg-muted/50 rounded-md border">
+                                                    <span className="text-muted-foreground block text-xs mb-1">Waste Management</span>
+                                                    <span className="font-medium">{selectedApp.application_data.waste_management}</span>
+                                                </div>
+                                                <div className="p-3 bg-muted/50 rounded-md border">
+                                                    <span className="text-muted-foreground block text-xs mb-1">Location</span>
+                                                    <span className="font-medium">{selectedApp.application_data.nearby_homes}</span>
+                                                </div>
+                                                <div className="p-3 bg-muted/50 rounded-md border">
+                                                    <span className="text-muted-foreground block text-xs mb-1">Area</span>
+                                                    <span className="font-medium">{selectedApp.application_data.square_feet}</span>
                                                 </div>
                                             </div>
-                                        )}
-
-                                        <div className="pt-4 border-t">
-                                            <p className="text-xs text-gray-600 italic">
-                                                This issue was identified by analyzing the application against retrieved regulations.
-                                                All citations are traceable to source documents.
-                                            </p>
                                         </div>
-                                    </div>
-                                ) : (
-                                    <div className="text-center text-gray-500 py-8">
-                                        <p>Click on an issue to view detailed explanation and regulation references.</p>
-                                    </div>
-                                )}
+                                    </CardContent>
+                                </Card>
+
+                                {/* Action Bar */}
+                                <Card className="sticky bottom-0 shadow-lg border-t-2">
+                                    <CardHeader className="pb-2">
+                                        <CardTitle className="text-lg">Officer Action</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        {selectedApp.status === 'submitted' || selectedApp.status === 'under_review' ? (
+                                            <div className="flex gap-4">
+                                                <Button
+                                                    onClick={() => handleAction('approve')}
+                                                    disabled={processing}
+                                                    className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                                                    size="lg"
+                                                >
+                                                    {processing ? 'Processing...' : <span className="flex items-center"><CheckCircle className="mr-2 h-4 w-4" /> Approve Application</span>}
+                                                </Button>
+                                                <Button
+                                                    onClick={() => handleAction('reject')}
+                                                    disabled={processing}
+                                                    variant="destructive"
+                                                    className="flex-1"
+                                                    size="lg"
+                                                >
+                                                    {processing ? 'Processing...' : <span className="flex items-center"><XCircle className="mr-2 h-4 w-4" /> Reject / Send Back</span>}
+                                                </Button>
+                                            </div>
+                                        ) : (
+                                            <div className="text-center p-3 bg-muted rounded-lg text-muted-foreground font-medium">
+                                                Application is currently <span className="font-bold uppercase text-foreground">{selectedApp.status.replace('_', ' ')}</span>
+                                            </div>
+                                        )}
+                                    </CardContent>
+                                </Card>
                             </div>
                         </div>
                     </div>
                 )}
 
-                {!selectedApplication && !loading && (
-                    <div className="bg-gray-100 p-12 rounded-lg text-center text-gray-600">
-                        <p className="text-lg">Select a submitted application from the queue to review.</p>
+                {/* Rejection Modal */}
+                {showRejectModal && (
+                    <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
+                        <Card className="w-full max-w-lg shadow-2xl animate-in zoom-in-95 duration-200">
+                            <CardHeader>
+                                <CardTitle className="text-destructive flex items-center">
+                                    <AlertTriangle className="mr-2 h-5 w-5" /> Reject Application
+                                </CardTitle>
+                                <CardDescription>
+                                    Please provide a reason and feedback for the applicant.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label>Reason for Rejection</Label>
+                                    <Select
+                                        value={rejectionReason}
+                                        onValueChange={setRejectionReason}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a reason..." />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Incomplete Documents">Incomplete Documents</SelectItem>
+                                            <SelectItem value="Zoning Violation">Zoning Violation</SelectItem>
+                                            <SelectItem value="Pollution Norms Violation">Pollution Norms Violation</SelectItem>
+                                            <SelectItem value="Other">Other</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label>Reply to Applicant</Label>
+                                    <Textarea
+                                        className="h-32"
+                                        placeholder="Please explain what needs to be corrected..."
+                                        value={replyNote}
+                                        onChange={(e) => setReplyNote(e.target.value)}
+                                    />
+                                </div>
+                            </CardContent>
+                            <div className="p-6 pt-0 flex justify-end gap-3">
+                                <Button
+                                    variant="outline"
+                                    onClick={() => setShowRejectModal(false)}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    variant="destructive"
+                                    onClick={() => handleAction('reject')}
+                                    disabled={!rejectionReason || !replyNote}
+                                >
+                                    Send Rejection
+                                </Button>
+                            </div>
+                        </Card>
                     </div>
                 )}
             </main>
