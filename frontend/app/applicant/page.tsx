@@ -67,6 +67,7 @@ export default function ApplicantPage() {
         total_area: 0,
         water_source: '',
         drainage_method: '',
+        drainage: '', // Added for compatibility
         documents: [],
         square_feet: '',
         water_level_depth: '',
