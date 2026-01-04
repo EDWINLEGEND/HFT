@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import Header from '@/components/Header';
 import { CivicAssistAPI, formatConfidence, getStatusColor, getRiskColor, getRiskBadgeColor } from '@/lib/api';
-import type { IndustrialApplication, ComplianceReport } from '@/lib/types';
+import type { IndustrialApplication, ComplianceReport, ApplicationSubmission } from '@/lib/types';
 
 export default function ApplicantMode() {
     const [formData, setFormData] = useState<IndustrialApplication>({
@@ -21,11 +21,17 @@ export default function ApplicantMode() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    // Submission State
+    const [submissionReason, setSubmissionReason] = useState('');
+    const [submitting, setSubmitting] = useState(false);
+    const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
+
+    const handleSubmitAnalysis = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
         setReport(null);
+        setSubmitSuccess(null);
 
         try {
             const result = await CivicAssistAPI.analyzeCompliance(formData);
@@ -34,6 +40,33 @@ export default function ApplicantMode() {
             setError(err instanceof Error ? err.message : 'Analysis failed');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleApplicationSubmit = async () => {
+        if (!report) return;
+
+        // Validation: If not compliant, reason is required
+        if (report.status !== 'compliant' && !submissionReason.trim()) {
+            alert("Please provide a reason or mitigation plan for the remaining issues.");
+            return;
+        }
+
+        setSubmitting(true);
+        try {
+            const submission: ApplicationSubmission = {
+                application_data: formData,
+                compliance_report: report,
+                submission_reason: submissionReason
+            };
+
+            const savedApp = await CivicAssistAPI.submitApplication(submission);
+            setSubmitSuccess(savedApp.id);
+            alert(`Application Submitted Successfully! ID: ${savedApp.id}`);
+        } catch (err) {
+            alert(`Submission Failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -46,16 +79,7 @@ export default function ApplicantMode() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-            {/* Header */}
-            <header className="bg-white shadow-sm border-b">
-                <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-                    <div>
-                        <Link href="/" className="text-blue-600 hover:text-blue-800 text-sm">← Back to Home</Link>
-                        <h1 className="text-2xl font-bold text-gray-900 mt-1">📝 Applicant Mode</h1>
-                        <p className="text-gray-600 text-sm">Pre-Submission Compliance Check</p>
-                    </div>
-                </div>
-            </header>
+            <Header currentRole="applicant" />
 
             <main className="max-w-7xl mx-auto px-4 py-8">
                 {/* Advisory Notice */}
@@ -70,7 +94,7 @@ export default function ApplicantMode() {
                     {/* Application Form */}
                     <div className="bg-white p-6 rounded-lg shadow">
                         <h2 className="text-xl font-bold text-gray-900 mb-4">Application Details</h2>
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                        <form onSubmit={handleSubmitAnalysis} className="space-y-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Industry Name *</label>
                                 <input
@@ -193,7 +217,15 @@ export default function ApplicantMode() {
                             </div>
                         )}
 
-                        {report && (
+                        {submitSuccess && (
+                            <div className="bg-green-50 border-l-4 border-green-500 p-6 mb-6 rounded text-center">
+                                <h3 className="text-xl font-bold text-green-900 mb-2">Application Submitted! 🎉</h3>
+                                <p className="text-green-800">Your application has been forwarded for official review.</p>
+                                <p className="text-sm text-green-700 mt-2"><strong>Submission ID:</strong> {submitSuccess}</p>
+                            </div>
+                        )}
+
+                        {report && !submitSuccess && (
                             <div className="bg-white p-6 rounded-lg shadow space-y-6">
                                 <h2 className="text-xl font-bold text-gray-900">Compliance Analysis Results</h2>
 
@@ -247,9 +279,6 @@ export default function ApplicantMode() {
                                                         )}
                                                     </div>
                                                     <p className="text-sm font-medium text-gray-900 mt-2">{issue.description}</p>
-                                                    {issue.regulation_reference && (
-                                                        <p className="text-xs text-gray-600 mt-1">📖 {issue.regulation_reference}</p>
-                                                    )}
                                                 </div>
                                             ))}
                                         </div>
@@ -269,6 +298,40 @@ export default function ApplicantMode() {
                                         </ol>
                                     </div>
                                 )}
+
+                                {/* OFFICIAL SUBMISSION SECTION */}
+                                <div className="mt-8 pt-6 border-t border-gray-200">
+                                    <h3 className="text-lg font-bold text-gray-900 mb-4">📢 Proceed to Submission</h3>
+
+                                    {report.status !== 'compliant' && (
+                                        <div className="mb-4">
+                                            <div className="bg-yellow-50 p-3 rounded mb-2 border border-yellow-200 text-sm text-yellow-800">
+                                                <strong>Note:</strong> Your application is not fully compliant. You must provide a reason or mitigation plan to proceed.
+                                            </div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Reason for Submission / Mitigation Plan *
+                                            </label>
+                                            <textarea
+                                                className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                                                rows={3}
+                                                placeholder="Explain why you are submitting despite issues, or your plan to fix them..."
+                                                value={submissionReason}
+                                                onChange={(e) => setSubmissionReason(e.target.value)}
+                                            />
+                                        </div>
+                                    )}
+
+                                    <button
+                                        onClick={handleApplicationSubmit}
+                                        disabled={submitting}
+                                        className={`w-full font-bold py-3 rounded transition shadow-lg ${report.status === 'compliant'
+                                                ? 'bg-green-600 hover:bg-green-700 text-white'
+                                                : 'bg-yellow-600 hover:bg-yellow-700 text-white'
+                                            }`}
+                                    >
+                                        {submitting ? 'Submitting...' : '📤 Submit Application for Review'}
+                                    </button>
+                                </div>
                             </div>
                         )}
 

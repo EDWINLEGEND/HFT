@@ -8,6 +8,8 @@ import type {
     ComplianceReport,
     RegulationSearchResponse,
     HealthResponse,
+    ApplicationSubmission,
+    SavedApplication
 } from './types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
@@ -74,6 +76,41 @@ export class CivicAssistAPI {
         if (!response.ok) {
             const error = await response.json().catch(() => ({ detail: response.statusText }));
             throw new Error(error.detail || 'Analysis failed');
+        }
+
+        return response.json();
+    }
+
+    /**
+     * Submit application for review
+     */
+    static async submitApplication(
+        submission: ApplicationSubmission
+    ): Promise<SavedApplication> {
+        const response = await fetch(
+            `${API_BASE_URL}/api/v1/applications`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(submission),
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`Submission failed: ${response.statusText}`);
+        }
+
+        return response.json();
+    }
+
+    /**
+     * Get all applications for officer view
+     */
+    static async getApplications(): Promise<SavedApplication[]> {
+        const response = await fetch(`${API_BASE_URL}/api/v1/applications`);
+
+        if (!response.ok) {
+            throw new Error(`Fetch failed: ${response.statusText}`);
         }
 
         return response.json();

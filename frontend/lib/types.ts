@@ -35,6 +35,19 @@ export interface ComplianceReport {
   generated_at: string;
 }
 
+// Application Persistence Types
+export interface ApplicationSubmission {
+  application_data: IndustrialApplication;
+  compliance_report: ComplianceReport;
+  submission_reason?: string;
+}
+
+export interface SavedApplication extends ApplicationSubmission {
+  id: string;
+  submitted_at: string;
+  status: string;
+}
+
 // Regulation Search Types
 export interface RegulationMetadata {
   regulation_name: string;

@@ -189,3 +189,29 @@ class IngestionResponse(BaseModel):
                 "total_chunks": 127
             }
         }
+
+
+# Phase 4: Application Storage Schemas
+
+class ApplicationSubmission(BaseModel):
+    """Schema for submitting an application with its analysis."""
+    application_data: IndustrialApplication
+    compliance_report: ComplianceReport
+    submission_reason: Optional[str] = Field(None, description="Reason for submission if not fully compliant")
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "application_data": IndustrialApplication.Config.json_schema_extra["example"],
+                "compliance_report": ComplianceReport.Config.json_schema_extra["example"],
+                "submission_reason": "We are upgrading the treatment plant next month."
+            }
+        }
+
+
+class SavedApplication(ApplicationSubmission):
+    """Schema for a saved application with metadata."""
+    id: str = Field(..., description="Unique application ID")
+    submitted_at: datetime = Field(default_factory=datetime.utcnow)
+    status: str = Field("submitted", description="Current workflow status: submitted, under_review, approved, rejected")
+

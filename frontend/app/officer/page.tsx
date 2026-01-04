@@ -1,59 +1,36 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import Header from '@/components/Header';
 import { CivicAssistAPI, formatConfidence, formatCoverage, getStatusColor, getRiskColor, getRiskBadgeColor } from '@/lib/api';
-import type { IndustrialApplication, ComplianceReport, ComplianceIssue } from '@/lib/types';
-
-// Sample applications for demo
-const SAMPLE_APPLICATIONS: Record<string, IndustrialApplication> = {
-    'app-001': {
-        industry_name: 'ABC Textile Manufacturing',
-        square_feet: '5000',
-        water_source: 'Municipal water supply',
-        drainage: 'Connected to city drainage system',
-        air_pollution: 'Electrostatic precipitators installed',
-        waste_management: 'Segregated waste disposal with authorized vendor',
-        nearby_homes: '500 meters',
-        water_level_depth: '50 feet',
-    },
-    'app-002': {
-        industry_name: 'XYZ Steel Processing',
-        square_feet: '10000',
-        water_source: 'Groundwater with NOC',
-        drainage: 'Industrial drainage with treatment',
-        air_pollution: 'Advanced filtration system',
-        waste_management: 'Comprehensive hazardous waste management plan',
-        nearby_homes: '1500 meters',
-        water_level_depth: '60 feet',
-    },
-};
+import type { SavedApplication, ComplianceIssue } from '@/lib/types';
 
 export default function OfficerMode() {
-    const [selectedApp, setSelectedApp] = useState<string>('');
-    const [report, setReport] = useState<ComplianceReport | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [applications, setApplications] = useState<SavedApplication[]>([]);
+    const [selectedAppId, setSelectedAppId] = useState<string>('');
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedIssue, setSelectedIssue] = useState<ComplianceIssue | null>(null);
 
-    const handleAnalyze = async () => {
-        if (!selectedApp) return;
+    // Fetch applications on mount
+    useEffect(() => {
+        const fetchApplications = async () => {
+            try {
+                const apps = await CivicAssistAPI.getApplications();
+                setApplications(apps);
+            } catch (err) {
+                setError('Failed to load application queue.');
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        setLoading(true);
-        setError(null);
-        setReport(null);
-        setSelectedIssue(null);
+        fetchApplications();
+    }, []);
 
-        try {
-            const application = SAMPLE_APPLICATIONS[selectedApp];
-            const result = await CivicAssistAPI.analyzeCompliance(application);
-            setReport(result);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Analysis failed');
-        } finally {
-            setLoading(false);
-        }
-    };
+    const selectedApplication = applications.find(app => app.id === selectedAppId);
+    const report = selectedApplication?.compliance_report;
 
     const handleCopyChecklist = () => {
         if (!report) return;
@@ -64,14 +41,7 @@ export default function OfficerMode() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
-            {/* Header */}
-            <header className="bg-white shadow-sm border-b">
-                <div className="max-w-7xl mx-auto px-4 py-4">
-                    <Link href="/" className="text-blue-600 hover:text-blue-800 text-sm">← Back to Home</Link>
-                    <h1 className="text-2xl font-bold text-gray-900 mt-1">⚖️ Officer Mode</h1>
-                    <p className="text-gray-600 text-sm">Application Review & Decision Support</p>
-                </div>
-            </header>
+            <Header currentRole="officer" />
 
             <main className="max-w-7xl mx-auto px-4 py-8">
                 {/* Human-in-the-Loop Notice */}
@@ -84,25 +54,30 @@ export default function OfficerMode() {
 
                 {/* Application Selector */}
                 <div className="bg-white p-6 rounded-lg shadow mb-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-4">Select Application to Review</h2>
-                    <div className="flex gap-4">
-                        <select
-                            value={selectedApp}
-                            onChange={(e) => setSelectedApp(e.target.value)}
-                            className="flex-1 border border-gray-300 rounded px-3 py-2 text-gray-900 bg-white"
-                        >
-                            <option value="">-- Select an application --</option>
-                            <option value="app-001">APP-001: ABC Textile Manufacturing</option>
-                            <option value="app-002">APP-002: XYZ Steel Processing</option>
-                        </select>
-                        <button
-                            onClick={handleAnalyze}
-                            disabled={!selectedApp || loading}
-                            className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold px-6 py-2 rounded transition"
-                        >
-                            {loading ? 'Analyzing...' : '🔍 Analyze Application'}
-                        </button>
-                    </div>
+                    <h2 className="text-xl font-bold text-gray-900 mb-4">Application Queue</h2>
+
+                    {loading ? (
+                        <p className="text-gray-600">Loading applications...</p>
+                    ) : (
+                        <div className="flex gap-4">
+                            <select
+                                value={selectedAppId}
+                                onChange={(e) => setSelectedAppId(e.target.value)}
+                                className="flex-1 border border-gray-300 rounded px-3 py-2 text-gray-900 bg-white"
+                            >
+                                <option value="">
+                                    {applications.length > 0
+                                        ? `-- Select from ${applications.length} submitted applications --`
+                                        : 'No applications submitted yet'}
+                                </option>
+                                {applications.map((app) => (
+                                    <option key={app.id} value={app.id}>
+                                        {new Date(app.submitted_at).toLocaleDateString()} - {app.application_data.industry_name} ({app.status})
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
                 </div>
 
                 {/* Error Display */}
@@ -113,13 +88,44 @@ export default function OfficerMode() {
                 )}
 
                 {/* Results */}
-                {report && (
+                {selectedApplication && report && (
                     <div className="grid lg:grid-cols-3 gap-6">
                         {/* Main Report */}
                         <div className="lg:col-span-2 space-y-6">
+
+                            {/* Submission Metadata Card */}
+                            <div className="bg-white p-6 rounded-lg shadow border border-blue-100">
+                                <h2 className="text-lg font-bold text-gray-900 mb-3">Submission Details</h2>
+                                <div className="grid md:grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span className="text-gray-500 block">Industry Name</span>
+                                        <span className="font-medium text-gray-900">{selectedApplication.application_data.industry_name}</span>
+                                    </div>
+                                    <div>
+                                        <span className="text-gray-500 block">Submitted At</span>
+                                        <span className="font-medium text-gray-900">{new Date(selectedApplication.submitted_at).toLocaleString()}</span>
+                                    </div>
+                                    <div>
+                                        <span className="text-gray-500 block">Submission ID</span>
+                                        <span className="font-mono text-gray-900 text-xs">{selectedApplication.id}</span>
+                                    </div>
+                                </div>
+
+                                {selectedApplication.submission_reason && (
+                                    <div className="mt-4 pt-4 border-t">
+                                        <label className="text-sm font-bold text-yellow-800 block mb-1">
+                                            Applicant Justification / Mitigation Plan
+                                        </label>
+                                        <p className="text-sm text-gray-800 bg-yellow-50 p-3 rounded italic">
+                                            "{selectedApplication.submission_reason}"
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+
                             {/* Overview Card */}
                             <div className="bg-white p-6 rounded-lg shadow">
-                                <h2 className="text-xl font-bold text-gray-900 mb-4">Compliance Overview</h2>
+                                <h2 className="text-xl font-bold text-gray-900 mb-4">Compliance Status</h2>
 
                                 <div className="grid md:grid-cols-2 gap-4 mb-6">
                                     <div>
@@ -176,9 +182,6 @@ export default function OfficerMode() {
                                                     )}
                                                 </div>
                                                 <p className="font-medium text-gray-900 mb-1">{issue.description}</p>
-                                                {issue.regulation_reference && (
-                                                    <p className="text-sm text-gray-600">📖 {issue.regulation_reference}</p>
-                                                )}
                                                 <p className="text-xs text-blue-600 mt-2">Click to view details →</p>
                                             </div>
                                         ))}
@@ -267,9 +270,9 @@ export default function OfficerMode() {
                     </div>
                 )}
 
-                {!report && !error && !loading && (
+                {!selectedApplication && !loading && (
                     <div className="bg-gray-100 p-12 rounded-lg text-center text-gray-600">
-                        <p className="text-lg">Select an application and click "Analyze Application" to begin review.</p>
+                        <p className="text-lg">Select a submitted application from the queue to review.</p>
                     </div>
                 )}
             </main>

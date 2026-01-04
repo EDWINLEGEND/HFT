@@ -201,3 +201,52 @@ async def chat(chat_request: ChatRequest):
         return ChatResponse(message=response_message)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Chat processing failed: {str(e)}")
+
+
+# Phase 4: Application Storage Endpoints
+
+from app.services.application_service import ApplicationService
+from app.models.schemas import ApplicationSubmission, SavedApplication
+from typing import List
+
+def get_application_service():
+    return ApplicationService()
+
+@router.post("/applications", response_model=SavedApplication, tags=["Applications"])
+async def submit_application(submission: ApplicationSubmission):
+    """
+    Submit an industrial application for review.
+    Saves the application details, AI analysis report, and optional justification.
+    """
+    try:
+        service = get_application_service()
+        return service.submit_application(submission)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Application submission failed: {str(e)}")
+
+@router.get("/applications", response_model=List[SavedApplication], tags=["Applications"])
+async def get_applications():
+    """
+    Get all submitted applications for the Officer Dashboard.
+    """
+    try:
+        service = get_application_service()
+        return service.get_all_applications()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch applications: {str(e)}")
+
+@router.get("/applications/{app_id}", response_model=SavedApplication, tags=["Applications"])
+async def get_application_details(app_id: str):
+    """
+    Get full details of a specific application by ID.
+    """
+    try:
+        service = get_application_service()
+        app = service.get_application_by_id(app_id)
+        if not app:
+            raise HTTPException(status_code=404, detail="Application not found")
+        return app
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch application: {str(e)}")

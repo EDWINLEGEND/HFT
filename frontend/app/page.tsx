@@ -1,129 +1,73 @@
 'use client';
 
 import Link from 'next/link';
+import Header from '@/components/Header';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-blue-900">⚖️ CivicAssist</h1>
-          <p className="text-gray-600 mt-1">AI-Assisted Industrial Compliance Verification</p>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
+      <Header />
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-12">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Streamline Industrial Approval Process
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            CivicAssist uses AI to assist government officers and applicants in analyzing
-            industrial applications against regulations. Human-in-the-loop design ensures
-            all decisions remain with qualified officers.
+      <main className="flex-grow flex flex-col items-center justify-center p-4">
+        <div className="text-center mb-12 max-w-2xl">
+          <h1 className="text-4xl font-bold text-slate-800 mb-4">
+            Welcome to CivicAssist
+          </h1>
+          <p className="text-lg text-slate-600">
+            Select your role to access the compliance verification portal.
           </p>
         </div>
 
-        {/* Key Features */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-            <div className="text-4xl mb-4">📄</div>
-            <h3 className="text-xl font-semibold mb-2">Document Analysis</h3>
-            <p className="text-gray-600">
-              Automated extraction and analysis of application details against government regulations.
-            </p>
-          </div>
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl w-full">
+          {/* Applicant Card */}
+          <Link
+            href="/applicant"
+            className="group relative bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-slate-200"
+          >
+            <div className="absolute top-0 left-0 w-full h-2 bg-blue-500 rounded-t-2xl opacity-80 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex flex-col items-center text-center">
+              <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center text-4xl mb-6 group-hover:scale-110 transition-transform">
+                📝
+              </div>
+              <h2 className="text-2xl font-bold text-slate-800 mb-3 group-hover:text-blue-600 transition-colors">
+                Industrial Applicant
+              </h2>
+              <p className="text-slate-600 mb-6">
+                Submit applications, check compliance against regulations, and get instant feedback.
+              </p>
+              <span className="text-blue-600 font-semibold group-hover:translate-x-2 transition-transform inline-flex items-center">
+                Login as Applicant <span className="ml-2">→</span>
+              </span>
+            </div>
+          </Link>
 
-          <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-            <div className="text-4xl mb-4">🔍</div>
-            <h3 className="text-xl font-semibold mb-2">Compliance Check</h3>
-            <p className="text-gray-600">
-              AI-powered compliance verification with explainable insights and regulation citations.
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-            <div className="text-4xl mb-4">✅</div>
-            <h3 className="text-xl font-semibold mb-2">Actionable Reports</h3>
-            <p className="text-gray-600">
-              Structured reports with risk levels, missing documents, and clear recommendations.
-            </p>
-          </div>
+          {/* Officer Card */}
+          <Link
+            href="/officer"
+            className="group relative bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-slate-200"
+          >
+            <div className="absolute top-0 left-0 w-full h-2 bg-green-600 rounded-t-2xl opacity-80 group-hover:opacity-100 transition-opacity"></div>
+            <div className="flex flex-col items-center text-center">
+              <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center text-4xl mb-6 group-hover:scale-110 transition-transform">
+                ⚖️
+              </div>
+              <h2 className="text-2xl font-bold text-slate-800 mb-3 group-hover:text-green-700 transition-colors">
+                Government Officer
+              </h2>
+              <p className="text-slate-600 mb-6">
+                Review submitted applications, analyze compliance reports, and make informed decisions.
+              </p>
+              <span className="text-green-700 font-semibold group-hover:translate-x-2 transition-transform inline-flex items-center">
+                Login as Officer <span className="ml-2">→</span>
+              </span>
+            </div>
+          </Link>
         </div>
 
-        {/* User Modes */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Applicant Mode */}
-          <div className="bg-white p-8 rounded-lg shadow-lg border-2 border-blue-200">
-            <div className="text-5xl mb-4">📝</div>
-            <h3 className="text-2xl font-bold mb-4">Applicant Mode</h3>
-            <p className="text-gray-700 mb-6">
-              For industries and businesses seeking approval. Run pre-submission compliance
-              checks to identify missing documents and potential issues before official submission.
-            </p>
-            <ul className="space-y-2 mb-6 text-gray-600">
-              <li>✓ Pre-submission self-check</li>
-              <li>✓ Instant feedback on missing documents</li>
-              <li>✓ Actionable checklists</li>
-              <li>✓ Reduce resubmission cycles</li>
-            </ul>
-            <Link
-              href="/applicant"
-              className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg text-center transition"
-            >
-              Go to Applicant Mode →
-            </Link>
-          </div>
-
-          {/* Officer Mode */}
-          <div className="bg-white p-8 rounded-lg shadow-lg border-2 border-green-200">
-            <div className="text-5xl mb-4">⚖️</div>
-            <h3 className="text-2xl font-bold mb-4">Officer Mode</h3>
-            <p className="text-gray-700 mb-6">
-              For government officials reviewing applications. Get AI-assisted compliance
-              insights while maintaining full decision-making authority.
-            </p>
-            <ul className="space-y-2 mb-6 text-gray-600">
-              <li>✓ Review applications efficiently</li>
-              <li>✓ AI-generated compliance insights</li>
-              <li>✓ Explainable recommendations</li>
-              <li>✓ Save time on manual verification</li>
-            </ul>
-            <Link
-              href="/officer"
-              className="block w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg text-center transition"
-            >
-              Go to Officer Mode →
-            </Link>
-          </div>
-        </div>
-
-        {/* Human-in-the-Loop Notice */}
-        <div className="mt-12 bg-blue-50 border-l-4 border-blue-500 p-6 rounded">
-          <h4 className="font-semibold text-blue-900 mb-2">🤝 Human-in-the-Loop Design</h4>
-          <p className="text-blue-800">
-            CivicAssist <strong>assists</strong>, never replaces, human decision-makers.
-            All AI outputs are advisory only. Final approval decisions remain with
-            qualified government officers. The system is designed to be explainable,
-            traceable, and judge-defensible.
-          </p>
+        <div className="mt-16 text-center text-slate-400 text-sm">
+          <p>Secure Government Gateway • v0.5.0</p>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-gray-100 border-t mt-16">
-        <div className="max-w-7xl mx-auto px-4 py-8 text-center text-gray-600">
-          <p className="mb-2">
-            <strong>Phase 4: Frontend Implementation Complete</strong>
-          </p>
-          <p className="text-sm">
-            Backend API: <a href="http://localhost:8000/docs" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">http://localhost:8000/docs</a>
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

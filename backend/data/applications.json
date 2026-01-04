@@ -1,0 +1,55 @@
+[
+  {
+    "application_data": {
+      "industry_name": "BEachhack",
+      "square_feet": "12345",
+      "water_source": "Munciple supply",
+      "drainage": "Connected to city drainage",
+      "air_pollution": "Connected to city drainage",
+      "waste_management": "Connected to city drainage",
+      "nearby_homes": "500 m",
+      "water_level_depth": "50 feet"
+    },
+    "compliance_report": {
+      "application_id": "BEachhack",
+      "status": "partially_compliant",
+      "confidence_score": 0.85,
+      "issues": [
+        {
+          "issue_type": "ambiguity",
+          "severity": "medium",
+          "description": "The application does not specify if BEeachhack falls under 'Red Category' and therefore it's unclear whether they are required to implement a ZLD system.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Rule 3 (ZLD)",
+          "department": "environment"
+        },
+        {
+          "issue_type": "missing_document",
+          "severity": "high",
+          "description": "The application does not provide evidence of a valid Fire Safety Certificate.",
+          "regulation_reference": "Kerala Industrial Safety Regulations, 2023, Section 2.3: Fire Safety Certificate",
+          "department": "fire"
+        },
+        {
+          "issue_type": "violation",
+          "severity": "medium",
+          "description": "The application states that the industrial unit is located 500 m from nearby homes but does not mention any water bodies. However, Regulation 2: Water Pollution Control (Chemical Industries) Rules, 2024, requires a minimum distance of 500 meters from a notified river, lake, or wetland.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Rule 5.1: Buffer Zones",
+          "department": "environment"
+        }
+      ],
+      "missing_documents": [
+        "The application does not provide evidence of a valid Fire Safety Certificate."
+      ],
+      "recommendations": [
+        "Obtain Fire Safety Certificate",
+        "Verify if BEeachhack falls under 'Red Category' for Zero Liquid Discharge implementation"
+      ],
+      "regulation_coverage": 0.9,
+      "generated_at": "2026-01-04T14:11:39.518830"
+    },
+    "submission_reason": "Your application is not fully compliant. You must provide a reason or mitigation plan to proceed.",
+    "id": "f6484349-61d0-48fd-b16a-332ff5b90e66",
+    "submitted_at": "2026-01-04T14:13:00.581068",
+    "status": "submitted"
+  }
+]

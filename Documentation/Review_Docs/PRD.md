@@ -238,7 +238,7 @@ Temporary document storage
 
 Frontend
 
-Web-based UI
+Next.js (React Framework)
 
 Clear, minimal, role-based views
 
