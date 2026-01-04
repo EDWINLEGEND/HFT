@@ -11,7 +11,7 @@ Contains:
 - /chat - Placeholder for chatbot endpoint (stub)
 """
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, File, UploadFile, Form
 from datetime import datetime
 from typing import Optional
 from app.models.schemas import (
@@ -223,6 +223,46 @@ async def submit_application(submission: ApplicationSubmission):
         return service.submit_application(submission)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Application submission failed: {str(e)}")
+
+# --- Document Processing Endpoints ---
+
+@router.post("/documents/extract", tags=["Documents"])
+async def extract_document_details(file: UploadFile = File(...)):
+    """
+    Upload a document (PDF/Text) to extract application details.
+    Returns a JSON object with extracted fields to auto-fill the form.
+    """
+    try:
+        from app.services.document_service import get_document_service
+        service = get_document_service()
+        
+        contents = await file.read()
+        text = service.extract_text(contents, file.filename)
+        data = service.parse_application_details(text)
+        
+        return {"filename": file.filename, "extracted_data": data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Extraction failed: {str(e)}")
+
+@router.post("/documents/validate", tags=["Documents"])
+async def validate_document(
+    doc_type: str = Form(...),
+    file: UploadFile = File(...)
+):
+    """
+    Validate if an uploaded document matches the required type.
+    """
+    try:
+        from app.services.document_service import get_document_service
+        service = get_document_service()
+        
+        contents = await file.read()
+        text = service.extract_text(contents, file.filename)
+        result = service.validate_document(text, doc_type)
+        
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Validation failed: {str(e)}")
 
 @router.get("/applications", response_model=List[SavedApplication], tags=["Applications"])
 async def get_applications():

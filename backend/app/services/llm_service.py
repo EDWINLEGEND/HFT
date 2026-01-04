@@ -67,7 +67,7 @@ class LLMService:
         model_name: str = None,
         temperature: float = 0.3,
         max_tokens: int = 2000,
-        timeout: int = 30
+        timeout: int = 120
     ):
         """
         Initialize the LLM service.

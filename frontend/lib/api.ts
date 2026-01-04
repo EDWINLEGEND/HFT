@@ -103,6 +103,40 @@ export class CivicAssistAPI {
         return response.json();
     }
 
+    static async extractDocumentDetails(file: File): Promise<any> {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await fetch(`${API_BASE_URL}/api/v1/documents/extract`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.detail || `Extraction failed: ${response.statusText}`);
+        }
+
+        return response.json();
+    }
+
+    static async validateDocument(file: File, docType: string): Promise<any> {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('doc_type', docType);
+
+        const response = await fetch(`${API_BASE_URL}/api/v1/documents/validate`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Document validation failed');
+        }
+
+        return response.json();
+    }
+
     /**
      * Get all applications for officer view
      */
