@@ -14,7 +14,9 @@ import { CivicAssistAPI } from '@/lib/api';
 import type { IndustrialApplication, ComplianceReport } from '@/lib/types';
 
 // --- TYPES ---
-type AppStep = 'START' | 'TYPE_SELECTION' | 'UPLOAD' | 'FORM' | 'ANALYZING' | 'RESULTS';
+// --- TYPES ---
+// AppStep is now imported from context via usage, or we can just rely on the string literal inference
+// type AppStep = 'START' | 'TYPE_SELECTION' | 'UPLOAD' | 'FORM' | 'ANALYZING' | 'RESULTS';
 
 interface DocRequirement {
     id: string;
@@ -56,8 +58,11 @@ const getRequiredDocs = (type: string): DocRequirement[] => {
     }
 };
 
+import { useApplication } from '@/lib/context';
+
 export default function ApplicantPage() {
-    const [step, setStep] = useState<AppStep>('START');
+    // Use context for step management to sync with sidebar
+    const { currentStage: step, setStage: setStep } = useApplication();
 
     // Application Data
     const [appType, setAppType] = useState<string>('');

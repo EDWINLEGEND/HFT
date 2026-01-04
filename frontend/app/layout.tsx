@@ -23,6 +23,8 @@ export const metadata: Metadata = {
   description: "AI-powered regulatory compliance for modern governance.",
 };
 
+import { ApplicationProvider } from '@/lib/context';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,13 +35,15 @@ export default function RootLayout({
       <body
         className={`${manrope.variable} ${instrumentSerif.variable} antialiased font-sans bg-[#F9F9F8] text-[#1A1A1A] flex flex-col md:flex-row h-screen overflow-hidden`}
       >
-        <Sidebar />
-        <div className="flex-1 flex flex-col h-full overflow-hidden relative">
-          <MobileNav />
-          <main className="flex-1 overflow-y-auto w-full">
-            {children}
-          </main>
-        </div>
+        <ApplicationProvider>
+          <Sidebar />
+          <div className="flex-1 flex flex-col h-full overflow-hidden relative">
+            <MobileNav />
+            <main className="flex-1 overflow-y-auto w-full">
+              {children}
+            </main>
+          </div>
+        </ApplicationProvider>
       </body>
     </html>
   );

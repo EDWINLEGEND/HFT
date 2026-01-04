@@ -22,6 +22,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import SidebarTimeline from './SidebarTimeline';
 
 export default function Sidebar() {
     const pathname = usePathname();
@@ -66,6 +67,7 @@ export default function Sidebar() {
                     <div className="space-y-1">
                         <div className="px-3 py-2 text-[10px] font-bold text-[#8A8A8A] uppercase tracking-widest mb-1">Applicant</div>
                         <NavItem href="/applicant" icon={FileText} label="Applications" active={pathname === '/applicant'} />
+                        {pathname.includes('/applicant') && <SidebarTimeline />}
                         <NavItem href="#" icon={Settings} label="Settings" />
                     </div>
                 ) : (
