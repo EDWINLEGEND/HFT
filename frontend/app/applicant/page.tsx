@@ -190,18 +190,33 @@ export default function ApplicantMode() {
     const currentAppType = APP_TYPES.find(t => t.id === appType);
 
     return (
-        <div className="min-h-screen bg-background text-foreground">
+        <div className="min-h-screen bg-gray-50 text-foreground">
             <Header currentRole="applicant" />
 
-            <main className="max-w-7xl mx-auto px-4 py-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Steps Indicator */}
                 <div className="flex justify-center mb-8">
-                    <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                        <Badge variant={!extracted ? "default" : "secondary"} className="px-3 py-1">1. Upload Application</Badge>
-                        <ArrowRight className="w-4 h-4" />
-                        <Badge variant={extracted && !report ? "default" : (report ? "secondary" : "outline")} className="px-3 py-1">2. Review & Analyze</Badge>
-                        <ArrowRight className="w-4 h-4" />
-                        <Badge variant={report ? "default" : "outline"} className="px-3 py-1 text-white">3. Submit</Badge>
+                    <div className="flex items-center space-x-3 text-sm">
+                        <Badge 
+                            variant={!extracted ? "default" : "secondary"} 
+                            className={`px-4 py-2 ${!extracted ? 'bg-[#00A9A0] text-white' : 'bg-gray-200 text-gray-700'}`}
+                        >
+                            1. Upload Application
+                        </Badge>
+                        <ArrowRight className="w-4 h-4 text-gray-400" />
+                        <Badge 
+                            variant={extracted && !report ? "default" : (report ? "secondary" : "outline")} 
+                            className={`px-4 py-2 ${extracted && !report ? 'bg-[#00A9A0] text-white' : report ? 'bg-gray-200 text-gray-700' : 'bg-white border-gray-300 text-gray-500'}`}
+                        >
+                            2. Review & Analyze
+                        </Badge>
+                        <ArrowRight className="w-4 h-4 text-gray-400" />
+                        <Badge 
+                            variant={report ? "default" : "outline"} 
+                            className={`px-4 py-2 ${report ? 'bg-[#00A9A0] text-white' : 'bg-white border-gray-300 text-gray-500'}`}
+                        >
+                            3. Submit
+                        </Badge>
                     </div>
                 </div>
 
@@ -212,11 +227,11 @@ export default function ApplicantMode() {
                         {/* 1. App Type Selector */}
                         <Card>
                             <CardHeader>
-                                <CardTitle>Select Application Type</CardTitle>
+                                <CardTitle className="text-lg font-semibold text-gray-900">Select Application Type</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <Select value={appType} onValueChange={setAppType}>
-                                    <SelectTrigger className="w-full">
+                                    <SelectTrigger className="w-full border-gray-300 focus:border-[#00A9A0] focus:ring-[#00A9A0]">
                                         <SelectValue placeholder="Select type" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -229,12 +244,12 @@ export default function ApplicantMode() {
                         </Card>
 
                         {/* 2. Main Document Upload (Scraping) */}
-                        <Card className="border-blue-100 dark:border-blue-900 bg-blue-50/50 dark:bg-blue-950/20">
+                        <Card className="border-[#E6F7F6] bg-[#E6F7F6]/50">
                             <CardHeader>
-                                <CardTitle className="flex items-center text-blue-900 dark:text-blue-200">
+                                <CardTitle className="flex items-center text-[#008780] text-lg font-semibold">
                                     <Sparkles className="w-5 h-5 mr-2" /> Auto-Fill from Document
                                 </CardTitle>
-                                <CardDescription>
+                                <CardDescription className="text-gray-600">
                                     Upload your project proposal (PDF/Text) to automatically fill the application details below.
                                 </CardDescription>
                             </CardHeader>
@@ -244,63 +259,63 @@ export default function ApplicantMode() {
                                     onFileSelect={handleExtractionUpload}
                                     disabled={extracting}
                                 />
-                                {extracting && <p className="text-blue-600 text-sm mt-2 flex items-center animate-pulse"><Sparkles className="w-4 h-4 mr-1" /> Running AI Extraction...</p>}
-                                {extracted && <p className="text-green-600 text-sm mt-2 font-semibold flex items-center"><CheckCircle className="w-4 h-4 mr-1" /> Data Extracted Successfully!</p>}
+                                {extracting && <p className="text-[#00A9A0] text-sm mt-2 flex items-center animate-pulse font-medium"><Sparkles className="w-4 h-4 mr-1" /> Running AI Extraction...</p>}
+                                {extracted && <p className="text-green-700 text-sm mt-2 font-semibold flex items-center"><CheckCircle className="w-4 h-4 mr-1" /> Data Extracted Successfully!</p>}
                             </CardContent>
                         </Card>
 
                         {/* 3. The Form (Auto-filled but editable) */}
                         <Card>
                             <CardHeader>
-                                <CardTitle>Application Details</CardTitle>
+                                <CardTitle className="text-lg font-semibold text-gray-900">Application Details</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <form onSubmit={handleSubmitAnalysis} className="space-y-4">
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="industry_name">Industry Name</Label>
-                                            <Input id="industry_name" name="industry_name" value={formData.industry_name} onChange={handleChange} required />
+                                            <Label htmlFor="industry_name" className="text-sm font-medium text-gray-700">Industry Name</Label>
+                                            <Input id="industry_name" name="industry_name" value={formData.industry_name} onChange={handleChange} required className="border-gray-300 focus:border-[#00A9A0] focus:ring-[#00A9A0]" />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="square_feet">Square Feet</Label>
-                                            <Input id="square_feet" name="square_feet" value={formData.square_feet} onChange={handleChange} required />
+                                            <Label htmlFor="square_feet" className="text-sm font-medium text-gray-700">Square Feet</Label>
+                                            <Input id="square_feet" name="square_feet" value={formData.square_feet} onChange={handleChange} required className="border-gray-300 focus:border-[#00A9A0] focus:ring-[#00A9A0]" />
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="water_source">Water Source</Label>
-                                            <Input id="water_source" name="water_source" value={formData.water_source} onChange={handleChange} required />
+                                            <Label htmlFor="water_source" className="text-sm font-medium text-gray-700">Water Source</Label>
+                                            <Input id="water_source" name="water_source" value={formData.water_source} onChange={handleChange} required className="border-gray-300 focus:border-[#00A9A0] focus:ring-[#00A9A0]" />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="drainage">Drainage</Label>
-                                            <Input id="drainage" name="drainage" value={formData.drainage} onChange={handleChange} required />
+                                            <Label htmlFor="drainage" className="text-sm font-medium text-gray-700">Drainage</Label>
+                                            <Input id="drainage" name="drainage" value={formData.drainage} onChange={handleChange} required className="border-gray-300 focus:border-[#00A9A0] focus:ring-[#00A9A0]" />
                                         </div>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label htmlFor="air_pollution">Air Pollution Control</Label>
-                                        <Textarea id="air_pollution" name="air_pollution" value={formData.air_pollution} onChange={handleChange} required rows={2} />
+                                        <Label htmlFor="air_pollution" className="text-sm font-medium text-gray-700">Air Pollution Control</Label>
+                                        <Textarea id="air_pollution" name="air_pollution" value={formData.air_pollution} onChange={handleChange} required rows={2} className="border-gray-300 focus:border-[#00A9A0] focus:ring-[#00A9A0]" />
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label htmlFor="waste_management">Waste Management</Label>
-                                        <Textarea id="waste_management" name="waste_management" value={formData.waste_management} onChange={handleChange} required rows={2} />
+                                        <Label htmlFor="waste_management" className="text-sm font-medium text-gray-700">Waste Management</Label>
+                                        <Textarea id="waste_management" name="waste_management" value={formData.waste_management} onChange={handleChange} required rows={2} className="border-gray-300 focus:border-[#00A9A0] focus:ring-[#00A9A0]" />
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="nearby_homes">Nearest Homes</Label>
-                                            <Input id="nearby_homes" name="nearby_homes" value={formData.nearby_homes} onChange={handleChange} required />
+                                            <Label htmlFor="nearby_homes" className="text-sm font-medium text-gray-700">Nearest Homes</Label>
+                                            <Input id="nearby_homes" name="nearby_homes" value={formData.nearby_homes} onChange={handleChange} required className="border-gray-300 focus:border-[#00A9A0] focus:ring-[#00A9A0]" />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="water_level_depth">Water Level</Label>
-                                            <Input id="water_level_depth" name="water_level_depth" value={formData.water_level_depth} onChange={handleChange} required />
+                                            <Label htmlFor="water_level_depth" className="text-sm font-medium text-gray-700">Water Level</Label>
+                                            <Input id="water_level_depth" name="water_level_depth" value={formData.water_level_depth} onChange={handleChange} required className="border-gray-300 focus:border-[#00A9A0] focus:ring-[#00A9A0]" />
                                         </div>
                                     </div>
 
-                                    <Button type="submit" className="w-full" disabled={loading}>
-                                        {loading ? <span className="flex items-center"><Sparkles className="mr-2 h-4 w-4 animate-spin" /> Analyzing...</span> : <span className="flex items-center"><Search className="mr-2 h-4 w-4" /> Analyze Compliance</span>}
+                                    <Button type="submit" className="w-full bg-[#00A9A0] hover:bg-[#008780] text-white font-medium" disabled={loading} size="lg">
+                                        {loading ? <span className="flex items-center"><Sparkles className="mr-2 h-5 w-5 animate-spin" /> Analyzing...</span> : <span className="flex items-center"><Search className="mr-2 h-5 w-5" /> Analyze Compliance</span>}
                                     </Button>
                                 </form>
                             </CardContent>
@@ -366,38 +381,38 @@ export default function ApplicantMode() {
                                 {/* 🟡 PHASE 3: VISUAL APPLICATION STATUS TIMELINE */}
                                 <Card className="mb-4">
                                     <CardHeader>
-                                        <CardTitle className="text-base">Application Timeline</CardTitle>
+                                        <CardTitle className="text-base font-semibold text-gray-900">Application Timeline</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="flex items-center justify-between">
                                             {/* Draft */}
                                             <div className="flex flex-col items-center flex-1">
-                                                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-green-500 text-white">
+                                                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#00A9A0] text-white shadow-md">
                                                     <CheckCircle className="w-5 h-5" />
                                                 </div>
-                                                <p className="text-xs font-semibold mt-2">Draft</p>
-                                                <p className="text-xs text-muted-foreground">Completed</p>
+                                                <p className="text-xs font-semibold mt-2 text-gray-900">Draft</p>
+                                                <p className="text-xs text-gray-500">Completed</p>
                                             </div>
-                                            <div className="flex-1 h-1 bg-green-500 mx-2" />
+                                            <div className="flex-1 h-1 bg-[#00A9A0] mx-2" />
 
                                             {/* Self-Check */}
                                             <div className="flex flex-col items-center flex-1">
-                                                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-green-500 text-white">
+                                                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#00A9A0] text-white shadow-md">
                                                     <CheckCircle className="w-5 h-5" />
                                                 </div>
-                                                <p className="text-xs font-semibold mt-2">Self-Check</p>
-                                                <p className="text-xs text-muted-foreground">Completed</p>
+                                                <p className="text-xs font-semibold mt-2 text-gray-900">Self-Check</p>
+                                                <p className="text-xs text-gray-500">Completed</p>
                                             </div>
-                                            <div className={`flex-1 h-1 mx-2 ${report.status === 'compliant' ? 'bg-green-500' : 'bg-gray-300'}`} />
+                                            <div className={`flex-1 h-1 mx-2 ${report.status === 'compliant' ? 'bg-[#00A9A0]' : 'bg-gray-300'}`} />
 
                                             {/* Ready to Submit */}
                                             <div className="flex flex-col items-center flex-1">
-                                                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${report.status === 'compliant' ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'
+                                                <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md ${report.status === 'compliant' ? 'bg-[#00A9A0] text-white' : 'bg-white border-2 border-gray-300 text-gray-400'
                                                     }`}>
                                                     {report.status === 'compliant' ? <CheckCircle className="w-5 h-5" /> : <Clock className="w-5 h-5" />}
                                                 </div>
-                                                <p className="text-xs font-semibold mt-2">Ready</p>
-                                                <p className="text-xs text-muted-foreground">
+                                                <p className="text-xs font-semibold mt-2 text-gray-900">Ready</p>
+                                                <p className="text-xs text-gray-500">
                                                     {report.status === 'compliant' ? 'Ready' : 'Pending'}
                                                 </p>
                                             </div>
@@ -405,25 +420,25 @@ export default function ApplicantMode() {
 
                                             {/* Under Review */}
                                             <div className="flex flex-col items-center flex-1">
-                                                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-300 text-gray-600">
+                                                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-white border-2 border-gray-300 text-gray-400">
                                                     <Clock className="w-5 h-5" />
                                                 </div>
-                                                <p className="text-xs font-semibold mt-2">Review</p>
-                                                <p className="text-xs text-muted-foreground">Pending</p>
+                                                <p className="text-xs font-semibold mt-2 text-gray-900">Review</p>
+                                                <p className="text-xs text-gray-500">Pending</p>
                                             </div>
                                         </div>
                                     </CardContent>
                                 </Card>
 
                                 {/* 🟡 PHASE 3: SIMPLE LANGUAGE TOGGLE */}
-                                <Card className="mb-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-purple-200">
+                                <Card className="mb-4 bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200">
                                     <CardContent className="pt-6">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-2">
                                                 <Languages className="w-5 h-5 text-purple-600" />
                                                 <div>
-                                                    <h3 className="font-semibold text-sm">Language Preference</h3>
-                                                    <p className="text-xs text-muted-foreground">
+                                                    <h3 className="font-semibold text-sm text-gray-900">Language Preference</h3>
+                                                    <p className="text-xs text-gray-600">
                                                         {useSimpleLanguage ? 'Showing simple explanations' : 'Showing formal explanations'}
                                                     </p>
                                                 </div>
@@ -432,6 +447,7 @@ export default function ApplicantMode() {
                                                 variant="outline"
                                                 size="sm"
                                                 onClick={() => setUseSimpleLanguage(!useSimpleLanguage)}
+                                                className="border-purple-300 text-purple-700 hover:bg-purple-50"
                                             >
                                                 Switch to {useSimpleLanguage ? 'Formal' : 'Simple'}
                                             </Button>
@@ -440,10 +456,10 @@ export default function ApplicantMode() {
                                 </Card>
 
                                 {/* 🟡 PHASE 1: NO-AI DISCLAIMER */}
-                                <Alert className="mb-4 bg-blue-50 dark:bg-blue-900/20 border-blue-200">
+                                <Alert className="mb-4 bg-blue-50 border-blue-200">
                                     <FileText className="h-4 w-4 text-blue-600" />
-                                    <AlertTitle>Important Notice</AlertTitle>
-                                    <AlertDescription>
+                                    <AlertTitle className="text-blue-900 font-semibold">Important Notice</AlertTitle>
+                                    <AlertDescription className="text-blue-800">
                                         This is guidance only. Final approval is done by government officers who will review your application manually.
                                     </AlertDescription>
                                 </Alert>
@@ -528,7 +544,7 @@ export default function ApplicantMode() {
                                 {/* 🟡 PHASE 2: VISUAL PROGRESS TRACKER */}
                                 <Card className="mb-4">
                                     <CardHeader>
-                                        <CardTitle className="text-base">Application Progress</CardTitle>
+                                        <CardTitle className="text-base font-semibold text-gray-900">Application Progress</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         {(() => {
@@ -538,12 +554,12 @@ export default function ApplicantMode() {
 
                                             return (
                                                 <div className="space-y-2">
-                                                    <div className="flex justify-between text-sm">
+                                                    <div className="flex justify-between text-sm text-gray-700">
                                                         <span>Documents: {docsUploaded} / {requiredDocs.length}</span>
-                                                        <span className="font-bold">Compliance: {progress}%</span>
+                                                        <span className="font-bold text-[#00A9A0]">Compliance: {progress}%</span>
                                                     </div>
-                                                    <Progress value={progress} className="h-2" />
-                                                    <p className="text-xs text-muted-foreground mt-2">
+                                                    <Progress value={progress} className="h-2 bg-gray-200" />
+                                                    <p className="text-xs text-gray-600 mt-2">
                                                         {progress === 100 ? '🎉 Excellent! Your application is ready.' :
                                                             progress >= 70 ? '👍 Good progress! A few more fixes needed.' :
                                                                 progress >= 40 ? '⚠️ Making progress. Keep fixing issues.' :
@@ -556,18 +572,17 @@ export default function ApplicantMode() {
                                 </Card>
 
                                 {/* 🟡 PHASE 2: FIX & RE-CHECK LOOP */}
-                                <Card className="mb-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200">
+                                <Card className="mb-4 bg-gradient-to-r from-[#E6F7F6] to-[#CCEFED] border-[#00A9A0]/30">
                                     <CardContent className="pt-6">
                                         <div className="flex items-center justify-between">
                                             <div className="flex-1">
-                                                <h3 className="font-semibold text-sm mb-1">Made changes?</h3>
-                                                <p className="text-xs text-muted-foreground">Re-run the analysis to see your updated progress</p>
+                                                <h3 className="font-semibold text-sm mb-1 text-gray-900">Made changes?</h3>
+                                                <p className="text-xs text-gray-600">Re-run the analysis to see your updated progress</p>
                                             </div>
                                             <Button
                                                 onClick={handleRecheck}
                                                 disabled={isRechecking}
-                                                variant="default"
-                                                className="ml-4"
+                                                className="ml-4 bg-[#00A9A0] hover:bg-[#008780] text-white"
                                             >
                                                 {isRechecking ? (
                                                     <span className="flex items-center">
@@ -585,15 +600,15 @@ export default function ApplicantMode() {
                                     </CardContent>
                                 </Card>
 
-                                <Card className="border-t-4 border-t-primary animate-in fade-in zoom-in-95 duration-300">
+                                <Card className="border-t-4 border-t-[#00A9A0] animate-in fade-in zoom-in-95 duration-300">
                                     <CardHeader>
-                                        <CardTitle>Analysis Results</CardTitle>
+                                        <CardTitle className="text-lg font-semibold text-gray-900">Analysis Results</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-6">
                                         {/* Status Badge */}
                                         <div className="flex items-center justify-between">
-                                            <span className="text-muted-foreground font-medium">Status:</span>
-                                            <Badge className={`uppercase ${getStatusColor(report.status)}`}>
+                                            <span className="text-gray-700 font-medium">Status:</span>
+                                            <Badge className={`uppercase px-4 py-1.5 text-sm font-semibold ${getStatusColor(report.status)}`}>
                                                 {report.status.replace('_', ' ')}
                                             </Badge>
                                         </div>
@@ -736,16 +751,17 @@ export default function ApplicantMode() {
                                         </Card>
 
                                         {/* SUBMISSION AREA */}
-                                        <div className="pt-4 border-t">
-                                            <h3 className="text-sm font-bold mb-2">Final Submission</h3>
+                                        <div className="pt-4 border-t border-gray-200">
+                                            <h3 className="text-sm font-bold mb-2 text-gray-900">Final Submission</h3>
 
                                             {report.status !== 'compliant' && (
                                                 <div className="mb-4">
-                                                    <Label className="mb-2 block">Mitigation Plan / Reason (Required for partial compliance) *</Label>
+                                                    <Label className="mb-2 block text-sm font-medium text-gray-700">Mitigation Plan / Reason (Required for partial compliance) *</Label>
                                                     <Textarea
                                                         placeholder="Explain your plan to address issues..."
                                                         value={submissionReason}
                                                         onChange={(e) => setSubmissionReason(e.target.value)}
+                                                        className="border-gray-300 focus:border-[#00A9A0] focus:ring-[#00A9A0]"
                                                     />
                                                 </div>
                                             )}
@@ -753,10 +769,10 @@ export default function ApplicantMode() {
                                             <Button
                                                 onClick={handleApplicationSubmit}
                                                 disabled={submitting}
-                                                className="w-full"
-                                                variant={report.status === 'compliant' ? 'default' : 'secondary'}
+                                                className={`w-full font-semibold ${report.status === 'compliant' ? 'bg-[#00A9A0] hover:bg-[#008780]' : 'bg-gray-500 hover:bg-gray-600'} text-white`}
+                                                size="lg"
                                             >
-                                                {submitting ? 'Submitting...' : <span className="flex items-center"><Send className="mr-2 h-4 w-4" /> Final Submission</span>}
+                                                {submitting ? 'Submitting...' : <span className="flex items-center justify-center"><Send className="mr-2 h-5 w-5" /> Final Submission</span>}
                                             </Button>
                                         </div>
                                     </CardContent>

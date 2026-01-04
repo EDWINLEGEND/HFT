@@ -222,55 +222,55 @@ export default function OfficerPage() {
         }
     };
 
-    if (loading) return <div className="p-8 text-center text-muted-foreground">Loading Dashboard...</div>;
+    if (loading) return <div className="p-8 text-center text-gray-500 font-medium">Loading Dashboard...</div>;
 
     return (
-        <div className="min-h-screen bg-background text-foreground font-sans">
+        <div className="min-h-screen bg-gray-50 text-foreground">
             <Header showNav={true} activeTab="officer" />
 
-            <main className="max-w-7xl mx-auto px-4 py-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {viewMode === 'list' && (
                     <>
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold tracking-tight mb-2">
+                            <h1 className="text-3xl font-bold tracking-tight mb-2 text-gray-900">
                                 Officer/Reviewer Dashboard
                             </h1>
-                            <p className="text-muted-foreground">Review and process industrial applications.</p>
+                            <p className="text-gray-600">Review and process industrial applications.</p>
                         </div>
 
                         <Card>
                             <CardContent className="p-0">
-                                <div className="rounded-md border">
+                                <div className="rounded-lg border border-gray-200 overflow-hidden">
                                     <table className="w-full text-left text-sm">
-                                        <thead className="bg-muted/50 border-b">
+                                        <thead className="bg-gray-100 border-b border-gray-200">
                                             <tr>
-                                                <th className="p-4 font-medium text-muted-foreground uppercase">Application ID</th>
-                                                <th className="p-4 font-medium text-muted-foreground uppercase">Applicant</th>
-                                                <th className="p-4 font-medium text-muted-foreground uppercase">Status</th>
-                                                <th className="p-4 font-medium text-muted-foreground uppercase">AI Confidence</th>
-                                                <th className="p-4 font-medium text-muted-foreground uppercase">Time Saved</th>
-                                                <th className="p-4 font-medium text-muted-foreground uppercase">Action</th>
+                                                <th className="p-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Application ID</th>
+                                                <th className="p-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Applicant</th>
+                                                <th className="p-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Status</th>
+                                                <th className="p-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">AI Confidence</th>
+                                                <th className="p-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Time Saved</th>
+                                                <th className="p-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y">
+                                        <tbody className="divide-y divide-gray-200 bg-white">
                                             {applications.length === 0 ? (
                                                 <tr>
-                                                    <td colSpan={6} className="p-8 text-center text-muted-foreground">No applications found.</td>
+                                                    <td colSpan={6} className="p-8 text-center text-gray-500">No applications found.</td>
                                                 </tr>
                                             ) : (
                                                 applications.map((app) => (
-                                                    <tr key={app.id} className="hover:bg-muted/50 transition-colors">
-                                                        <td className="p-4 font-mono text-xs">{app.id.slice(0, 8)}...</td>
-                                                        <td className="p-4 font-medium">{app.application_data.industry_name}</td>
+                                                    <tr key={app.id} className="hover:bg-gray-50 transition-colors">
+                                                        <td className="p-4 font-mono text-xs text-gray-600">{app.id.slice(0, 8)}...</td>
+                                                        <td className="p-4 font-medium text-gray-900">{app.application_data.industry_name}</td>
                                                         <td className="p-4">
                                                             <Badge variant="outline" className={`${getStatusColor(app.status)}`}>
                                                                 {app.status.replace('_', ' ').toUpperCase()}
                                                             </Badge>
                                                         </td>
-                                                        <td className="p-4">
+                                                        <td className="p-4 text-gray-700">
                                                             {formatConfidence(app.compliance_report.confidence_score)}
                                                         </td>
-                                                        <td className="p-4 font-medium text-green-600 dark:text-green-400">
+                                                        <td className="p-4 font-semibold text-[#00A9A0]">
                                                             {Math.round(app.time_saved_seconds / 60)} mins
                                                         </td>
                                                         <td className="p-4">
@@ -278,7 +278,7 @@ export default function OfficerPage() {
                                                                 variant="ghost"
                                                                 size="sm"
                                                                 onClick={() => handleViewApp(app)}
-                                                                className="text-primary hover:text-primary"
+                                                                className="text-[#00A9A0] hover:text-[#008780] hover:bg-[#E6F7F6]"
                                                             >
                                                                 Review <ArrowRight className="ml-1 w-4 h-4" />
                                                             </Button>
@@ -296,20 +296,20 @@ export default function OfficerPage() {
 
                 {viewMode === 'detail' && selectedApp && (
                     <div className="animate-in slide-in-from-right-10 duration-500">
-                        <Button variant="ghost" onClick={handleBack} className="mb-4 pl-0 hover:bg-transparent hover:text-primary">
+                        <Button variant="ghost" onClick={handleBack} className="mb-4 pl-0 hover:bg-transparent text-[#00A9A0] hover:text-[#008780]">
                             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
                         </Button>
 
                         {/* 🔴 PHASE 1: AT-A-GLANCE FILE HEALTH SUMMARY */}
-                        <Card className="mb-6 border-2 border-primary/20 shadow-lg sticky top-20 z-10 bg-background/95 backdrop-blur">
+                        <Card className="mb-6 border-2 border-[#00A9A0]/20 shadow-lg sticky top-20 z-10 bg-white backdrop-blur">
                             <CardHeader className="pb-3">
                                 <div className="flex justify-between items-start gap-4">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-2">
-                                            <Badge variant="outline" className={`text-lg px-3 py-1 ${getStatusColor(selectedApp.compliance_report.status)}`}>
+                                            <Badge variant="outline" className={`text-lg px-3 py-1 font-semibold ${getStatusColor(selectedApp.compliance_report.status)}`}>
                                                 {selectedApp.compliance_report.status.replace('_', ' ').toUpperCase()}
                                             </Badge>
-                                            <Badge variant="secondary" className="flex items-center gap-1">
+                                            <Badge variant="secondary" className="flex items-center gap-1 bg-gray-100 text-gray-700">
                                                 <Clock className="w-3 h-3" />
                                                 {formatConfidence(selectedApp.compliance_report.confidence_score)} Confidence
                                             </Badge>
@@ -321,7 +321,7 @@ export default function OfficerPage() {
                                                 </Badge>
                                             )}
                                             {getOverrideSummary().overridden > 0 && (
-                                                <Badge variant="outline" className="border-orange-500 text-orange-700 dark:border-orange-400 dark:text-orange-400 font-bold">
+                                                <Badge variant="outline" className="border-orange-500 text-orange-700 font-bold">
                                                     {getOverrideSummary().overridden} Override{getOverrideSummary().overridden > 1 ? 's' : ''}
                                                 </Badge>
                                             )}
@@ -624,9 +624,9 @@ export default function OfficerPage() {
                                 </Card>
 
                                 {/* Action Bar */}
-                                <Card className="sticky bottom-0 shadow-lg border-t-2">
+                                <Card className="sticky bottom-0 shadow-lg border-t-2 border-t-[#00A9A0]">
                                     <CardHeader className="pb-2">
-                                        <CardTitle className="text-lg">Officer Action</CardTitle>
+                                        <CardTitle className="text-lg text-gray-900">Officer Action</CardTitle>
                                     </CardHeader>
                                     <CardContent>
                                         {selectedApp.status === 'submitted' || selectedApp.status === 'under_review' ? (
@@ -635,7 +635,7 @@ export default function OfficerPage() {
                                                 <Button
                                                     variant="outline"
                                                     onClick={handleDownloadReport}
-                                                    className="w-full mb-3 flex items-center justify-center gap-2"
+                                                    className="w-full mb-3 flex items-center justify-center gap-2 border-gray-300 hover:border-[#00A9A0] hover:bg-[#E6F7F6]"
                                                 >
                                                     <FileText className="w-4 h-4" />
                                                     Download PDF Report
@@ -645,7 +645,7 @@ export default function OfficerPage() {
                                                     <Button
                                                         onClick={() => handleAction('approve')}
                                                         disabled={processing}
-                                                        className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                                                        className="flex-1 bg-[#00A9A0] hover:bg-[#008780] text-white font-semibold shadow-md hover:shadow-lg"
                                                         size="lg"
                                                     >
                                                         {processing ? 'Processing...' : <span className="flex items-center"><CheckCircle className="mr-2 h-4 w-4" /> Approve Application</span>}
@@ -654,7 +654,7 @@ export default function OfficerPage() {
                                                         onClick={() => handleAction('reject')}
                                                         disabled={processing}
                                                         variant="destructive"
-                                                        className="flex-1"
+                                                        className="flex-1 font-semibold shadow-md hover:shadow-lg"
                                                         size="lg"
                                                     >
                                                         {processing ? 'Processing...' : <span className="flex items-center"><XCircle className="mr-2 h-4 w-4" /> Reject / Send Back</span>}
@@ -662,8 +662,8 @@ export default function OfficerPage() {
                                                 </div>
                                             </>
                                         ) : (
-                                            <div className="text-center p-3 bg-muted rounded-lg text-muted-foreground font-medium">
-                                                Application is currently <span className="font-bold uppercase text-foreground">{selectedApp.status.replace('_', ' ')}</span>
+                                            <div className="text-center p-3 bg-gray-100 rounded-lg text-gray-700 font-medium">
+                                                Application is currently <span className="font-bold uppercase text-gray-900">{selectedApp.status.replace('_', ' ')}</span>
                                             </div>
                                         )}
                                     </CardContent>

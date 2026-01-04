@@ -374,5 +374,71 @@
     "officer_notes": null,
     "rejection_reason": null,
     "time_saved_seconds": 1200.0
+  },
+  {
+    "application_data": {
+      "industry_name": "GreenLeaf Processing Unit",
+      "square_feet": "8,500 Square Feet (Approx. 20 cents)",
+      "water_source": "Secured connection from KWA (Kerala Water Authority) Municipal Supply Line",
+      "drainage": "All effluent will be treated in an on-site Effluent Treatment Plant (ETP) with a capacity of 50 KLD. Treated water reused for gardening.",
+      "air_pollution": "Boiler unit equipped with Wet Scrubber system to control particulate matter. Chimney height maintained at 30 meters.",
+      "waste_management": "Biodegradable waste composted using a biogas plant. Non-biodegradable waste handed over to Clean Kerala Company Ltd.",
+      "nearby_homes": "750 meters away from the boundary wall",
+      "water_level_depth": "25 feet below ground level",
+      "document_url": "/uploads/20260105003755_Project_Proposal_GreenLeaf_Processing_Unit.pdf"
+    },
+    "compliance_report": {
+      "application_id": "GreenLeaf Processing Unit",
+      "status": "partially_compliant",
+      "confidence_score": 0.85,
+      "issues": [
+        {
+          "issue_type": "ambiguity",
+          "severity": "medium",
+          "description": "It is unclear if the GreenLeaf Processing Unit has a valid certificate or approval for its air pollution control equipment. The regulation does not explicitly state that such certificates are required, but industry best practices suggest obtaining them to ensure proper functioning and compliance.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Section 3.1: Air Pollution Control",
+          "department": "environment"
+        },
+        {
+          "issue_type": "missing_document",
+          "severity": "high",
+          "description": "The GreenLeaf Processing Unit must submit quarterly waste management reports as required by the regulation. However, no such report was provided in the application.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Section 3.3: Waste Management",
+          "department": "environment"
+        },
+        {
+          "issue_type": "violation",
+          "severity": "medium",
+          "description": "The GreenLeaf Processing Unit did not specify the exact location of its fire extinguishers in the application, making it difficult to determine if they are within the required distance.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Chapter 2: Fire Safety Requirements, Section 2.1: Fire Extinguishers",
+          "department": "fire"
+        },
+        {
+          "issue_type": "compliance",
+          "severity": "low",
+          "description": "The GreenLeaf Processing Unit has a Boiler unit equipped with a Wet Scrubber system to control particulate matter and maintains a chimney height of 30 meters, which meets the requirements for controlling air pollution.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Section 3.1: Air Pollution Control",
+          "department": "environment"
+        }
+      ],
+      "missing_documents": [
+        "The GreenLeaf Processing Unit must submit quarterly waste management reports as required by the regulation. However, no such report was provided in the application."
+      ],
+      "recommendations": [
+        "Ensure proper functioning and obtain certificates for air pollution control equipment.",
+        "Submit quarterly waste management reports as required by the regulations."
+      ],
+      "regulation_coverage": 0.9,
+      "generated_at": "2026-01-04T19:08:37.096946"
+    },
+    "submission_reason": "asdasdaa",
+    "id": "f86b5596-9a40-407d-a1d1-66cb2972bf98",
+    "submitted_at": "2026-01-04T19:09:13.344822",
+    "status": "approved",
+    "officer_action": "approve",
+    "officer_notes": "",
+    "rejection_reason": "",
+    "time_saved_seconds": 1200.0,
+    "issue_overrides": null
   }
 ]
