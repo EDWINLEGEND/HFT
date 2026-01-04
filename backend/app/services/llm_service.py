@@ -131,9 +131,9 @@ class LLMService:
             "stream": False
         }
         
-        # Add JSON mode if supported
-        if response_format == "json":
-            payload["response_format"] = {"type": "json_object"}
+        # Add JSON mode if supported (DISABLED for LM Studio compatibility)
+        # if response_format == "json":
+        #     payload["response_format"] = {"type": "json_object"}
         
         headers = {"Content-Type": "application/json"}
         

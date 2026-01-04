@@ -37,10 +37,10 @@ class Settings(BaseSettings):
     
     # LLM Configuration (Phase 3)
     llm_api_url: str = "http://localhost:1234/v1/chat/completions"  # LM Studio default
-    llm_model_name: str = "mistral-7b"  # Or whatever model is loaded
+    llm_model_name: str = "mistralai-mistral-7b-instruct-v0.2-smashed"  # Must match LM Studio model name
     llm_temperature: float = 0.3  # Lower for compliance analysis
     llm_max_tokens: int = 2000  # Hard limit for safety
-    llm_timeout: int = 30  # 30 second timeout
+    llm_timeout: int = 90  # 90 second timeout for slower models
     
     # OpenAI Fallback Configuration (Phase 5)
     use_openai_fallback: bool = False  # Set to True to enable OpenAI fallback
