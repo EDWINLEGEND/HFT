@@ -53,7 +53,8 @@ export default function OfficerPage() {
     const loadApplications = async () => {
         try {
             const data = await CivicAssistAPI.getApplications();
-            setApplications(data);
+            // Filter out drafts (pending status) or apps without reports
+            setApplications(data.filter(app => app.status !== 'pending' && app.compliance_report));
         } catch (err) {
             console.error(err);
         } finally {
@@ -103,26 +104,26 @@ export default function OfficerPage() {
 
     // Phase 1 Helper Functions
     const getHighRiskCount = (app: SavedApplication) => {
-        return app.compliance_report.issues.filter(i => i.severity === 'high').length;
+        return app.compliance_report?.issues.filter(i => i.severity === 'high').length ?? 0;
     };
 
     const getBlockingIssues = (app: SavedApplication) => {
-        return app.compliance_report.issues.filter(
+        return app.compliance_report?.issues.filter(
             i => i.severity === 'high' && i.issue_type === 'violation'
-        );
+        ) ?? [];
     };
 
     const isBlockingApproval = (app: SavedApplication) => {
-        return getBlockingIssues(app).length > 0 || app.compliance_report.status === 'non_compliant';
+        return getBlockingIssues(app).length > 0 || app.compliance_report?.status === 'non_compliant';
     };
 
     const getDepartments = (app: SavedApplication) => {
-        const depts = new Set(app.compliance_report.issues.map(i => i.department || 'Other'));
+        const depts = new Set(app.compliance_report?.issues.map(i => i.department || 'Other') ?? []);
         return Array.from(depts);
     };
 
     const filterAndSortIssues = (app: SavedApplication) => {
-        let filtered = app.compliance_report.issues;
+        let filtered = app.compliance_report?.issues ?? [];
 
         // Filter by department
         if (filterDept) {
@@ -189,7 +190,7 @@ export default function OfficerPage() {
     };
 
     const getOverrideSummary = () => {
-        if (!selectedApp) return { total: 0, accepted: 0, overridden: 0, pending: 0 };
+        if (!selectedApp || !selectedApp.compliance_report) return { total: 0, accepted: 0, overridden: 0, pending: 0 };
         const total = selectedApp.compliance_report.issues.length;
         const accepted = Object.values(issueOverrides).filter(o => o.accepted === true).length;
         const overridden = Object.values(issueOverrides).filter(o => o.accepted === false).length;
@@ -279,11 +280,11 @@ export default function OfficerPage() {
                                                             <div className="flex items-center gap-2">
                                                                 <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                                                                     <div
-                                                                        className={`h-full rounded-full ${app.compliance_report.confidence_score * 100 > 80 ? 'bg-green-500' : app.compliance_report.confidence_score * 100 > 50 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                                                                        style={{ width: `${app.compliance_report.confidence_score * 100}%` }}
+                                                                        className={`h-full rounded-full ${(!app.compliance_report || app.compliance_report.confidence_score * 100 > 80) ? 'bg-green-500' : app.compliance_report.confidence_score * 100 > 50 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                                                                        style={{ width: `${(app.compliance_report?.confidence_score ?? 0) * 100}%` }}
                                                                     />
                                                                 </div>
-                                                                <span className="text-xs font-medium text-gray-600">{Math.round(app.compliance_report.confidence_score * 100)}%</span>
+                                                                <span className="text-xs font-medium text-gray-600">{Math.round((app.compliance_report?.confidence_score ?? 0) * 100)}%</span>
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-4">
@@ -325,12 +326,12 @@ export default function OfficerPage() {
                                 <div className="flex justify-between items-start gap-4">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-2">
-                                            <Badge variant="outline" className={`text-lg px-3 py-1 font-semibold ${getStatusColor(selectedApp.compliance_report.status)}`}>
-                                                {selectedApp.compliance_report.status.replace('_', ' ').toUpperCase()}
+                                            <Badge variant="outline" className={`text-lg px-3 py-1 font-semibold ${getStatusColor(selectedApp.compliance_report?.status ?? 'pending')}`}>
+                                                {(selectedApp.compliance_report?.status ?? 'pending').replace('_', ' ').toUpperCase()}
                                             </Badge>
                                             <Badge variant="secondary" className="flex items-center gap-1 bg-gray-100 text-gray-700">
                                                 <Clock className="w-3 h-3" />
-                                                {formatConfidence(selectedApp.compliance_report.confidence_score)} Confidence
+                                                {formatConfidence(selectedApp.compliance_report?.confidence_score ?? 0)} Confidence
                                             </Badge>
                                         </div>
                                         <div className="flex gap-2 flex-wrap">
@@ -363,7 +364,7 @@ export default function OfficerPage() {
                                                 <AlertTitle className="text-sm font-bold mb-0 text-green-800 dark:text-green-300">No Blockers</AlertTitle>
                                             </Alert>
                                         )}
-                                        {selectedApp.compliance_report.confidence_score < 0.6 && (
+                                        {(selectedApp.compliance_report?.confidence_score ?? 1) < 0.6 && (
                                             <Alert variant="destructive" className="mt-2 py-2 px-3">
                                                 <AlertTriangle className="h-4 w-4" />
                                                 <AlertDescription className="text-xs">Manual review strongly recommended</AlertDescription>
@@ -416,8 +417,8 @@ export default function OfficerPage() {
                                                 <Badge variant="secondary" className="flex items-center">
                                                     <Clock className="w-3 h-3 mr-1" /> {Math.round(selectedApp.time_saved_seconds / 60)} mins saved
                                                 </Badge>
-                                                <Badge variant="outline" className={getStatusColor(selectedApp.compliance_report.status)}>
-                                                    AI Status: {selectedApp.compliance_report.status}
+                                                <Badge variant="outline" className={getStatusColor(selectedApp.compliance_report?.status ?? 'pending')}>
+                                                    AI Status: {selectedApp.compliance_report?.status ?? 'Pending'}
                                                 </Badge>
                                             </div>
                                         </div>
@@ -475,7 +476,7 @@ export default function OfficerPage() {
                                             </div>
 
                                             {/* 🔴 PHASE 1: DEPARTMENT-WISE BUCKETING & INLINE EXPLAINABILITY */}
-                                            {selectedApp.compliance_report.issues.length > 0 ? (
+                                            {(selectedApp.compliance_report?.issues.length ?? 0) > 0 ? (
                                                 <div className="space-y-4">
                                                     {Object.entries(groupIssuesByDepartment(selectedApp)).map(([deptName, deptIssues]) => (
                                                         <div key={deptName}>
@@ -487,7 +488,7 @@ export default function OfficerPage() {
                                                             )}
                                                             <div className="space-y-3">
                                                                 {deptIssues.map((issue, idx) => {
-                                                                    const globalIdx = selectedApp.compliance_report.issues.indexOf(issue);
+                                                                    const globalIdx = selectedApp.compliance_report?.issues.indexOf(issue) ?? idx;
                                                                     const risk = issue.severity;
                                                                     const dept = issue.department || 'Other';
                                                                     return (
@@ -585,8 +586,8 @@ export default function OfficerPage() {
                                                 <FileText className="w-4 h-4 mr-2" /> Document Checklist
                                             </h4>
                                             <div className="space-y-2">
-                                                {selectedApp.compliance_report.missing_documents.length > 0 ? (
-                                                    selectedApp.compliance_report.missing_documents.map((doc, idx) => (
+                                                {(selectedApp.compliance_report?.missing_documents.length ?? 0) > 0 ? (
+                                                    selectedApp.compliance_report!.missing_documents.map((doc, idx) => (
                                                         <div key={idx} className="flex items-center gap-2 p-2 bg-muted/30 rounded border">
                                                             <XCircle className="w-4 h-4 text-destructive" />
                                                             <span className="text-sm">{doc}</span>

@@ -1,0 +1,25 @@
+ENVIRONMENTAL CLEARANCE (EC)
+Issued by: State Level Environment Impact Assessment Authority (SEIAA)
+Category: B2 (Building & Construction)
+
+Project: Harmony Gardens Township
+Total Built-up Area: 45,000 sq.m (Requires EC)
+
+Conditions for Compliance:
+1. Water Usage:
+   - Fresh Water Requirement: 135 LPCD reduced to 90 LPCD via low-flow fixtures.
+   - Recycled Water: 100% of treated grey water must be used for flushing & gardening.
+   - Release to Drain: Zero (During non-monsoon).
+
+2. Energy Conservation:
+   - Solar Water Heaters: Mandatory for top 3 floors of all blocks.
+   - Solar PV: Minimum 5% of connected load for common areas lighting.
+   - LED Lighting: 100% in common areas.
+
+3. Air & Noise Environment:
+   - DG Sets: Acoustic enclosure mandatory (Noise < 75 dB at 1m).
+   - Construction Phase: Dust screens (6m height) around site periphery.
+
+4. Green Cover:
+   - Number of trees to be planted: 1 tree / 80 sq.m = Approx 275 trees.
+   - Species: Native, broad-leaved species (Neem, Honge, etc).

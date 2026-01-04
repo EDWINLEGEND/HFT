@@ -1,0 +1,40 @@
+# RESIDENTIAL TOWNSHIP & APARTMENT REGULATIONS (2024)
+
+## 1. ENVIRONMENTAL CLEARANCE (EC)
+### 1.1 Thresholds
+- **Category B2:** Built-up area ≥ 20,000 sq.m and < 1,50,000 sq.m. Requires EC from SEIAA.
+- **Category B1:** Area ≥ 1,50,000 sq.m. Requires EIA study.
+
+## 2. LANDSCAPING & GREEN COVER
+### 2.1 Tree Plantation
+- Minimum 1 tree for every 80 sq.m of plot area.
+- Unpaved area must be at least 15% of total plot area to facilitate groundwater recharge.
+- Native species preferred to minimize water consumption.
+
+## 3. WATER SUSTAINABILITY
+### 3.1 Rain Water Harvesting (RWH)
+- Storage capacity design: 20 liters per sq.m of roof area.
+- Recharge Pits: Minimum 2 pits for plot size > 500 sq.m.
+
+### 3.2 Grey Water Recycling
+- Dual Plumbing System mandatory for projects > 50 units.
+- Recycled water must be used for flushing and gardening (Zero potable water for flushing).
+
+## 4. BUILDING SETBACKS & OPEN SPACES
+| Building Height (m) | Minimum Setback (m) |
+|---------------------|---------------------|
+| Up to 10m           | 3.0m                |
+| 10m - 15m           | 5.0m                |
+| 15m - 18m           | 6.0m                |
+| Above 18m           | H/3 (Max 16m)       |
+
+## 5. WASTE MANAGEMENT
+- **Organic Waste Converter (OWC):** Mandatory for > 50 dwelling units.
+- **Segregation:** Three-bin system at source (Bio-degradable, Non-bio, Domestic Hazardous).
+
+## 6. AMENITIES
+- **Solar Water Heating:** Mandatory for top 3 floors minimum.
+- **Health:** Well-ventilated community hall/gym area required.
+
+---
+*Note: Violation of setback norms allows local bodies to demolish unauthorized extensions.*

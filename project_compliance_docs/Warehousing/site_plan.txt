@@ -1,0 +1,26 @@
+WAREHOUSE LOGISTICS HUB SITE PLAN
+Project: FastTrack Logistics Hub
+Location: NH-44, Logistics Park Sector 3
+Total Site Area: 10 Acres (4,35,600 sq.ft)
+Classification: Grade A - Modern Warehouse
+
+Layout Specifications:
+1. Warehouse Block A (FMCG): 50,000 sq.ft
+   - Height: 12m clear height (for 7-high racking)
+   - Flooring: Laser screed FM2 floor.
+2. Warehouse Block B (Cold Storage): 25,000 sq.ft
+   - Temperate Zones: +20C, +4C, -20C.
+3. Truck Apron Area: 33m width (Concrete paved)
+4. Admin & Canteen Block: 5,000 sq.ft
+
+Docking Bays:
+- Block A: 10 Dock Levelers (1.2m height)
+- Block B: 4 Insulated Docks with Dock Shelters.
+
+Entry/Exit:
+- Main Gate: 18m wide (allowing parallel entry/exit of trailers).
+- Weighbridge: 60 Ton class near entrance.
+
+Fire Services:
+- Fire Tank: 6 Lakh Liters Underground Tank (North Corner)
+- Pump Room: Adjacent to tank.

@@ -1,0 +1,43 @@
+# WAREHOUSE & LOGISTICS STORAGE REGULATIONS (2024)
+
+## 1. STRUCTURAL SAFETY
+### 1.1 Floor Load Capacity
+- Industrial Grade Flooring (VDF) required.
+- Minimum load bearing capacity: 5 Tonnes/sq.m.
+- Anti-skid and dust-proof coating recommended.
+
+### 1.2 Clear Heights
+- Minimum clear height for pallet racking: 9m.
+- Ventilation: Ridge ventilators required for air circulation.
+
+## 2. FIRE SAFETY (HIGH HAZARD STORAGE)
+### 2.1 Active Protection
+- **Sprinklers:** Early Suppression Fast Response (ESFR) sprinklers mandatory for rack storage > 4m height.
+- **Water Storage:** Dedicated fire tank capacity minimum 2,00,000 liters.
+- **Hydrant Ring Main:** External hydrant system surrounding the building.
+
+### 2.2 Compartmentation
+- Maximum compartment size: 2500 sq.m per fire separation wall.
+- Fire Walls: 4-hour fire rating, extending 1m above roof line.
+
+## 3. LOADING & UNLOADING (DOCKING)
+### 3.1 Dock Levelers
+- One dock per 1000 sq.m of area.
+- Dock height: 1.2m standard.
+- Turning radius: Minimum 25m for 40ft trailers.
+
+## 4. LIGHTING & ELECTRICAL
+- **Lighting:** LED High bay lights providing 200 Lux in aisles, 300 Lux in staging areas.
+- **Electrical Safety:** All wiring in FRLS (Fire Retardant Low Smoke) cables.
+- **Battery Charging:** Separate ventilated room for forklift battery charging (Hydrogen gas hazard).
+
+## 5. SECURITY & SURVEILLANCE
+- CCTV Coverage: 100% coverage of entry/exit and loading bays.
+- Perimeter Wall: Minimum 2.4m height with barbed wire fencing.
+
+## 6. WORKER AMENITIES
+- Separate restrooms for truck drivers and warehouse staff.
+- Canteen/Rest area mandatory for facilities > 10,000 sq.ft.
+
+---
+*Specific compliance required for Cold Storage under Ammonia Safety Rules 1987.*

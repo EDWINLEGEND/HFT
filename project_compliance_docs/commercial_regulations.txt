@@ -1,0 +1,39 @@
+# COMMERCIAL COMPLEX BUILDING BYE-LAWS & REGULATIONS (2024)
+
+## 1. FIRE & LIFE SAFETY
+### 1.1 Fire Prevention
+- **Fire Extinguishers:** One 5kg ABC type extinguisher for every 200 sq.m of floor area.
+- **Hose Reels:** Located near every staircase, covering 30m radius.
+- **Sprinkler System:** Mandatory for all basements and buildings > 15m height.
+- **Fire Alarm:** Manual Call Points (MCP) and automatic smoke detectors in all corridors and common areas.
+
+### 1.2 Egress & Evacuation
+- **Staircase Width:** Minimum 1.50m for commercial buildings.
+- **Travel Distance:** Maximum 30m from any point to the nearest exit.
+- **Refuge Area:** Required at 24m height and every 15m thereafter. Area > 15 sq.m.
+
+## 2. PARKING STANDARDS
+### 2.1 Vehicle Parking Requirements
+- **Commercial Offices:** 1 Car Space (ECS) per 50 sq.m of floor area.
+- **Retail / Malls:** 1 ECS per 40 sq.m.
+- **Visitors Parking:** Additional 10% of total required parking.
+- **Electric Vehicle (EV) Charging:** Minimum 20% of parking slots must have EV charging infrastructure.
+
+## 3. BUILDING ENVELOPE & ENERGY
+### 3.1 ECBC Compliance
+- **Glass Facade:** Solar Heat Gain Coefficient (SHGC) must be < 0.25.
+- **Lighting Power Density:** Maximum 10.8 W/sq.m for interior office areas.
+- **Rainwater Harvesting:** Mandatory recharge pits @ 1 per 500 sq.m of terrace area.
+
+## 4. ACCESSIBILITY (DIVYANGJAN)
+### 4.1 Ramps & Entrances
+- **Ramp Gradient:** Max 1:12 slope with handrails on both sides.
+- **Entrance:** At least one main entrance must be accessible (width > 1200mm).
+- **Toilets:** At least one unisex accessible toilet on Ground Floor.
+
+## 5. SANITATION & WASTE
+- **Solid Waste:** Segregated application for Wet, Dry, and E-waste.
+- **Sewage:** Connection to municipal line is mandatory. If unavailable, on-site STP required.
+
+---
+*Warning: Occupancy Certificate (OC) will be withheld if Fire NOC is not renewed annually.*

@@ -1,0 +1,28 @@
+TRAFFIC & PARKING MANAGEMENT PLAN
+Project: Skyline Business Center
+
+1. Parking Demand Calculation:
+   - Total Built-up Area: 1,20,000 sq.ft
+   - Commercial Norm: 1 ECS (Equivalent Car Space) per 500 sq.ft
+   - Required Spots: 240 ECS
+
+2. Proprosed Parking Layout:
+   Basement Level 1:
+   - Car Slots: 100 Nos
+   - Two-Wheeler: 150 Nos
+   - Ramp Width: 7.5m (Two way) slope 1:12
+
+   Basement Level 2:
+   - Car Slots: 120 Nos
+   - Mechanical Stack Parking: 20 Nos
+   - EV Charging Stations: 10 Bays (Fast Charging)
+
+   Surface Parking:
+   - Visitor slots: 25 Nos (Near entrance)
+   - Drop-off Zone: Covered porch 6m wide.
+
+3. Traffic Circulation:
+   - Entry: Gate 1 (Left In)
+   - Exit: Gate 1 (Left Out)
+   - Internal Signage: Reflectorized directional arrows.
+   - Pedestrian Walkways: 1.5m wide raised footpath along periphery.

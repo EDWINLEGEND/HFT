@@ -3,7 +3,7 @@
 import { useApplication } from "@/lib/context";
 
 export default function SidebarTimeline() {
-    const { completedMilestones } = useApplication();
+    const { completedMilestones, setStage } = useApplication();
 
     const sections = [
         {
@@ -32,19 +32,34 @@ export default function SidebarTimeline() {
                         {section.items.map((item) => {
                             const isCompleted = completedMilestones.includes(item.id);
 
+                            // Map ID to Stage for navigation
+                            const handleClick = () => {
+                                switch (item.id) {
+                                    case 'app_created': setStage('TYPE_SELECTION'); break;
+                                    case 'project_selected': setStage('UPLOAD'); break;
+                                    case 'details_filled': setStage('FORM'); break;
+                                    case 'compliance_check': setStage('RESULTS'); break;
+                                }
+                            };
+
                             return (
-                                <div key={item.id} className="relative pl-6 pb-4 last:pb-0 group">
+                                <div
+                                    key={item.id}
+                                    className="relative pl-6 pb-4 last:pb-0 group cursor-pointer"
+                                    onClick={handleClick}
+                                >
                                     {/* Node */}
                                     <div className={`
                                         absolute -left-[5px] top-0.5 w-[9px] h-[9px] rounded-full border-2 transition-all duration-300 z-10
                                         ${isCompleted
-                                            ? 'bg-[#505645] border-[#505645]'
-                                            : 'bg-white border-[#D0D1C9]'}
+                                            ? 'bg-[#505645] border-[#505645] group-hover:scale-125'
+                                            : 'bg-white border-[#D0D1C9] group-hover:border-[#505645]'}
                                     `}></div>
 
                                     <span className={`
                                         text-xs font-medium leading-none block transition-colors duration-300
                                         ${isCompleted ? 'text-[#1A1A1A]' : 'text-[#8A8A8A]'}
+                                        group-hover:text-[#505645]
                                     `}>
                                         {item.label}
                                     </span>

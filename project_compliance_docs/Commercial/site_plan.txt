@@ -1,0 +1,24 @@
+COMMERCIAL COMPLEX SITE PLAN
+Project: Skyline Business Center
+Plot No: 88, Central Business District
+Total Land Area: 30,000 sq.ft
+Building Height: 45m (G+10 Floors)
+
+Site Layout Data:
+1. Main Building Footprint: 12,000 sq.ft
+2. Landscaped Area: 4,500 sq.ft (15%)
+3. Driveway Width: 9m (Two-way circulation)
+4. Surface Parking: 5,000 sq.ft (Visitors)
+
+Fire Tender Path:
+- 6m wide continuous peripheral road around the building.
+- Turning Radius: 9m at corners.
+
+Entrances:
+- Main Gate: 12m width (North facing)
+- Service Gate: 6m width (East facing)
+
+Services:
+- Transformer Yard: Rear Setback (South)
+- Generator Room: Basement Level 1
+- Fire Tank: Underground (200,000 Liters)

@@ -1,0 +1,22 @@
+SOLID WASTE MANAGEMENT PLAN
+Project: Harmony Gardens
+Population: 135 households (~600 residents)
+Estimated Waste Generation: 300 kg/day
+
+1. Segregation at Source (Household Level):
+   - Green Bin: Wet Waste (Kitchen scraps)
+   - Blue Bin: Dry Waste (Paper, plastic, metal)
+   - Red Bin: Hazardous/Sanitary waste
+
+2. On-Site Processing (Wet Waste):
+   - Technology: Organic Waste Converter (OWC) - Semi-Automatic
+   - Capacity: 200 kg/batch
+   - Location: Basement ramp designated area.
+   - Output: Manure to be used for landscaping.
+
+3. Dry Waste Handover:
+   - Storage Room: 200 sq.ft area in Stilt floor.
+   - Disposal: Weekly pickup by authorized municipal contractors / recyclers.
+
+4. Reject Waste:
+   - Inert material sent to Sanitary Landfill only (Target < 10%).

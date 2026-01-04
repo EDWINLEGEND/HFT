@@ -1,0 +1,29 @@
+FACTORY LICENSE APPLICATION PLAN
+Rule 3(1) - Approval of Plans
+Factory Act 1948
+
+1. Applicant: GreenTech Manufacturing Ltd
+2. Max Workers Proposed: 
+   - Day Shift: 120
+   - Night Shift: 40
+   - Total: 160
+
+3. Ventilation Calculations:
+   - Shop Floor Area: 15,000 sq.ft
+   - Volume: 225,000 cu.ft
+   - Required Air Changes: 6 ACPH
+   - Proposed: Turbo Ventilators (12 Nos) + Ridge Vent
+
+4. Welfare Amenities Plan:
+   - Toilets: 4 Male, 4 Female (As per 1:50 ratio)
+   - Urinals: 6 Nos
+   - Drinking Water Points: 3 Locations (RO Purified)
+   - Lunch Room: 800 sq.ft (Capacity 50 persons/shift)
+   - First Aid Room: Provided near Time Office
+
+5. Safety Measures:
+   - Fire Hydrant Line: 4 Inch Ring Main
+   - Emergency Exits: 4 Nos (Width 2.0m each)
+   - Lightning Arrestor: Provided on highest point of roof.
+
+I certify that the building stability certificate is attached herewith.

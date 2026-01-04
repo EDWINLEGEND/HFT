@@ -1,0 +1,31 @@
+STRUCTURAL STABILITY CERTIFICATE
+To,
+The Licensing Authority,
+Department of Warehousing Regulation.
+
+Project: FastTrack Logistics Hub - Block A & B
+
+I, R.K. Associates (M.E. Structures), Structural Engineer Reg No. STR/2012/55, hereby certify the following:
+
+1. Design Standards Followed:
+   - IS 800:2007 (Steel Structures)
+   - IS 456:2000 (RCC Structures)
+   - IS 875 (Wind Loads - Basic Wind Speed 39 m/s)
+   - Seismic Zone: Zone II
+
+2. Load Bearing Capacity:
+   - Warehouse Flooring: VDF Reinforced Concrete slab.
+   - Design Live Load: 7 Tonnes per sq.meter.
+   - Checked for: Pallet Racking Point Loads and Forklift Dynamics (MHE).
+
+3. Roofing System:
+   - Pre-Engineered Building (PEB) Structural Steel frames.
+   - Standing Seam Roof Sheeting (0.55mm TCT Galvalume).
+   - Daylight Panels: 5% of Roof Area.
+
+4. Stability Statement:
+   The structure is designed to be safe and stable for the intended storage operations for a design life of 50 years. There are no signs of distress or settlement.
+
+Date: 20-Feb-2024
+Signature: [Digital Seal]
+R.K. Associates

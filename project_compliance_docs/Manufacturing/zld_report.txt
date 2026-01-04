@@ -1,0 +1,29 @@
+ZERO LIQUID DISCHARGE (ZLD) TECHNICAL REPORT
+Project: GreenTech Manufacturing ETP System
+
+1. Design Basis:
+   - Inlet Flow: 10 KLD (Maximum)
+   - Operating Hours: 20 Hours/Day
+   - Nature of Effluent: Oily wash water + Phospating sludge
+
+2. Treatment Logic:
+   Step 1: Collection Tank (Equalization)
+   Step 2: Oil & Grease Trap (Skimmer)
+   Step 3: Chemical Dosing (Lime + Alum) -> Flash Mixer
+   Step 4: Tube Settler (Primary Clarification)
+   Step 5: Aeration Tank (MBBR Media)
+   Step 6: Secondary Clarifier
+   Step 7: Pressure Sand Filter (PSF) + Activated Carbon Filter (ACF)
+   Step 8: Reverse Osmosis (RO) Plant
+   Step 9: Multiple Effect Evaporator (MEE) for RO Rejects
+
+3. Expected Output Quality (Permeate):
+   - pH: 6.5 - 7.5
+   - TDS: < 100 ppm
+   - COD: < 10 ppm
+   - BOD: < 5 ppm
+   *Recycled water to be used for Cooling Tower makeup and Floor Washing.*
+
+4. Sludge Management:
+   - ME Sludge (Solid): Bagged and stored in Haz Waste Shed.
+   - Disposal: Sent to TSDF (Ramky Enviro Engineers).

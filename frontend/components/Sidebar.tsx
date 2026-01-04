@@ -13,7 +13,8 @@ import {
     Shield,
     Briefcase,
     Menu,
-    Home
+    Home,
+    History
 } from 'lucide-react';
 import {
     Select,
@@ -23,6 +24,8 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import SidebarTimeline from './SidebarTimeline';
+import { CivicAssistAPI } from '@/lib/api';
+import { useApplication } from '@/lib/context';
 
 export default function Sidebar() {
     const pathname = usePathname();
@@ -66,8 +69,11 @@ export default function Sidebar() {
                 {role === 'applicant' ? (
                     <div className="space-y-1">
                         <div className="px-3 py-2 text-[10px] font-bold text-[#8A8A8A] uppercase tracking-widest mb-1">Applicant</div>
-                        <NavItem href="/applicant" icon={FileText} label="Applications" active={pathname === '/applicant'} />
-                        {pathname.includes('/applicant') && <SidebarTimeline />}
+                        <NavItem href="/applicant" icon={FileText} label="New Application" active={pathname === '/applicant'} />
+                        {pathname === '/applicant' && <SidebarTimeline />}
+
+                        <NavItem href="/applicant/history" icon={History} label="Past Applications" active={pathname === '/applicant/history'} />
+
                         <NavItem href="#" icon={Settings} label="Settings" />
                     </div>
                 ) : (
@@ -109,8 +115,10 @@ export default function Sidebar() {
                         </SelectItem>
                         <SelectItem value="officer">
                             <div className="flex items-center gap-2">
-                                <Shield className="w-3 h-3 text-[#1A1A1A]" />
-                                <span>Officer</span>
+                                <div className="flex items-center gap-2">
+                                    <Shield className="w-3 h-3 text-[#1A1A1A]" />
+                                    <span>Officer</span>
+                                </div>
                             </div>
                         </SelectItem>
                     </SelectContent>

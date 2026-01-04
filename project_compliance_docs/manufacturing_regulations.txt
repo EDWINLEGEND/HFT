@@ -1,0 +1,52 @@
+# MANUFACTURING UNIT COMPLIANCE REGULATIONS (2024 EDITION)
+
+## 1. POLLUTION CONTROL BOARD (PCB) STANDARDS
+### 1.1 Water Pollution Control (Zero Liquid Discharge)
+All manufacturing units classified under the "Red" and "Orange" categories must implement a Zero Liquid Discharge (ZLD) system.
+- **Effluent Treatment Plant (ETP):** Mandatory for units discharging > 10 KLD of trade effluent.
+- **Treated Water Quality:**
+  - pH: 6.5 - 8.5
+  - BOD (3 days at 27°C): < 30 mg/l
+  - COD: < 250 mg/l
+  - TSS: < 100 mg/l
+  - Oil & Grease: < 10 mg/l
+
+### 1.2 Air Pollution Control
+Units contributing to particulate matter emissions must install appropriate Air Pollution Control Devices (APCD) such as:
+- Electrostatic Precipitators (ESP) for boilers > 2 TPH.
+- Bag Filters for cement/dust generating units.
+- Stack Height: Minimum H = 14(Q)^0.3 where Q is SO2 emission rate in kg/hr, or strictly 30m whichever is higher.
+
+## 2. HAZARDOUS WASTE MANAGEMENT
+### 2.1 Storage and Labeling
+- Designated storage area must be impervious and covered.
+- Containers must be labeled with "HAZARDOUS WASTE" in fluorescent yellow background with red letters.
+- Maximum storage period: 90 days.
+
+### 2.2 Disposal
+- Must be handed over only to authorized TSDF (Treatment, Storage, and Disposal Facilities).
+- Manifest system (Form 10) must be maintained for every consignment.
+
+## 3. INDUSTRIAL SAFETY & HEALTH
+### 3.1 Factory Act Compliance
+- **Ventilation:** Adequate air changes per hour (minimum 6 ACPH) in work halls.
+- **Lighting:** Minimum 500 Lux in production areas.
+- **Exits:** Minimum two distinct exits for every floor/room > 500 sq.ft.
+- **Fire Safety:**
+  - Hydrant system mandatory for built-up area > 500 sq.m.
+  - Automatic Sprinklers required in high-hazard zones (e.g., chemical storage).
+
+## 4. LABOR WELFARE
+- **Rest Rooms:** Mandatory if > 150 workers.
+- **Crèche:** Mandatory if > 30 women workers.
+- **Drinking Water:** 1 point for every 50 workers, located at least 6m away from toilets.
+
+## 5. DOCUMENTATION REQUIREMENTS FOR APPROVAL
+1. **Consent to Establish (CTE):** From State Pollution Control Board.
+2. **Factory License:** From Department of Factories & Boilers.
+3. **Fire NOC:** From Fire & Emergency Services.
+4. **Detailed Project Report (DPR):** Including process flow, chemical mass balance, and water balance chart.
+5. **On-site Emergency Plan:** For handling hazardous chemical leaks.
+
+---
+*Failure to comply with ZLD norms results in immediate closure under Section 33A of the Water Act.*

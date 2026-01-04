@@ -1,0 +1,23 @@
+RESIDENTIAL LAYOUT PLAN
+Project: Harmony Gardens Township
+Location: Sy. No 102/3, Green Valley
+Total Area: 5 Acres (2,17,800 sq.ft)
+Type: Group Housing (Apartments + Villas)
+
+Block Configuration:
+- Block A (Apartments): S+8 Floors (60 units)
+- Block B (Apartments): S+8 Floors (60 units)
+- Villas: 15 Nos (G+1 duplex)
+
+Open Space Calculation:
+- Parks & Playgrounds: 15% (32,670 sq.ft)
+- Civic Amenities: 5% (10,890 sq.ft)
+- Roads: 25% internal circulation.
+
+Setbacks (High Rise Blocks):
+- All sides: 9.0m min. clearance.
+- Distance between Block A & B: 16m.
+
+Water Bodies:
+- Natural Swale: Preserved on Northern Boundary
+- RWH Pits: 10 locations identified along storm water drain.

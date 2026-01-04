@@ -1,0 +1,38 @@
+CONSENT TO ESTABLISH (CTE) - DRAFT APPLICATION
+To,
+The Member Secretary,
+State Pollution Control Board.
+
+Subject: Application for Consent to Establish under Water Act 1974 & Air Act 1981
+
+1. Industry Details:
+   Name: GreenTech Manufacturing Ltd.
+   Sector: Light Engineering / Assembly (Orange Category)
+   Investment: INR 15 Crores
+
+2. Water Consumption Details:
+   - Industrial Cooling: 15 KLD
+   - Domestic Usage: 5 KLD
+   - Gardening: 2 KLD
+   - Total Source: KIADB Supply + Borewell (1 No.)
+
+3. Effluent Generation:
+   - Trade Effluent: 8 KLD
+   - Domestic Sewage: 4 KLD
+   - Treatment Method: 
+     * Trade Effluent -> 10 KLD ETP -> RO -> Reuse (ZLD System)
+     * Domestic -> Septic Tank + Soak Pit
+
+4. Air Emission Stacks:
+   - DG Set (500 kVA): Stack Height = 4.5m above roof
+   - Paint Booth Scrubber: Stack Height = 12m from GL
+
+5. Hazardous Waste Management:
+   - Category 5.1 (User Oil): 500 L/Year -> Rejected to Authorized Recycler
+   - Category 33.1 (Empty Chemical Barrels): 100 Nos/Year
+
+Declaration:
+I hereby declare that we will install the proposed Zero Liquid Discharge system before commissioning operations.
+
+Authorized Signatory
+Manager, GreenTech Mfg.

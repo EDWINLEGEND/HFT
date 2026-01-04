@@ -1,0 +1,28 @@
+PROJECT SITE PLAN SPECIFICATION
+Project Name: GreenTech Manufacturing Unit
+Location: Plot 45A, Industrial Estate Phase II
+Total Land Area: 45,000 sq.ft
+Proposed Built-up Area: 28,000 sq.ft
+
+Layout Details:
+1. Production Hall: 15,000 sq.ft (Center)
+   - Height: 12m clear height
+   - Flooring: VDF Concrete
+2. Raw Material Store: 5,000 sq.ft (North Wing)
+3. Finished Goods Store: 5,000 sq.ft (South Wing)
+4. Admin Block: 3,000 sq.ft (G+1, Front Setback)
+
+Setbacks:
+- Front: 12m (Green Belt + Parking)
+- Rear: 9m (Utility Corridor)
+- Sides: 6m each (Fire Tender Path)
+
+Utilities Locations:
+- Transformer Yard: North-East Corner
+- ETP Plant: South-West Corner (Away from admin)
+- UG Water Tank: North-West Corner
+- Main Gate Width: 7.5m
+
+Coordinates:
+Latitude: 12.9716° N
+Longitude: 77.5946° E

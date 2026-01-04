@@ -557,5 +557,276 @@
     "rejection_reason": null,
     "time_saved_seconds": 1200.0,
     "issue_overrides": null
+  },
+  {
+    "application_data": {
+      "industry_name": "GreenLeaf Processing Unit",
+      "square_feet": "15000",
+      "water_source": "Municipal Supply + Borewell",
+      "drainage": "",
+      "air_pollution": "",
+      "waste_management": "",
+      "nearby_homes": "",
+      "water_level_depth": "",
+      "document_url": null
+    },
+    "compliance_report": {
+      "application_id": "GreenLeaf Processing Unit",
+      "status": "partially_compliant",
+      "confidence_score": 0.85,
+      "issues": [
+        {
+          "issue_type": "missing_document",
+          "severity": "medium",
+          "description": "The application does not provide a document URL, which is required for checking the presence of mandatory documents such as valid industrial license and Fire Safety Certificate.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 7.1: Mandatory Documents",
+          "department": "documentation"
+        },
+        {
+          "issue_type": "ambiguity",
+          "severity": "low",
+          "description": "The application does not specify if GreenLeaf Processing Unit is a 'Red Category' chemical industry, which determines the requirement for implementing a Zero Liquid Discharge (ZLD) system.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules 2024, Rule 3: Zero Liquid Discharge",
+          "department": "environment"
+        },
+        {
+          "issue_type": "violation",
+          "severity": "medium",
+          "description": "The application does not provide a valid Fire Safety Certificate, which is required for operation.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 2.3: Fire Safety Certificate",
+          "department": "fire"
+        }
+      ],
+      "missing_documents": [
+        "The application does not provide a document URL, which is required for checking the presence of mandatory documents such as valid industrial license and Fire Safety Certificate."
+      ],
+      "recommendations": [
+        "Obtain and provide a valid Fire Safety Certificate",
+        "Determine if GreenLeaf Processing Unit is a 'Red Category' chemical industry",
+        "Install appropriate air pollution control equipment",
+        "Maintain minimum distance from residential areas",
+        "Obtain water source approval and install water treatment facilities (if applicable)",
+        "Implement rainwater harvesting systems",
+        "Segregate waste into hazardous and non-hazardous categories"
+      ],
+      "regulation_coverage": 0.9,
+      "generated_at": "2026-01-04T22:15:18.763449"
+    },
+    "submission_reason": null,
+    "id": "15e6e9d6-f158-4dfd-bb2d-6c73255c56f5",
+    "submitted_at": "2026-01-04T22:15:34.068790",
+    "status": "submitted",
+    "officer_action": null,
+    "officer_notes": null,
+    "rejection_reason": null,
+    "time_saved_seconds": 1200.0,
+    "issue_overrides": null
+  },
+  {
+    "application_data": {
+      "industry_name": "",
+      "square_feet": "",
+      "water_source": "",
+      "drainage": "",
+      "air_pollution": "",
+      "waste_management": "",
+      "nearby_homes": "",
+      "water_level_depth": "",
+      "document_url": null
+    },
+    "compliance_report": {
+      "application_id": "",
+      "status": "partially_compliant",
+      "confidence_score": 0.85,
+      "issues": [
+        {
+          "issue_type": "missing_document",
+          "severity": "high",
+          "description": "The application does not mention the implementation of a Zero Liquid Discharge (ZLD) system, which is required for Red Category chemical industries according to Regulation 2. This issue poses a high risk as non-compliance may result in serious environmental consequences and legal penalties.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Rule 3",
+          "department": "environment"
+        },
+        {
+          "issue_type": "violation",
+          "severity": "medium",
+          "description": "The application does not provide information about the installation and maintenance of fire extinguishers in compliance with the specified regulation. This issue poses a medium risk as non-compliance may result in potential fire hazards.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 2.1, Fire Extinguishers",
+          "department": "fire"
+        },
+        {
+          "issue_type": "ambiguity",
+          "severity": "low",
+          "description": "The application does not specify the exact type and size of the industrial unit, making it difficult to determine which buffer zone category applies. This issue poses a low risk as long as the industrial unit remains in compliance with the minimum required buffer zone distances.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 4.1, Residential Buffer Zone",
+          "department": "local_body"
+        }
+      ],
+      "missing_documents": [
+        "The application does not mention the implementation of a Zero Liquid Discharge (ZLD) system, which is required for Red Category chemical industries according to Regulation 2. This issue poses a high risk as non-compliance may result in serious environmental consequences and legal penalties."
+      ],
+      "recommendations": [
+        "Obtain necessary clearances before commencing operations",
+        "Implement Zero Liquid Discharge (ZLD) system for Red Category industries",
+        "Maintain and inspect fire extinguishers quarterly",
+        "Install and maintain emergency exits as per regulations",
+        "Obtain a valid Fire Safety Certificate from the Fire Department",
+        "Install appropriate air pollution control equipment",
+        "Obtain water source approval from the Water Authority",
+        "Implement rainwater harvesting systems",
+        "Segregate waste into hazardous and non-hazardous categories",
+        "Dispose of hazardous waste through authorized agencies only",
+        "Maintain waste disposal records for minimum 5 years",
+        "Submit quarterly waste management reports"
+      ],
+      "regulation_coverage": 0.9,
+      "generated_at": "2026-01-04T22:26:38.934280"
+    },
+    "submission_reason": null,
+    "id": "6406b942-6b77-43a7-91a5-dde084a321d2",
+    "submitted_at": "2026-01-04T22:26:52.802190",
+    "status": "submitted",
+    "officer_action": null,
+    "officer_notes": null,
+    "rejection_reason": null,
+    "time_saved_seconds": 1200.0,
+    "issue_overrides": null
+  },
+  {
+    "application_data": {
+      "industry_name": "GreenLeaf Processing Unit",
+      "square_feet": "15000",
+      "water_source": "Municipal Supply + Borewell",
+      "drainage": "",
+      "air_pollution": "",
+      "waste_management": "",
+      "nearby_homes": "",
+      "water_level_depth": "",
+      "document_url": null
+    },
+    "compliance_report": {
+      "application_id": "",
+      "status": "partially_compliant",
+      "confidence_score": 0.85,
+      "issues": [
+        {
+          "issue_type": "missing_document",
+          "severity": "high",
+          "description": "The application does not mention the implementation of a Zero Liquid Discharge (ZLD) system, which is required for Red Category chemical industries according to Regulation 2. This issue poses a high risk as non-compliance may result in serious environmental consequences and legal penalties.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Rule 3",
+          "department": "environment"
+        },
+        {
+          "issue_type": "violation",
+          "severity": "medium",
+          "description": "The application does not provide information about the installation and maintenance of fire extinguishers in compliance with the specified regulation. This issue poses a medium risk as non-compliance may result in potential fire hazards.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 2.1, Fire Extinguishers",
+          "department": "fire"
+        },
+        {
+          "issue_type": "ambiguity",
+          "severity": "low",
+          "description": "The application does not specify the exact type and size of the industrial unit, making it difficult to determine which buffer zone category applies. This issue poses a low risk as long as the industrial unit remains in compliance with the minimum required buffer zone distances.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 4.1, Residential Buffer Zone",
+          "department": "local_body"
+        }
+      ],
+      "missing_documents": [
+        "The application does not mention the implementation of a Zero Liquid Discharge (ZLD) system, which is required for Red Category chemical industries according to Regulation 2. This issue poses a high risk as non-compliance may result in serious environmental consequences and legal penalties."
+      ],
+      "recommendations": [
+        "Obtain necessary clearances before commencing operations",
+        "Implement Zero Liquid Discharge (ZLD) system for Red Category industries",
+        "Maintain and inspect fire extinguishers quarterly",
+        "Install and maintain emergency exits as per regulations",
+        "Obtain a valid Fire Safety Certificate from the Fire Department",
+        "Install appropriate air pollution control equipment",
+        "Obtain water source approval from the Water Authority",
+        "Implement rainwater harvesting systems",
+        "Segregate waste into hazardous and non-hazardous categories",
+        "Dispose of hazardous waste through authorized agencies only",
+        "Maintain waste disposal records for minimum 5 years",
+        "Submit quarterly waste management reports"
+      ],
+      "regulation_coverage": 0.9,
+      "generated_at": "2026-01-04T22:26:38.934280"
+    },
+    "submission_reason": null,
+    "id": "ea17e1e2-02fe-451d-9f4c-121f8078db8f",
+    "submitted_at": "2026-01-04T22:27:21.328976",
+    "status": "submitted",
+    "officer_action": null,
+    "officer_notes": null,
+    "rejection_reason": null,
+    "time_saved_seconds": 1200.0,
+    "issue_overrides": null
+  },
+  {
+    "application_data": {
+      "industry_name": "GreenLeaf Processing Unit",
+      "square_feet": "15000",
+      "water_source": "Municipal Supply + Borewell",
+      "drainage": "",
+      "air_pollution": "",
+      "waste_management": "",
+      "nearby_homes": "",
+      "water_level_depth": "",
+      "document_url": null
+    },
+    "compliance_report": {
+      "application_id": "",
+      "status": "partially_compliant",
+      "confidence_score": 0.85,
+      "issues": [
+        {
+          "issue_type": "missing_document",
+          "severity": "high",
+          "description": "The application does not mention the implementation of a Zero Liquid Discharge (ZLD) system, which is required for Red Category chemical industries according to Regulation 2. This issue poses a high risk as non-compliance may result in serious environmental consequences and legal penalties.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Rule 3",
+          "department": "environment"
+        },
+        {
+          "issue_type": "violation",
+          "severity": "medium",
+          "description": "The application does not provide information about the installation and maintenance of fire extinguishers in compliance with the specified regulation. This issue poses a medium risk as non-compliance may result in potential fire hazards.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 2.1, Fire Extinguishers",
+          "department": "fire"
+        },
+        {
+          "issue_type": "ambiguity",
+          "severity": "low",
+          "description": "The application does not specify the exact type and size of the industrial unit, making it difficult to determine which buffer zone category applies. This issue poses a low risk as long as the industrial unit remains in compliance with the minimum required buffer zone distances.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 4.1, Residential Buffer Zone",
+          "department": "local_body"
+        }
+      ],
+      "missing_documents": [
+        "The application does not mention the implementation of a Zero Liquid Discharge (ZLD) system, which is required for Red Category chemical industries according to Regulation 2. This issue poses a high risk as non-compliance may result in serious environmental consequences and legal penalties."
+      ],
+      "recommendations": [
+        "Obtain necessary clearances before commencing operations",
+        "Implement Zero Liquid Discharge (ZLD) system for Red Category industries",
+        "Maintain and inspect fire extinguishers quarterly",
+        "Install and maintain emergency exits as per regulations",
+        "Obtain a valid Fire Safety Certificate from the Fire Department",
+        "Install appropriate air pollution control equipment",
+        "Obtain water source approval from the Water Authority",
+        "Implement rainwater harvesting systems",
+        "Segregate waste into hazardous and non-hazardous categories",
+        "Dispose of hazardous waste through authorized agencies only",
+        "Maintain waste disposal records for minimum 5 years",
+        "Submit quarterly waste management reports"
+      ],
+      "regulation_coverage": 0.9,
+      "generated_at": "2026-01-04T22:26:38.934280"
+    },
+    "submission_reason": null,
+    "id": "e6387ff3-76c0-4095-8552-c619be470ec0",
+    "submitted_at": "2026-01-04T22:27:27.683547",
+    "status": "submitted",
+    "officer_action": null,
+    "officer_notes": null,
+    "rejection_reason": null,
+    "time_saved_seconds": 1200.0,
+    "issue_overrides": null
   }
 ]

@@ -1,0 +1,29 @@
+FIRE & STORAGE SAFETY PLAN
+Project: FastTrack Logistics Hub
+
+1. Classification of Hazard:
+   - Block A: Ordinary Hazard (Carton boxes, FMCG).
+   - Block B: High Hazard (Cold Storage - PUF Panels).
+
+2. Fire Protection System (Planned):
+   a) External Yard Hydrants:
+      - Ring main surrounding entire facility.
+      - Hydrants spaced at 45m intervals.
+   
+   b) Internal Protection:
+      - Sprinkler Type: ESFR (Early Suppression Fast Response) - K14 Factor.
+      - Design density: 30 L/min/sq.m for roof sprinklers.
+      - In-Rack Sprinklers: Provided at every 3rd level in Block B.
+
+   c) Detection:
+      - Beam Detectors used for high-ceiling open areas.
+      - VESDA (Very Early Smoke Detection) for Cold Storage.
+
+3. Emergency Response:
+   - Emergency Egress Doors: 6 Nos in Block A (Max travel distance 45m).
+   - Assembly Point: Marked in North-East Truck Parking area.
+
+4. Storage Rules:
+   - Maximum stacking height: 10.5m
+   - Aisle width: 3.2m (Reach truck operation).
+   - Flammable liquids not permitted in General Warehouse.
