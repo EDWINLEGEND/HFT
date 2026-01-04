@@ -165,6 +165,16 @@ export class CivicAssistAPI {
         if (!response.ok) throw new Error('Review failed');
         return response.json();
     }
+
+    static async updateOverrides(id: string, overrides: Record<number, { accepted: boolean | null; reason?: string }>): Promise<SavedApplication> {
+        const response = await fetch(`${API_BASE_URL}/api/v1/applications/${id}/overrides`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(overrides)
+        });
+        if (!response.ok) throw new Error('Override update failed');
+        return response.json();
+    }
 }
 
 /**

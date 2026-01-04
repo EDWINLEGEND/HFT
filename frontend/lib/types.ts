@@ -52,6 +52,9 @@ export interface SavedApplication extends ApplicationSubmission {
   officer_notes?: string;
   rejection_reason?: string;
   time_saved_seconds: number;
+
+  // Phase 2: Accept/Override Tracking
+  issue_overrides?: Record<string, { accepted: boolean | null; reason?: string }>;
 }
 
 // Regulation Search Types

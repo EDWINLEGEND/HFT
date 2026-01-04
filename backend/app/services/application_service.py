@@ -101,3 +101,16 @@ class ApplicationService:
                 self._save_applications(apps)
                 return SavedApplication(**app)
         return None
+    
+    def update_overrides(self, app_id: str, overrides: Dict[str, Any]) -> Optional[SavedApplication]:
+        """
+        Update issue override decisions for an application.
+        """
+        apps = self._load_applications()
+        for i, app in enumerate(apps):
+            if app['id'] == app_id:
+                app['issue_overrides'] = overrides
+                apps[i] = app
+                self._save_applications(apps)
+                return SavedApplication(**app)
+        return None

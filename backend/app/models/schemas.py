@@ -221,6 +221,12 @@ class SavedApplication(ApplicationSubmission):
     officer_notes: Optional[str] = Field(None, description="Notes from the officer")
     rejection_reason: Optional[str] = Field(None, description="Reason if rejected")
     time_saved_seconds: float = Field(0.0, description="Estimated time saved by AI automation")
+    
+    # Phase 2: Accept/Override Tracking
+    issue_overrides: Optional[Dict[str, Dict[str, Any]]] = Field(
+        None, 
+        description="Officer decisions on each AI finding: {issue_index: {accepted: bool, reason: str}}"
+    )
 
 
 class OfficerReviewRequest(BaseModel):

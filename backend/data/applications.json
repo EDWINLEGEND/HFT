@@ -1,70 +1,261 @@
 [
   {
+    "id": "9ad0ef5a-5a5d-465c-8679-4f399844e350",
+    "submitted_at": "2026-01-02T18:00:26.536739",
+    "status": "submitted",
+    "time_saved_seconds": 1200.0,
+    "officer_action": null,
+    "officer_notes": null,
+    "rejection_reason": null,
     "application_data": {
-      "industry_name": "BEachhack",
-      "square_feet": "12345",
-      "water_source": "Munciple supply",
-      "drainage": "Connected to city drainage",
-      "air_pollution": "Connected to city drainage",
-      "waste_management": "Connected to city drainage",
-      "nearby_homes": "500 m",
-      "water_level_depth": "50 feet"
+      "industry_name": "GreenTech Manufacturing Ltd.",
+      "square_feet": "50000",
+      "water_source": "Municipal supply + Borewell",
+      "drainage": "Connected to city sewage system",
+      "air_pollution": "Electrostatic precipitators installed, emissions within limits",
+      "waste_management": "Segregated waste disposal, hazardous waste to authorized vendor",
+      "nearby_homes": "500 meters",
+      "water_level_depth": "150 feet",
+      "document_url": "/uploads/sample_greentech.pdf"
     },
     "compliance_report": {
-      "application_id": "BEachhack",
-      "status": "partially_compliant",
-      "confidence_score": 0.85,
+      "status": "compliant",
+      "confidence_score": 0.92,
       "issues": [
         {
-          "issue_type": "ambiguity",
-          "severity": "medium",
-          "description": "The application does not specify if BEeachhack falls under 'Red Category' and therefore it's unclear whether they are required to implement a ZLD system.",
-          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Rule 3 (ZLD)",
-          "department": "environment"
+          "issue_type": "recommendation",
+          "severity": "low",
+          "description": "Consider installing rainwater harvesting system for sustainability",
+          "regulation_reference": "Environmental Guidelines 2024, Section 12.3",
+          "department": "environmental"
+        }
+      ],
+      "missing_documents": [],
+      "recommendations": [
+        "Maintain emission monitoring records",
+        "Submit quarterly compliance reports"
+      ],
+      "regulation_coverage": 0.95,
+      "generated_at": "2026-01-04T18:00:26.536972"
+    }
+  },
+  {
+    "id": "37a257b3-3fc0-4fd4-b0e0-110dad3d1a47",
+    "submitted_at": "2026-01-03T18:00:26.537175",
+    "status": "submitted",
+    "time_saved_seconds": 1150.0,
+    "officer_action": null,
+    "officer_notes": null,
+    "rejection_reason": null,
+    "application_data": {
+      "industry_name": "Apex Chemical Industries",
+      "square_feet": "75000",
+      "water_source": "River water with treatment plant",
+      "drainage": "Effluent treatment plant (ETP) installed",
+      "air_pollution": "Scrubbers and filters, monitoring pending",
+      "waste_management": "Chemical waste storage on-site, disposal plan unclear",
+      "nearby_homes": "200 meters",
+      "water_level_depth": "120 feet",
+      "document_url": "/uploads/sample_apex.pdf"
+    },
+    "compliance_report": {
+      "status": "non_compliant",
+      "confidence_score": 0.45,
+      "issues": [
+        {
+          "issue_type": "violation",
+          "severity": "high",
+          "description": "Residential area within 500m buffer zone for chemical industries. Violates zoning regulations.",
+          "regulation_reference": "Industrial Zoning Act 2023, Section 4.2",
+          "department": "local_body"
         },
         {
           "issue_type": "missing_document",
           "severity": "high",
-          "description": "The application does not provide evidence of a valid Fire Safety Certificate.",
-          "regulation_reference": "Kerala Industrial Safety Regulations, 2023, Section 2.3: Fire Safety Certificate",
-          "department": "fire"
+          "description": "Fire safety certificate not submitted. Mandatory for chemical industries.",
+          "regulation_reference": "Fire Safety Rules 2024, Clause 8.1",
+          "department": "fire_safety"
         },
         {
           "issue_type": "violation",
           "severity": "medium",
-          "description": "The application states that the industrial unit is located 500 m from nearby homes but does not mention any water bodies. However, Regulation 2: Water Pollution Control (Chemical Industries) Rules, 2024, requires a minimum distance of 500 meters from a notified river, lake, or wetland.",
-          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Rule 5.1: Buffer Zones",
-          "department": "environment"
+          "description": "Hazardous waste disposal plan incomplete. Must specify authorized vendor details.",
+          "regulation_reference": "Hazardous Waste Management Rules 2024, Section 6",
+          "department": "environmental"
         }
       ],
       "missing_documents": [
-        "The application does not provide evidence of a valid Fire Safety Certificate."
+        "Fire Safety Certificate",
+        "Hazardous Waste Disposal Agreement"
       ],
       "recommendations": [
-        "Obtain Fire Safety Certificate",
-        "Verify if BEeachhack falls under 'Red Category' for Zero Liquid Discharge implementation"
+        "Relocate facility or obtain special exemption",
+        "Submit fire safety audit report",
+        "Provide authorized vendor contract"
       ],
-      "regulation_coverage": 0.9,
-      "generated_at": "2026-01-04T14:11:39.518830"
+      "regulation_coverage": 0.78,
+      "generated_at": "2026-01-04T18:00:26.537395"
+    }
+  },
+  {
+    "id": "cdd76481-5f99-4c24-9b02-61b847e75114",
+    "submitted_at": "2026-01-04T06:00:26.537634",
+    "status": "submitted",
+    "time_saved_seconds": 1180.0,
+    "officer_action": null,
+    "officer_notes": null,
+    "rejection_reason": null,
+    "application_data": {
+      "industry_name": "Sunrise Textiles Pvt Ltd",
+      "square_feet": "35000",
+      "water_source": "Borewell",
+      "drainage": "Septic tank system",
+      "air_pollution": "Minimal emissions, natural ventilation",
+      "waste_management": "Fabric waste recycled, dye waste to treatment facility",
+      "nearby_homes": "800 meters",
+      "water_level_depth": "180 feet",
+      "document_url": "/uploads/sample_sunrise.pdf"
     },
-    "submission_reason": "Your application is not fully compliant. You must provide a reason or mitigation plan to proceed.",
-    "id": "f6484349-61d0-48fd-b16a-332ff5b90e66",
-    "submitted_at": "2026-01-04T14:13:00.581068",
-    "status": "approved",
-    "officer_action": "approve",
-    "officer_notes": "",
-    "rejection_reason": ""
+    "compliance_report": {
+      "status": "partial",
+      "confidence_score": 0.68,
+      "issues": [
+        {
+          "issue_type": "ambiguity",
+          "severity": "medium",
+          "description": "Dye waste treatment facility details unclear. Requires verification of authorization.",
+          "regulation_reference": "Water Pollution Control Rules 2024, Section 9.4",
+          "department": "environmental"
+        },
+        {
+          "issue_type": "missing_document",
+          "severity": "medium",
+          "description": "Building plan approval not attached. Required for structures >30,000 sq ft.",
+          "regulation_reference": "Building Code 2023, Article 15",
+          "department": "local_body"
+        }
+      ],
+      "missing_documents": [
+        "Building Plan Approval"
+      ],
+      "recommendations": [
+        "Submit waste treatment facility authorization",
+        "Provide building plan sanction letter",
+        "Clarify water consumption estimates"
+      ],
+      "regulation_coverage": 0.82,
+      "generated_at": "2026-01-04T18:00:26.537811"
+    }
+  },
+  {
+    "id": "6d42f6c1-42c2-40da-8fa6-5752587c4b59",
+    "submitted_at": "2026-01-04T12:00:26.538019",
+    "status": "submitted",
+    "time_saved_seconds": 1220.0,
+    "officer_action": null,
+    "officer_notes": null,
+    "rejection_reason": null,
+    "application_data": {
+      "industry_name": "Metro Food Processing Unit",
+      "square_feet": "25000",
+      "water_source": "Municipal supply",
+      "drainage": "Grease trap + city sewage",
+      "air_pollution": "Kitchen exhaust with filters",
+      "waste_management": "Organic waste to composting, packaging waste recycled",
+      "nearby_homes": "1200 meters",
+      "water_level_depth": "N/A - No borewell",
+      "document_url": "/uploads/sample_metro.pdf"
+    },
+    "compliance_report": {
+      "status": "compliant",
+      "confidence_score": 0.88,
+      "issues": [
+        {
+          "issue_type": "recommendation",
+          "severity": "low",
+          "description": "Install water meter for consumption monitoring as per best practices",
+          "regulation_reference": "Water Conservation Guidelines 2024",
+          "department": "environmental"
+        }
+      ],
+      "missing_documents": [],
+      "recommendations": [
+        "Maintain food safety certifications",
+        "Regular grease trap cleaning records"
+      ],
+      "regulation_coverage": 0.91,
+      "generated_at": "2026-01-04T18:00:26.538222"
+    }
+  },
+  {
+    "id": "ab5a7e38-eac1-4cad-b34b-b3a0df3ed2b4",
+    "submitted_at": "2026-01-04T15:00:26.538432",
+    "status": "submitted",
+    "time_saved_seconds": 1100.0,
+    "officer_action": null,
+    "officer_notes": null,
+    "rejection_reason": null,
+    "application_data": {
+      "industry_name": "TechPark Data Center",
+      "square_feet": "40000",
+      "water_source": "Municipal supply",
+      "drainage": "Cooling water recycling system",
+      "air_pollution": "HVAC with air quality monitoring",
+      "waste_management": "E-waste to certified recycler, minimal other waste",
+      "nearby_homes": "600 meters",
+      "water_level_depth": "N/A",
+      "document_url": "/uploads/sample_techpark.pdf"
+    },
+    "compliance_report": {
+      "status": "partial",
+      "confidence_score": 0.55,
+      "issues": [
+        {
+          "issue_type": "violation",
+          "severity": "high",
+          "description": "Fire suppression system specifications unclear. Data centers require FM-200 or equivalent.",
+          "regulation_reference": "Fire Safety Code for IT Infrastructure 2024, Section 11",
+          "department": "fire_safety"
+        },
+        {
+          "issue_type": "ambiguity",
+          "severity": "medium",
+          "description": "Diesel generator emissions data not provided. Required for backup power >500 KVA.",
+          "regulation_reference": "Air Quality Standards 2024, Clause 7.3",
+          "department": "environmental"
+        },
+        {
+          "issue_type": "missing_document",
+          "severity": "low",
+          "description": "E-waste recycler authorization certificate not attached",
+          "regulation_reference": "E-Waste Management Rules 2024",
+          "department": "environmental"
+        }
+      ],
+      "missing_documents": [
+        "Fire Suppression System Design",
+        "E-Waste Recycler Certificate"
+      ],
+      "recommendations": [
+        "Submit detailed fire safety plan",
+        "Provide generator emission test reports",
+        "Attach recycler authorization"
+      ],
+      "regulation_coverage": 0.74,
+      "generated_at": "2026-01-04T18:00:26.538607"
+    }
   },
   {
     "application_data": {
       "industry_name": "GreenLeaf Processing Unit",
       "square_feet": "8,500 Square Feet (Approx. 20 cents)",
       "water_source": "Secured connection from KWA (Kerala Water Authority) Municipal Supply Line",
-      "drainage": "All effluent will be treated in an on-site Effluent Treatment Plant (ETP) with a capacity of 50 KLD. Treated water reused for gardening.",
-      "air_pollution": "Boiler unit equipped with Wet Scrubber system to control particulate matter. Chimney height maintained at 30 meters.",
-      "waste_management": "Biodegradable waste composted using a biogas plant. Non-biodegradable waste handed over to Clean Kerala Company Ltd.",
-      "nearby_homes": "750 meters away from the boundary wall",
-      "water_level_depth": "25 feet below ground level"
+      "drainage": "All effluent will be treated in an on-site Effluent Treatment Plant (ETP) with a capacity of 50 KLD. Treated water will be reused for gardening purposes. Zero liquid discharge to public drains.",
+      "air_pollution": "The boiler unit is equipped with a Wet Scrubber system to control particulate matter. Chimney height is maintained at 30 meters as per PCB norms.",
+      "waste_management": "Biodegradable waste will be composted using a biogas plant. Non-biodegradable waste will be handed over to Clean Kerala Company Ltd.",
+      "nearby_homes": "750 meters",
+      "water_level_depth": "25 feet below ground level",
+      "document_url": "/uploads/20260104235132_Project_Proposal_GreenLeaf_Processing_Unit.pdf"
     },
     "compliance_report": {
       "application_id": "GreenLeaf Processing Unit",
@@ -74,41 +265,43 @@
         {
           "issue_type": "missing_document",
           "severity": "medium",
-          "description": "GreenLeaf Processing Unit does not mention the implementation of a ZLD system in their application. However, it's unclear if they fall under the Red Category as that information was not provided.",
-          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Rule 3",
+          "description": "The application does not explicitly mention having a separate storm water drainage system. Although the ETP might handle this, it is recommended to confirm and document this.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Section 3.2: Water Management, Clause 5",
           "department": "environment"
         },
         {
           "issue_type": "ambiguity",
           "severity": "low",
-          "description": "The term 'processing unit' used in the application matches the definition of an 'industrial unit', but it's essential to clarify if this specific unit falls under this category.",
-          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 1.2",
-          "department": "local_body"
+          "description": "The application does not provide information on the specific types and quantities of flammable materials being used in the GreenLeaf Processing Unit. This makes it difficult to determine if the correct fire extinguishers are available.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 2.1: Fire Extinguishers, Clause 2",
+          "department": "fire"
         },
         {
           "issue_type": "violation",
           "severity": "medium",
-          "description": "The application does not mention the frequency of fire extinguisher maintenance.",
-          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 2.1",
-          "department": "fire"
+          "description": "The application states that treated effluent will be reused for gardening purposes, but it does not specify if all process water is being recycled. If only a portion of the water is being recycled, then this would represent a violation.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Section 3.1: Zero Liquid Discharge (ZLD), Clause 3",
+          "department": "environment"
         }
       ],
       "missing_documents": [
-        "GreenLeaf Processing Unit does not mention the implementation of a ZLD system in their application. However, it's unclear if they fall under the Red Category as that information was not provided."
+        "The application does not explicitly mention having a separate storm water drainage system. Although the ETP might handle this, it is recommended to confirm and document this."
       ],
       "recommendations": [
-        "Verify industrial unit category and obtain ZLD system implementation status if required",
-        "Establish a schedule for regular fire extinguisher inspections"
+        "Confirm and document the presence of a separate storm water drainage system",
+        "Determine the correct types and quantities of fire extinguishers based on flammable materials present in the facility",
+        "Investigate if all process water is being recycled within the plant premises"
       ],
       "regulation_coverage": 0.9,
-      "generated_at": "2026-01-04T15:23:35.308306"
+      "generated_at": "2026-01-04T18:22:15.049179"
     },
-    "submission_reason": "ok submit for me please",
-    "id": "c4a21d73-b3d6-45ff-bb99-383040011917",
-    "submitted_at": "2026-01-04T16:03:29.056877",
-    "status": "rejected",
-    "officer_action": "reject",
-    "officer_notes": "adasda",
-    "rejection_reason": "Incomplete Documents"
+    "submission_reason": "asdasdasdas",
+    "id": "a57afd9b-da4b-4d36-82d0-9fccdeccf7ed",
+    "submitted_at": "2026-01-04T18:22:39.186253",
+    "status": "submitted",
+    "officer_action": null,
+    "officer_notes": null,
+    "rejection_reason": null,
+    "time_saved_seconds": 1200.0
   }
 ]

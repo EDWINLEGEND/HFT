@@ -13,7 +13,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight, CheckCircle, AlertTriangle, FileText, Upload, Sparkles, Send, Search } from "lucide-react";
+import { ArrowRight, CheckCircle, AlertTriangle, FileText, Sparkles, Send, Search, Info, RefreshCw, Clock, Languages } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 const APP_TYPES = [
     { id: 'manufacturing', name: 'Manufacturing / Industrial Unit', docs: ['Site Plan', 'Pollution Control Consent'] },
@@ -49,6 +50,13 @@ export default function ApplicantMode() {
     const [submissionReason, setSubmissionReason] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
+
+    // 🟡 PHASE 2: ENGAGEMENT STATE
+    const [expandedHelp, setExpandedHelp] = useState<Set<number>>(new Set());
+    const [isRechecking, setIsRechecking] = useState(false);
+
+    // 🟡 PHASE 3: ADVANCED STATE
+    const [useSimpleLanguage, setUseSimpleLanguage] = useState(true);
 
     const handleExtractionUpload = async (file: File) => {
         setExtracting(true);
@@ -130,6 +138,53 @@ export default function ApplicantMode() {
             ...prev,
             [e.target.name]: e.target.value
         }));
+    };
+
+    // 🟡 PHASE 2: HELP TOGGLE
+    const toggleHelp = (index: number) => {
+        const newExpanded = new Set(expandedHelp);
+        if (newExpanded.has(index)) {
+            newExpanded.delete(index);
+        } else {
+            newExpanded.add(index);
+        }
+        setExpandedHelp(newExpanded);
+    };
+
+    // 🟡 PHASE 2: RE-CHECK FUNCTIONALITY
+    const handleRecheck = async () => {
+        setIsRechecking(true);
+        setError(null);
+
+        try {
+            const result = await CivicAssistAPI.analyzeCompliance(formData);
+            setReport(result);
+            // Show success message (optional)
+            alert('✅ Analysis updated! Check your progress.');
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Re-check failed');
+            alert('❌ Re-check failed. Please try again.');
+        } finally {
+            setIsRechecking(false);
+        }
+    };
+
+    // 🟡 PHASE 2: PROGRESS CALCULATION
+    const calculateProgress = () => {
+        if (!report) return 0;
+
+        const requiredDocs = ['Fire Safety Certificate', 'Environmental Clearance', 'Building Plan Approval', 'Waste Management Plan', 'Water Source Authorization'];
+        const docsUploaded = requiredDocs.length - report.missing_documents.length;
+        const docScore = (docsUploaded / requiredDocs.length) * 50;
+
+        const issueScore = report.issues.length === 0 ? 50 : Math.max(0, 50 - (report.issues.length * 5));
+
+        return Math.min(100, Math.round(docScore + issueScore));
+    };
+
+    // 🟡 PHASE 3: LANGUAGE TOGGLE HELPER
+    const getLanguageText = (simpleText: string, formalText: string) => {
+        return useSimpleLanguage ? simpleText : formalText;
     };
 
     const currentAppType = APP_TYPES.find(t => t.id === appType);
@@ -307,71 +362,406 @@ export default function ApplicantMode() {
                         )}
 
                         {report && !submitSuccess && (
-                            <Card className="border-t-4 border-t-primary animate-in fade-in zoom-in-95 duration-300">
-                                <CardHeader>
-                                    <CardTitle>Analysis Results</CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-6">
-                                    {/* Status Badge */}
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-muted-foreground font-medium">Status:</span>
-                                        <Badge className={`uppercase ${getStatusColor(report.status)}`}>
-                                            {report.status.replace('_', ' ')}
-                                        </Badge>
-                                    </div>
-
-                                    {/* Missing Docs Alert */}
-                                    {report.missing_documents.length > 0 && (
-                                        <Alert variant="destructive">
-                                            <AlertTriangle className="h-4 w-4" />
-                                            <AlertTitle>Missing Documents detected by AI</AlertTitle>
-                                            <AlertDescription>
-                                                <ul className="list-disc pl-5 mt-1">
-                                                    {report.missing_documents.map((d, i) => <li key={i}>{d}</li>)}
-                                                </ul>
-                                            </AlertDescription>
-                                        </Alert>
-                                    )}
-
-                                    {/* Issues List */}
-                                    <div className="space-y-3">
-                                        {report.issues.map((issue, i) => (
-                                            <div key={i} className={`p-3 rounded border-l-4 text-sm bg-muted/30 ${getRiskColor(issue.severity)}`}>
-                                                <div className="flex justify-between items-center mb-1">
-                                                    <Badge variant="outline" className={getRiskBadgeColor(issue.severity)}>{issue.severity.toUpperCase()}</Badge>
-                                                    <span className="text-xs text-muted-foreground">{issue.department}</span>
+                            <>
+                                {/* 🟡 PHASE 3: VISUAL APPLICATION STATUS TIMELINE */}
+                                <Card className="mb-4">
+                                    <CardHeader>
+                                        <CardTitle className="text-base">Application Timeline</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="flex items-center justify-between">
+                                            {/* Draft */}
+                                            <div className="flex flex-col items-center flex-1">
+                                                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-green-500 text-white">
+                                                    <CheckCircle className="w-5 h-5" />
                                                 </div>
-                                                <p className="font-medium mt-1">{issue.description}</p>
+                                                <p className="text-xs font-semibold mt-2">Draft</p>
+                                                <p className="text-xs text-muted-foreground">Completed</p>
                                             </div>
-                                        ))}
-                                    </div>
+                                            <div className="flex-1 h-1 bg-green-500 mx-2" />
 
-                                    {/* SUBMISSION AREA */}
-                                    <div className="pt-4 border-t">
-                                        <h3 className="text-sm font-bold mb-2">Final Submission</h3>
+                                            {/* Self-Check */}
+                                            <div className="flex flex-col items-center flex-1">
+                                                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-green-500 text-white">
+                                                    <CheckCircle className="w-5 h-5" />
+                                                </div>
+                                                <p className="text-xs font-semibold mt-2">Self-Check</p>
+                                                <p className="text-xs text-muted-foreground">Completed</p>
+                                            </div>
+                                            <div className={`flex-1 h-1 mx-2 ${report.status === 'compliant' ? 'bg-green-500' : 'bg-gray-300'}`} />
 
-                                        {report.status !== 'compliant' && (
-                                            <div className="mb-4">
-                                                <Label className="mb-2 block">Mitigation Plan / Reason (Required for partial compliance) *</Label>
-                                                <Textarea
-                                                    placeholder="Explain your plan to address issues..."
-                                                    value={submissionReason}
-                                                    onChange={(e) => setSubmissionReason(e.target.value)}
-                                                />
+                                            {/* Ready to Submit */}
+                                            <div className="flex flex-col items-center flex-1">
+                                                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${report.status === 'compliant' ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'
+                                                    }`}>
+                                                    {report.status === 'compliant' ? <CheckCircle className="w-5 h-5" /> : <Clock className="w-5 h-5" />}
+                                                </div>
+                                                <p className="text-xs font-semibold mt-2">Ready</p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {report.status === 'compliant' ? 'Ready' : 'Pending'}
+                                                </p>
+                                            </div>
+                                            <div className="flex-1 h-1 bg-gray-300 mx-2" />
+
+                                            {/* Under Review */}
+                                            <div className="flex flex-col items-center flex-1">
+                                                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-300 text-gray-600">
+                                                    <Clock className="w-5 h-5" />
+                                                </div>
+                                                <p className="text-xs font-semibold mt-2">Review</p>
+                                                <p className="text-xs text-muted-foreground">Pending</p>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+
+                                {/* 🟡 PHASE 3: SIMPLE LANGUAGE TOGGLE */}
+                                <Card className="mb-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-purple-200">
+                                    <CardContent className="pt-6">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <Languages className="w-5 h-5 text-purple-600" />
+                                                <div>
+                                                    <h3 className="font-semibold text-sm">Language Preference</h3>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {useSimpleLanguage ? 'Showing simple explanations' : 'Showing formal explanations'}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => setUseSimpleLanguage(!useSimpleLanguage)}
+                                            >
+                                                Switch to {useSimpleLanguage ? 'Formal' : 'Simple'}
+                                            </Button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+
+                                {/* 🟡 PHASE 1: NO-AI DISCLAIMER */}
+                                <Alert className="mb-4 bg-blue-50 dark:bg-blue-900/20 border-blue-200">
+                                    <FileText className="h-4 w-4 text-blue-600" />
+                                    <AlertTitle>Important Notice</AlertTitle>
+                                    <AlertDescription>
+                                        This is guidance only. Final approval is done by government officers who will review your application manually.
+                                    </AlertDescription>
+                                </Alert>
+
+                                {/* 🟡 PHASE 1: APPLICATION READINESS INDICATOR */}
+                                {(() => {
+                                    const highRiskCount = report.issues.filter(i => i.severity === 'high').length;
+                                    const missingDocs = report.missing_documents.length;
+                                    let readiness;
+
+                                    if (highRiskCount > 0 || missingDocs > 0 || report.status === 'non_compliant') {
+                                        readiness = { label: '❌ Not Ready', variant: 'destructive' as const, message: 'Critical issues must be resolved first.' };
+                                    } else if (report.status === 'partial') {
+                                        readiness = { label: '⚠️ Needs Fixes', variant: 'default' as const, message: 'Fix the issues below before submitting.' };
+                                    } else {
+                                        readiness = { label: '✅ Ready to Submit', variant: 'default' as const, message: 'Your application meets all requirements!' };
+                                    }
+
+                                    return (
+                                        <Alert variant={readiness.variant} className="mb-4">
+                                            <AlertTitle className="text-lg font-bold">{readiness.label}</AlertTitle>
+                                            <AlertDescription>{readiness.message}</AlertDescription>
+                                        </Alert>
+                                    );
+                                })()}
+
+                                {/* 🟡 PHASE 1: PLAIN-LANGUAGE SUMMARY */}
+                                <Card className="mb-4">
+                                    <CardHeader>
+                                        <CardTitle className="text-base">Summary</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p className="text-sm">
+                                            {(() => {
+                                                if (report.status === 'compliant') {
+                                                    return "Your application is complete and meets all requirements.";
+                                                }
+
+                                                const parts = [];
+                                                const highIssues = report.issues.filter(i => i.severity === 'high');
+                                                const missingDocs = report.missing_documents;
+
+                                                if (highIssues.length > 0) {
+                                                    const issues = highIssues.map(i => i.description.split('.')[0]).slice(0, 2).join(', ');
+                                                    parts.push(`Critical issues: ${issues}`);
+                                                }
+
+                                                if (missingDocs.length > 0) {
+                                                    parts.push(`Missing documents: ${missingDocs.slice(0, 3).join(', ')}`);
+                                                }
+
+                                                if (parts.length === 0 && report.issues.length > 0) {
+                                                    parts.push("Some minor issues need attention");
+                                                }
+
+                                                return parts.join('. ') + '.';
+                                            })()}
+                                        </p>
+                                    </CardContent>
+                                </Card>
+
+                                {/* 🟡 PHASE 1: CONFIDENCE BANNER */}
+                                {(() => {
+                                    const confidence = report.confidence_score;
+                                    let banner;
+
+                                    if (confidence >= 0.8) {
+                                        banner = { message: '✅ Your application meets most requirements.', className: 'bg-green-50 dark:bg-green-900/20 border-green-200' };
+                                    } else if (confidence >= 0.6) {
+                                        banner = { message: '⚠️ Some information may need clarification. Review carefully.', className: 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200' };
+                                    } else {
+                                        banner = { message: '❌ Several issues detected. Review and fix before submission.', className: 'bg-red-50 dark:bg-red-900/20 border-red-200' };
+                                    }
+
+                                    return (
+                                        <Alert className={`mb-4 ${banner.className}`}>
+                                            <AlertDescription>{banner.message}</AlertDescription>
+                                        </Alert>
+                                    );
+                                })()}
+
+                                {/* 🟡 PHASE 2: VISUAL PROGRESS TRACKER */}
+                                <Card className="mb-4">
+                                    <CardHeader>
+                                        <CardTitle className="text-base">Application Progress</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        {(() => {
+                                            const progress = calculateProgress();
+                                            const requiredDocs = ['Fire Safety Certificate', 'Environmental Clearance', 'Building Plan Approval', 'Waste Management Plan', 'Water Source Authorization'];
+                                            const docsUploaded = requiredDocs.length - report.missing_documents.length;
+
+                                            return (
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-between text-sm">
+                                                        <span>Documents: {docsUploaded} / {requiredDocs.length}</span>
+                                                        <span className="font-bold">Compliance: {progress}%</span>
+                                                    </div>
+                                                    <Progress value={progress} className="h-2" />
+                                                    <p className="text-xs text-muted-foreground mt-2">
+                                                        {progress === 100 ? '🎉 Excellent! Your application is ready.' :
+                                                            progress >= 70 ? '👍 Good progress! A few more fixes needed.' :
+                                                                progress >= 40 ? '⚠️ Making progress. Keep fixing issues.' :
+                                                                    '🚨 Significant work needed. Focus on critical issues first.'}
+                                                    </p>
+                                                </div>
+                                            );
+                                        })()}
+                                    </CardContent>
+                                </Card>
+
+                                {/* 🟡 PHASE 2: FIX & RE-CHECK LOOP */}
+                                <Card className="mb-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200">
+                                    <CardContent className="pt-6">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex-1">
+                                                <h3 className="font-semibold text-sm mb-1">Made changes?</h3>
+                                                <p className="text-xs text-muted-foreground">Re-run the analysis to see your updated progress</p>
+                                            </div>
+                                            <Button
+                                                onClick={handleRecheck}
+                                                disabled={isRechecking}
+                                                variant="default"
+                                                className="ml-4"
+                                            >
+                                                {isRechecking ? (
+                                                    <span className="flex items-center">
+                                                        <Sparkles className="mr-2 h-4 w-4 animate-spin" />
+                                                        Re-checking...
+                                                    </span>
+                                                ) : (
+                                                    <span className="flex items-center">
+                                                        <RefreshCw className="mr-2 h-4 w-4" />
+                                                        Re-check Application
+                                                    </span>
+                                                )}
+                                            </Button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+
+                                <Card className="border-t-4 border-t-primary animate-in fade-in zoom-in-95 duration-300">
+                                    <CardHeader>
+                                        <CardTitle>Analysis Results</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="space-y-6">
+                                        {/* Status Badge */}
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-muted-foreground font-medium">Status:</span>
+                                            <Badge className={`uppercase ${getStatusColor(report.status)}`}>
+                                                {report.status.replace('_', ' ')}
+                                            </Badge>
+                                        </div>
+
+                                        {/* 🟡 PHASE 1: PRIORITY FIX LIST */}
+                                        {report.issues.length > 0 && (
+                                            <div className="space-y-4">
+                                                {/* High Priority Issues */}
+                                                {(() => {
+                                                    const highIssues = report.issues.filter(i => i.severity === 'high');
+                                                    if (highIssues.length === 0) return null;
+
+                                                    return (
+                                                        <div>
+                                                            <Badge variant="destructive" className="mb-2">Must Fix Before Submission</Badge>
+                                                            <div className="space-y-2">
+                                                                {highIssues.map((issue, i) => (
+                                                                    <div key={i}>
+                                                                        <Alert variant="destructive">
+                                                                            <AlertTriangle className="h-4 w-4" />
+                                                                            <AlertDescription>{issue.description}</AlertDescription>
+                                                                        </Alert>
+
+                                                                        {/* 🟡 PHASE 2: WHY IS THIS REQUIRED? HELP TOGGLE */}
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            onClick={() => toggleHelp(i)}
+                                                                            className="mt-1 h-7 text-xs text-muted-foreground"
+                                                                        >
+                                                                            {expandedHelp.has(i) ? '▼' : '▶'} Why is this required?
+                                                                        </Button>
+                                                                        {expandedHelp.has(i) && (
+                                                                            <div className="mt-2 p-3 bg-muted/50 rounded-md border text-sm space-y-1">
+                                                                                <div><strong>Department:</strong> {issue.department || 'General'}</div>
+                                                                                <div><strong>Regulation:</strong> {issue.regulation_reference || 'N/A'}</div>
+                                                                                <div className="pt-2 border-t">
+                                                                                    <strong>Explanation:</strong> {getLanguageText(
+                                                                                        `This requirement ensures compliance with safety and environmental standards.${issue.severity === 'high' ? ' This is a critical issue that must be resolved before approval.' : ''}`,
+                                                                                        `This provision mandates adherence to statutory safety and environmental protocols as prescribed under applicable regulations.${issue.severity === 'high' ? ' This constitutes a critical deficiency requiring immediate remediation prior to application approval.' : ''}`
+                                                                                    )}
+                                                                                </div>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })()}
+
+                                                {/* Medium/Low Priority Issues */}
+                                                {(() => {
+                                                    const otherIssues = report.issues.filter(i => i.severity !== 'high');
+                                                    if (otherIssues.length === 0) return null;
+
+                                                    return (
+                                                        <div>
+                                                            <Badge variant="outline" className="mb-2">Recommended Fixes</Badge>
+                                                            <div className="space-y-2">
+                                                                {otherIssues.map((issue, i) => {
+                                                                    const globalIdx = report.issues.filter(iss => iss.severity === 'high').length + i;
+                                                                    return (
+                                                                        <div key={i}>
+                                                                            <div className={`p-3 rounded border-l-4 text-sm bg-muted/30 ${getRiskColor(issue.severity)}`}>
+                                                                                <div className="flex justify-between items-center mb-1">
+                                                                                    <Badge variant="outline" className={getRiskBadgeColor(issue.severity)}>{issue.severity.toUpperCase()}</Badge>
+                                                                                    <span className="text-xs text-muted-foreground">{issue.department}</span>
+                                                                                </div>
+                                                                                <p className="font-medium mt-1">{issue.description}</p>
+                                                                            </div>
+
+                                                                            {/* 🟡 PHASE 2: WHY IS THIS REQUIRED? HELP TOGGLE */}
+                                                                            <Button
+                                                                                variant="ghost"
+                                                                                size="sm"
+                                                                                onClick={() => toggleHelp(globalIdx)}
+                                                                                className="mt-1 h-7 text-xs text-muted-foreground"
+                                                                            >
+                                                                                {expandedHelp.has(globalIdx) ? '▼' : '▶'} Why is this required?
+                                                                            </Button>
+                                                                            {expandedHelp.has(globalIdx) && (
+                                                                                <div className="mt-2 p-3 bg-muted/50 rounded-md border text-sm space-y-1">
+                                                                                    <div><strong>Department:</strong> {issue.department || 'General'}</div>
+                                                                                    <div><strong>Regulation:</strong> {issue.regulation_reference || 'N/A'}</div>
+                                                                                    <div className="pt-2 border-t">
+                                                                                        <strong>Explanation:</strong> {getLanguageText(
+                                                                                            `This requirement helps ensure your application meets all regulatory standards.${issue.severity === 'medium' ? ' While not critical, addressing this will improve your application.' : ''}`,
+                                                                                            `This provision ensures conformity with established regulatory frameworks and administrative standards.${issue.severity === 'medium' ? ' While not classified as critical, resolution of this matter is recommended to strengthen the application.' : ''}`
+                                                                                        )}
+                                                                                    </div>
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })()}
                                             </div>
                                         )}
 
-                                        <Button
-                                            onClick={handleApplicationSubmit}
-                                            disabled={submitting}
-                                            className="w-full"
-                                            variant={report.status === 'compliant' ? 'default' : 'secondary'}
-                                        >
-                                            {submitting ? 'Submitting...' : <span className="flex items-center">📤 Final Submission</span>}
-                                        </Button>
-                                    </div>
-                                </CardContent>
-                            </Card>
+                                        {/* 🟡 PHASE 1: LIVE DOCUMENT CHECKLIST */}
+                                        <Card>
+                                            <CardHeader>
+                                                <CardTitle className="text-base">Document Checklist</CardTitle>
+                                            </CardHeader>
+                                            <CardContent>
+                                                {['Fire Safety Certificate', 'Environmental Clearance', 'Building Plan Approval', 'Waste Management Plan', 'Water Source Authorization'].map(doc => {
+                                                    const isMissing = report.missing_documents.includes(doc);
+                                                    const isFlagged = report.issues.some(i => i.description.toLowerCase().includes(doc.toLowerCase()));
+
+                                                    let status, Icon, color;
+                                                    if (isMissing) {
+                                                        status = 'MISSING';
+                                                        Icon = AlertTriangle;
+                                                        color = 'text-destructive';
+                                                    } else if (isFlagged) {
+                                                        status = 'INCOMPLETE';
+                                                        Icon = AlertTriangle;
+                                                        color = 'text-warning';
+                                                    } else {
+                                                        status = 'SUBMITTED';
+                                                        Icon = CheckCircle;
+                                                        color = 'text-green-600';
+                                                    }
+
+                                                    return (
+                                                        <div key={doc} className="flex items-center gap-2 p-2 border-b last:border-0">
+                                                            <Icon className={`w-4 h-4 ${color}`} />
+                                                            <span className="flex-1 text-sm">{doc}</span>
+                                                            <Badge variant={status === 'SUBMITTED' ? 'default' : 'destructive'} className="text-xs">
+                                                                {status}
+                                                            </Badge>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </CardContent>
+                                        </Card>
+
+                                        {/* SUBMISSION AREA */}
+                                        <div className="pt-4 border-t">
+                                            <h3 className="text-sm font-bold mb-2">Final Submission</h3>
+
+                                            {report.status !== 'compliant' && (
+                                                <div className="mb-4">
+                                                    <Label className="mb-2 block">Mitigation Plan / Reason (Required for partial compliance) *</Label>
+                                                    <Textarea
+                                                        placeholder="Explain your plan to address issues..."
+                                                        value={submissionReason}
+                                                        onChange={(e) => setSubmissionReason(e.target.value)}
+                                                    />
+                                                </div>
+                                            )}
+
+                                            <Button
+                                                onClick={handleApplicationSubmit}
+                                                disabled={submitting}
+                                                className="w-full"
+                                                variant={report.status === 'compliant' ? 'default' : 'secondary'}
+                                            >
+                                                {submitting ? 'Submitting...' : <span className="flex items-center"><Send className="mr-2 h-4 w-4" /> Final Submission</span>}
+                                            </Button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </>
                         )}
                     </div>
                 </div>

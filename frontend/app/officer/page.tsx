@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import {
     Select,
     SelectContent,
@@ -30,6 +31,20 @@ export default function OfficerPage() {
     const [rejectionReason, setRejectionReason] = useState('');
     const [replyNote, setReplyNote] = useState('');
     const [showRejectModal, setShowRejectModal] = useState(false);
+
+    // Phase 1 Feature State
+    const [sortBy, setSortBy] = useState<'severity' | 'type' | 'department'>('severity');
+    const [filterDept, setFilterDept] = useState<string | null>(null);
+    const [groupByDept, setGroupByDept] = useState(false);
+    const [officerNotes, setOfficerNotes] = useState('');
+    const [expandedIssues, setExpandedIssues] = useState<Set<number>>(new Set());
+
+    // Phase 2: Accept/Override Tracking
+    interface IssueOverride {
+        accepted: boolean | null;
+        reason?: string;
+    }
+    const [issueOverrides, setIssueOverrides] = useState<Record<number, IssueOverride>>({});
 
     useEffect(() => {
         loadApplications();
@@ -84,6 +99,127 @@ export default function OfficerPage() {
         if (url.startsWith('http')) return url;
         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
         return `${baseUrl}${url}`;
+    };
+
+    // Phase 1 Helper Functions
+    const getHighRiskCount = (app: SavedApplication) => {
+        return app.compliance_report.issues.filter(i => i.severity === 'high').length;
+    };
+
+    const getBlockingIssues = (app: SavedApplication) => {
+        return app.compliance_report.issues.filter(
+            i => i.severity === 'high' && i.issue_type === 'violation'
+        );
+    };
+
+    const isBlockingApproval = (app: SavedApplication) => {
+        return getBlockingIssues(app).length > 0 || app.compliance_report.status === 'non_compliant';
+    };
+
+    const getDepartments = (app: SavedApplication) => {
+        const depts = new Set(app.compliance_report.issues.map(i => i.department || 'Other'));
+        return Array.from(depts);
+    };
+
+    const filterAndSortIssues = (app: SavedApplication) => {
+        let filtered = app.compliance_report.issues;
+
+        // Filter by department
+        if (filterDept) {
+            filtered = filtered.filter(i => (i.department || 'Other') === filterDept);
+        }
+
+        // Sort
+        const sorted = [...filtered].sort((a, b) => {
+            if (sortBy === 'severity') {
+                const severityOrder = { high: 0, medium: 1, low: 2 };
+                return severityOrder[a.severity] - severityOrder[b.severity];
+            } else if (sortBy === 'type') {
+                return a.issue_type.localeCompare(b.issue_type);
+            } else {
+                return (a.department || 'Other').localeCompare(b.department || 'Other');
+            }
+        });
+
+        return sorted;
+    };
+
+    const groupIssuesByDepartment = (app: SavedApplication) => {
+        const filtered = filterAndSortIssues(app);
+        if (!groupByDept) return { 'All Issues': filtered };
+
+        return filtered.reduce((acc, issue) => {
+            const dept = issue.department || 'Other';
+            if (!acc[dept]) acc[dept] = [];
+            acc[dept].push(issue);
+            return acc;
+        }, {} as Record<string, typeof filtered>);
+    };
+
+    const toggleIssueExpand = (index: number) => {
+        const newExpanded = new Set(expandedIssues);
+        if (newExpanded.has(index)) {
+            newExpanded.delete(index);
+        } else {
+            newExpanded.add(index);
+        }
+        setExpandedIssues(newExpanded);
+    };
+
+    // Phase 2: Override Management Functions
+    const handleAcceptIssue = (issueIdx: number) => {
+        setIssueOverrides(prev => ({
+            ...prev,
+            [issueIdx]: { accepted: true, reason: undefined }
+        }));
+    };
+
+    const handleOverrideIssue = (issueIdx: number) => {
+        setIssueOverrides(prev => ({
+            ...prev,
+            [issueIdx]: { accepted: false, reason: prev[issueIdx]?.reason || '' }
+        }));
+    };
+
+    const updateOverrideReason = (issueIdx: number, reason: string) => {
+        setIssueOverrides(prev => ({
+            ...prev,
+            [issueIdx]: { ...prev[issueIdx], reason }
+        }));
+    };
+
+    const getOverrideSummary = () => {
+        if (!selectedApp) return { total: 0, accepted: 0, overridden: 0, pending: 0 };
+        const total = selectedApp.compliance_report.issues.length;
+        const accepted = Object.values(issueOverrides).filter(o => o.accepted === true).length;
+        const overridden = Object.values(issueOverrides).filter(o => o.accepted === false).length;
+        const pending = total - accepted - overridden;
+        return { total, accepted, overridden, pending };
+    };
+
+    // Phase 3: Download PDF Report
+    const handleDownloadReport = async () => {
+        if (!selectedApp) return;
+
+        try {
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+            const response = await fetch(`${baseUrl}/api/v1/applications/${selectedApp.id}/report`);
+
+            if (!response.ok) throw new Error('Download failed');
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `application_${selectedApp.id}_report.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } catch (error) {
+            console.error('Report download failed:', error);
+            alert('Failed to download report. Please try again.');
+        }
     };
 
     if (loading) return <div className="p-8 text-center text-muted-foreground">Loading Dashboard...</div>;
@@ -164,6 +300,61 @@ export default function OfficerPage() {
                             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard
                         </Button>
 
+                        {/* 🔴 PHASE 1: AT-A-GLANCE FILE HEALTH SUMMARY */}
+                        <Card className="mb-6 border-2 border-primary/20 shadow-lg sticky top-20 z-10 bg-background/95 backdrop-blur">
+                            <CardHeader className="pb-3">
+                                <div className="flex justify-between items-start gap-4">
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <Badge variant="outline" className={`text-lg px-3 py-1 ${getStatusColor(selectedApp.compliance_report.status)}`}>
+                                                {selectedApp.compliance_report.status.replace('_', ' ').toUpperCase()}
+                                            </Badge>
+                                            <Badge variant="secondary" className="flex items-center gap-1">
+                                                <Clock className="w-3 h-3" />
+                                                {formatConfidence(selectedApp.compliance_report.confidence_score)} Confidence
+                                            </Badge>
+                                        </div>
+                                        <div className="flex gap-2 flex-wrap">
+                                            {getHighRiskCount(selectedApp) > 0 && (
+                                                <Badge variant="destructive" className="font-bold">
+                                                    {getHighRiskCount(selectedApp)} HIGH-RISK ISSUE{getHighRiskCount(selectedApp) > 1 ? 'S' : ''}
+                                                </Badge>
+                                            )}
+                                            {getOverrideSummary().overridden > 0 && (
+                                                <Badge variant="outline" className="border-orange-500 text-orange-700 dark:border-orange-400 dark:text-orange-400 font-bold">
+                                                    {getOverrideSummary().overridden} Override{getOverrideSummary().overridden > 1 ? 's' : ''}
+                                                </Badge>
+                                            )}
+                                            {getDepartments(selectedApp).map(dept => (
+                                                <Badge key={dept} variant="outline" className="text-xs">
+                                                    {dept}
+                                                </Badge>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        {isBlockingApproval(selectedApp) ? (
+                                            <Alert variant="destructive" className="py-2 px-3">
+                                                <AlertTriangle className="h-4 w-4" />
+                                                <AlertTitle className="text-sm font-bold mb-0">BLOCKING APPROVAL</AlertTitle>
+                                            </Alert>
+                                        ) : (
+                                            <Alert className="py-2 px-3 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
+                                                <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+                                                <AlertTitle className="text-sm font-bold mb-0 text-green-800 dark:text-green-300">No Blockers</AlertTitle>
+                                            </Alert>
+                                        )}
+                                        {selectedApp.compliance_report.confidence_score < 0.6 && (
+                                            <Alert variant="destructive" className="mt-2 py-2 px-3">
+                                                <AlertTriangle className="h-4 w-4" />
+                                                <AlertDescription className="text-xs">Manual review strongly recommended</AlertDescription>
+                                            </Alert>
+                                        )}
+                                    </div>
+                                </div>
+                            </CardHeader>
+                        </Card>
+
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[85vh]">
                             {/* Left: Document Viewer */}
                             <Card className="flex flex-col h-full overflow-hidden">
@@ -213,22 +404,144 @@ export default function OfficerPage() {
                                         </div>
                                     </CardHeader>
                                     <CardContent className="space-y-6">
+                                        {/* 🔴 PHASE 1: ISSUE FILTERING & SORTING */}
                                         <div>
-                                            <h4 className="text-sm font-semibold tracking-wide mb-3 flex items-center">
-                                                <ShieldAlert className="w-4 h-4 mr-2" /> Compliance Issues
-                                            </h4>
+                                            <div className="flex justify-between items-center mb-3">
+                                                <h4 className="text-sm font-semibold tracking-wide flex items-center">
+                                                    <ShieldAlert className="w-4 h-4 mr-2" /> Compliance Issues
+                                                </h4>
+                                                <div className="flex gap-2">
+                                                    <Select value={sortBy} onValueChange={(v) => setSortBy(v as any)}>
+                                                        <SelectTrigger className="w-32 h-8 text-xs">
+                                                            <SelectValue />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectItem value="severity">Sort: Risk</SelectItem>
+                                                            <SelectItem value="type">Sort: Type</SelectItem>
+                                                            <SelectItem value="department">Sort: Dept</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                    <Button
+                                                        variant={groupByDept ? "default" : "outline"}
+                                                        size="sm"
+                                                        onClick={() => setGroupByDept(!groupByDept)}
+                                                        className="h-8 text-xs"
+                                                    >
+                                                        Group by Dept
+                                                    </Button>
+                                                </div>
+                                            </div>
+
+                                            {/* Department Filter Chips */}
+                                            <div className="flex gap-2 mb-3 flex-wrap">
+                                                <Button
+                                                    variant={filterDept === null ? "default" : "outline"}
+                                                    size="sm"
+                                                    onClick={() => setFilterDept(null)}
+                                                    className="h-7 text-xs"
+                                                >
+                                                    All
+                                                </Button>
+                                                {getDepartments(selectedApp).map(dept => (
+                                                    <Button
+                                                        key={dept}
+                                                        variant={filterDept === dept ? "default" : "outline"}
+                                                        size="sm"
+                                                        onClick={() => setFilterDept(dept)}
+                                                        className="h-7 text-xs"
+                                                    >
+                                                        {dept}
+                                                    </Button>
+                                                ))}
+                                            </div>
+
+                                            {/* 🔴 PHASE 1: DEPARTMENT-WISE BUCKETING & INLINE EXPLAINABILITY */}
                                             {selectedApp.compliance_report.issues.length > 0 ? (
-                                                <div className="space-y-3">
-                                                    {selectedApp.compliance_report.issues.map((issue, idx) => (
-                                                        <Alert key={idx} variant="destructive" className="bg-destructive/10 border-destructive/20 text-destructive-foreground">
-                                                            <AlertTriangle className="h-4 w-4" />
-                                                            <AlertTitle className="text-sm font-bold flex items-center gap-2">
-                                                                {issue.severity.toUpperCase()} <span className="font-normal opacity-80">- {issue.issue_type}</span>
-                                                            </AlertTitle>
-                                                            <AlertDescription>
-                                                                {issue.description}
-                                                            </AlertDescription>
-                                                        </Alert>
+                                                <div className="space-y-4">
+                                                    {Object.entries(groupIssuesByDepartment(selectedApp)).map(([deptName, deptIssues]) => (
+                                                        <div key={deptName}>
+                                                            {groupByDept && (
+                                                                <h5 className="font-semibold text-sm mb-2 flex items-center gap-2">
+                                                                    <Badge variant="outline">{deptName}</Badge>
+                                                                    <span className="text-xs text-muted-foreground">({deptIssues.length} issue{deptIssues.length > 1 ? 's' : ''})</span>
+                                                                </h5>
+                                                            )}
+                                                            <div className="space-y-3">
+                                                                {deptIssues.map((issue, idx) => {
+                                                                    const globalIdx = selectedApp.compliance_report.issues.indexOf(issue);
+                                                                    return (
+                                                                        <div key={globalIdx}>
+                                                                            <Alert variant="destructive" className="bg-destructive/10 border-destructive/20 text-destructive-foreground">
+                                                                                <AlertTriangle className="h-4 w-4" />
+                                                                                <AlertTitle className="text-sm font-bold flex items-center gap-2">
+                                                                                    {issue.severity.toUpperCase()} <span className="font-normal opacity-80">- {issue.issue_type}</span>
+                                                                                </AlertTitle>
+                                                                                <AlertDescription>
+                                                                                    {issue.description}
+                                                                                </AlertDescription>
+                                                                            </Alert>
+
+                                                                            {/* 🔴 PHASE 1: INLINE EXPLAINABILITY */}
+                                                                            <Button
+                                                                                variant="ghost"
+                                                                                size="sm"
+                                                                                onClick={() => toggleIssueExpand(globalIdx)}
+                                                                                className="mt-1 h-7 text-xs text-muted-foreground"
+                                                                            >
+                                                                                {expandedIssues.has(globalIdx) ? '▼' : '▶'} Why was this flagged?
+                                                                            </Button>
+                                                                            {expandedIssues.has(globalIdx) && (
+                                                                                <div className="mt-2 p-3 bg-muted/50 rounded-md border text-sm space-y-1">
+                                                                                    <div><strong>Regulation:</strong> {issue.regulation_reference || 'N/A'}</div>
+                                                                                    <div><strong>Department:</strong> {issue.department || 'Other'}</div>
+                                                                                    <div><strong>Type:</strong> {issue.issue_type}</div>
+                                                                                    <div className="pt-2 border-t"><strong>AI Reasoning:</strong> {issue.description}</div>
+                                                                                </div>
+                                                                            )}
+
+                                                                            {/* 🟡 PHASE 2: ACCEPT/OVERRIDE INDICATORS */}
+                                                                            <div className="mt-3 p-3 bg-muted/20 rounded-md border">
+                                                                                <Label className="text-xs font-semibold mb-2 block">Officer Decision</Label>
+                                                                                <div className="flex gap-2">
+                                                                                    <Button
+                                                                                        variant={issueOverrides[globalIdx]?.accepted === true ? 'default' : 'outline'}
+                                                                                        size="sm"
+                                                                                        onClick={() => handleAcceptIssue(globalIdx)}
+                                                                                        className="flex items-center gap-1"
+                                                                                    >
+                                                                                        <CheckCircle className="w-3 h-3" />
+                                                                                        Accept AI Finding
+                                                                                    </Button>
+                                                                                    <Button
+                                                                                        variant={issueOverrides[globalIdx]?.accepted === false ? 'destructive' : 'outline'}
+                                                                                        size="sm"
+                                                                                        onClick={() => handleOverrideIssue(globalIdx)}
+                                                                                        className="flex items-center gap-1"
+                                                                                    >
+                                                                                        <XCircle className="w-3 h-3" />
+                                                                                        Override
+                                                                                    </Button>
+                                                                                </div>
+                                                                                {issueOverrides[globalIdx]?.accepted === false && (
+                                                                                    <div className="mt-2">
+                                                                                        <Label className="text-xs">Reason for Override *</Label>
+                                                                                        <Input
+                                                                                            placeholder="e.g., Regulation updated Dec 2024, special exemption granted..."
+                                                                                            value={issueOverrides[globalIdx]?.reason || ''}
+                                                                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateOverrideReason(globalIdx, e.target.value)}
+                                                                                            className="text-sm mt-1"
+                                                                                        />
+                                                                                        <p className="text-xs text-muted-foreground mt-1">
+                                                                                            💡 This creates an audit trail for your decision
+                                                                                        </p>
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        </div>
                                                     ))}
                                                 </div>
                                             ) : (
@@ -238,6 +551,29 @@ export default function OfficerPage() {
                                                     <AlertDescription>No major compliance issues detected by AI.</AlertDescription>
                                                 </Alert>
                                             )}
+                                        </div>
+
+                                        {/* 🔴 PHASE 1: LIVE DOCUMENT CHECKLIST */}
+                                        <div>
+                                            <h4 className="text-sm font-semibold tracking-wide mb-3 flex items-center">
+                                                <FileText className="w-4 h-4 mr-2" /> Document Checklist
+                                            </h4>
+                                            <div className="space-y-2">
+                                                {selectedApp.compliance_report.missing_documents.length > 0 ? (
+                                                    selectedApp.compliance_report.missing_documents.map((doc, idx) => (
+                                                        <div key={idx} className="flex items-center gap-2 p-2 bg-muted/30 rounded border">
+                                                            <XCircle className="w-4 h-4 text-destructive" />
+                                                            <span className="text-sm">{doc}</span>
+                                                            <Badge variant="destructive" className="ml-auto text-xs">Missing</Badge>
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-900/20 rounded border border-green-200 dark:border-green-800">
+                                                        <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+                                                        <span className="text-sm text-green-800 dark:text-green-300">All required documents submitted</span>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
 
                                         <div>
@@ -264,6 +600,29 @@ export default function OfficerPage() {
                                     </CardContent>
                                 </Card>
 
+                                {/* 🔴 PHASE 1: OFFICER NOTES & REMARKS (PRIVATE) */}
+                                <Card>
+                                    <CardHeader className="pb-3">
+                                        <CardTitle className="text-base flex items-center gap-2">
+                                            <FileText className="w-4 h-4" /> Private Officer Notes
+                                        </CardTitle>
+                                        <CardDescription className="text-xs">
+                                            These notes are private and not visible to the applicant
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <Textarea
+                                            value={officerNotes}
+                                            onChange={(e) => setOfficerNotes(e.target.value)}
+                                            placeholder="Record your observations, concerns, or judgment calls..."
+                                            className="min-h-[80px] text-sm"
+                                        />
+                                        <p className="text-xs text-muted-foreground mt-2">
+                                            💡 Use this for accountability and audit trails
+                                        </p>
+                                    </CardContent>
+                                </Card>
+
                                 {/* Action Bar */}
                                 <Card className="sticky bottom-0 shadow-lg border-t-2">
                                     <CardHeader className="pb-2">
@@ -271,25 +630,37 @@ export default function OfficerPage() {
                                     </CardHeader>
                                     <CardContent>
                                         {selectedApp.status === 'submitted' || selectedApp.status === 'under_review' ? (
-                                            <div className="flex gap-4">
+                                            <>
+                                                {/* 🟡 PHASE 3: DOWNLOAD PDF REPORT */}
                                                 <Button
-                                                    onClick={() => handleAction('approve')}
-                                                    disabled={processing}
-                                                    className="flex-1 bg-green-600 hover:bg-green-700 text-white"
-                                                    size="lg"
+                                                    variant="outline"
+                                                    onClick={handleDownloadReport}
+                                                    className="w-full mb-3 flex items-center justify-center gap-2"
                                                 >
-                                                    {processing ? 'Processing...' : <span className="flex items-center"><CheckCircle className="mr-2 h-4 w-4" /> Approve Application</span>}
+                                                    <FileText className="w-4 h-4" />
+                                                    Download PDF Report
                                                 </Button>
-                                                <Button
-                                                    onClick={() => handleAction('reject')}
-                                                    disabled={processing}
-                                                    variant="destructive"
-                                                    className="flex-1"
-                                                    size="lg"
-                                                >
-                                                    {processing ? 'Processing...' : <span className="flex items-center"><XCircle className="mr-2 h-4 w-4" /> Reject / Send Back</span>}
-                                                </Button>
-                                            </div>
+
+                                                <div className="flex gap-4">
+                                                    <Button
+                                                        onClick={() => handleAction('approve')}
+                                                        disabled={processing}
+                                                        className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                                                        size="lg"
+                                                    >
+                                                        {processing ? 'Processing...' : <span className="flex items-center"><CheckCircle className="mr-2 h-4 w-4" /> Approve Application</span>}
+                                                    </Button>
+                                                    <Button
+                                                        onClick={() => handleAction('reject')}
+                                                        disabled={processing}
+                                                        variant="destructive"
+                                                        className="flex-1"
+                                                        size="lg"
+                                                    >
+                                                        {processing ? 'Processing...' : <span className="flex items-center"><XCircle className="mr-2 h-4 w-4" /> Reject / Send Back</span>}
+                                                    </Button>
+                                                </div>
+                                            </>
                                         ) : (
                                             <div className="text-center p-3 bg-muted rounded-lg text-muted-foreground font-medium">
                                                 Application is currently <span className="font-bold uppercase text-foreground">{selectedApp.status.replace('_', ' ')}</span>
