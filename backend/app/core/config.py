@@ -15,13 +15,18 @@ class Settings(BaseSettings):
     
     # API Configuration
     app_name: str = "CivicAssist API"
-    app_version: str = "0.1.0"
+    app_version: str = "0.3.0"  # Phase 3
     api_host: str = "0.0.0.0"
     api_port: int = 8000
     debug: bool = False
     
-    # CORS Settings
-    cors_origins: list = ["http://localhost:8501", "http://127.0.0.1:8501"]
+    # CORS Settings (Updated for Next.js)
+    cors_origins: list = [
+        "http://localhost:3000",  # Next.js dev server
+        "http://localhost:8501",  # Streamlit (legacy)
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8501"
+    ]
     
     # Vector Store Configuration
     vector_store_path: str = "./data/vector_store"
@@ -30,13 +35,14 @@ class Settings(BaseSettings):
     # Embedding Model Configuration
     embedding_model_name: str = "all-MiniLM-L6-v2"
     
-    # LLM Configuration
-    llm_api_url: str = "http://localhost:1234/v1/chat/completions"
-    llm_model_name: str = "amethyst-13b-mistral"
-    llm_temperature: float = 0.7
-    llm_max_tokens: int = -1
+    # LLM Configuration (Phase 3)
+    llm_api_url: str = "http://localhost:1234/v1/chat/completions"  # LM Studio default
+    llm_model_name: str = "mistral-7b"  # Or whatever model is loaded
+    llm_temperature: float = 0.3  # Lower for compliance analysis
+    llm_max_tokens: int = 2000  # Hard limit for safety
+    llm_timeout: int = 30  # 30 second timeout
     
-    # OpenAI Fallback (Optional)
+    # OpenAI Fallback (Not used in Phase 3)
     openai_api_key: Optional[str] = None
     openai_model: str = "gpt-4"
     
