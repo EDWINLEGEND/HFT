@@ -121,3 +121,71 @@ class VersionResponse(BaseModel):
     """API version information."""
     api_version: str
     app_name: str
+
+
+# Phase 2: Regulation Search Schemas
+
+class RegulationSearchRequest(BaseModel):
+    """Request for searching regulations."""
+    query: str = Field(..., description="Search query text")
+    industry_type: Optional[str] = Field(None, description="Filter by industry type")
+    department: Optional[str] = Field(None, description="Filter by department")
+    n_results: int = Field(5, ge=1, le=20, description="Number of results to return")
+
+
+class RegulationSearchResponse(BaseModel):
+    """Response from regulation search with retrieved chunks."""
+    query: str = Field(..., description="Original search query")
+    results: List[str] = Field(..., description="List of matching regulation text chunks")
+    metadatas: List[Dict[str, Any]] = Field(..., description="Metadata for each result")
+    distances: List[float] = Field(..., description="Similarity distances (lower is better)")
+    count: int = Field(..., description="Number of results returned")
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "query": "fire safety requirements for textile factory",
+                "results": [
+                    "All textile manufacturing units must have fire extinguishers placed at intervals of 15 meters...",
+                    "Emergency exits must be clearly marked and accessible at all times..."
+                ],
+                "metadatas": [
+                    {
+                        "regulation_name": "Kerala Fire Safety Code 2023",
+                        "department": "Fire Safety",
+                        "clause_id": "Section 4.2",
+                        "chunk_index": 0
+                    },
+                    {
+                        "regulation_name": "National Building Code",
+                        "department": "Fire Safety",
+                        "clause_id": "Chapter 5",
+                        "chunk_index": 12
+                    }
+                ],
+                "distances": [0.23, 0.31],
+                "count": 2
+            }
+        }
+
+
+class IngestionResponse(BaseModel):
+    """Response from regulation document ingestion."""
+    success: bool = Field(..., description="Whether ingestion was successful")
+    message: str = Field(..., description="Human-readable status message")
+    total_files: int = Field(..., description="Total files found")
+    successful: int = Field(..., description="Number of files successfully ingested")
+    failed: int = Field(..., description="Number of files that failed")
+    total_chunks: int = Field(..., description="Total text chunks created and stored")
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "success": True,
+                "message": "Ingested 5 files successfully",
+                "total_files": 5,
+                "successful": 5,
+                "failed": 0,
+                "total_chunks": 127
+            }
+        }

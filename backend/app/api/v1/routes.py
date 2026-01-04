@@ -5,22 +5,31 @@ API route definitions for v1 endpoints.
 Contains:
 - /health - Health check endpoint
 - /version - API version information
+- /regulations/search - Search regulations by query (Phase 2)
+- /regulations/ingest - Ingest regulation documents (Phase 2)
 - /compliance/analyze - Placeholder for compliance analysis (stub)
 - /chat - Placeholder for chatbot endpoint (stub)
 """
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from datetime import datetime
+from typing import Optional
 from app.models.schemas import (
     ComplianceReport,
     IndustrialApplication,
     ChatRequest,
     ChatResponse,
     HealthResponse,
-    VersionResponse
+    VersionResponse,
+    RegulationSearchRequest,
+    RegulationSearchResponse,
+    IngestionResponse
 )
 from app.services.compliance_service import get_compliance_service
 from app.services.chat_service import get_chat_service
+from app.services.embedding_service import get_embedding_service
+from app.services.vector_store_service import get_vector_store_service
+from app.services.regulation_ingestion_service import get_ingestion_service
 from app.core.config import settings
 
 router = APIRouter()
@@ -55,13 +64,102 @@ async def get_version():
     )
 
 
+@router.get("/regulations/search", response_model=RegulationSearchResponse, tags=["Regulations"])
+async def search_regulations(
+    query: str = Query(..., description="Search query text"),
+    industry_type: Optional[str] = Query(None, description="Filter by industry type"),
+    department: Optional[str] = Query(None, description="Filter by department"),
+    n_results: int = Query(5, ge=1, le=20, description="Number of results to return")
+):
+    """
+    Search for relevant regulation chunks using semantic similarity.
+    
+    Phase 2: IMPLEMENTED - Full RAG retrieval without LLM reasoning.
+    
+    Args:
+        query: Search query text
+        industry_type: Optional industry type filter
+        department: Optional department filter (e.g., "Environment", "Fire Safety")
+        n_results: Number of results to return (1-20)
+        
+    Returns:
+        RegulationSearchResponse with matching regulation chunks and metadata
+        
+    Raises:
+        HTTPException: If search fails
+    """
+    try:
+        # Get services
+        embedding_service = get_embedding_service()
+        vector_store = get_vector_store_service()
+        
+        # Generate query embedding
+        query_embedding = embedding_service.encode(query)
+        
+        # Build metadata filter
+        where_filter = None
+        if department:
+            where_filter = {"department": department}
+        
+        # Query vector store
+        results = vector_store.query(
+            query_embedding=query_embedding,
+            n_results=n_results,
+            where=where_filter
+        )
+        
+        # Format response
+        return RegulationSearchResponse(
+            query=query,
+            results=results["documents"],
+            metadatas=results["metadatas"],
+            distances=results["distances"],
+            count=len(results["documents"])
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Regulation search failed: {str(e)}")
+
+
+@router.post("/regulations/ingest", response_model=IngestionResponse, tags=["Regulations"])
+async def ingest_regulations():
+    """
+    Ingest all regulation documents from the data/regulations directory.
+    
+    Phase 2: IMPLEMENTED - Document ingestion pipeline.
+    
+    This endpoint scans the regulations directory, extracts text from supported
+    formats (PDF, DOCX, TXT), chunks the text, generates embeddings, and stores
+    them in the vector database.
+    
+    Returns:
+        IngestionResponse with ingestion statistics
+        
+    Raises:
+        HTTPException: If ingestion fails
+    """
+    try:
+        ingestion_service = get_ingestion_service()
+        stats = ingestion_service.ingest_directory()
+        
+        return IngestionResponse(
+            success=True,
+            message=f"Ingested {stats['successful']} files successfully",
+            total_files=stats["total_files"],
+            successful=stats["successful"],
+            failed=stats["failed"],
+            total_chunks=stats["total_chunks"]
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Regulation ingestion failed: {str(e)}")
+
+
 @router.post("/compliance/analyze", response_model=ComplianceReport, tags=["Compliance"])
 async def analyze_compliance(application: IndustrialApplication):
     """
     Analyze an industrial application for regulatory compliance.
     
-    This is a STUB endpoint for Phase 1. Actual compliance analysis will be
-    implemented in Phase 2 with RAG and LLM integration.
+    This is a STUB endpoint for Phase 1-2. Actual compliance analysis will be
+    implemented in Phase 3 with LLM integration.
     
     Args:
         application: IndustrialApplication data
@@ -85,8 +183,8 @@ async def chat(chat_request: ChatRequest):
     """
     Process a chat conversation and return AI assistant's response.
     
-    This is a STUB endpoint for Phase 1. Actual chatbot logic will be
-    implemented in Phase 2 with LLM integration.
+    This is a STUB endpoint for Phase 1-2. Actual chatbot logic will be
+    implemented in Phase 3 with LLM integration.
     
     Args:
         chat_request: ChatRequest with conversation history

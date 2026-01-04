@@ -9,11 +9,13 @@ Responsibilities:
 
 Reference: Inspired by OLD/RagBot/store_documents.py (lines 11-12, 88-89)
 
-NOTE: This is a STUB for Phase 1. Actual implementation will be added in Phase 2.
+Phase 2: IMPLEMENTED - Full SentenceTransformers integration
 """
 
 from typing import List, Optional
 import logging
+from sentence_transformers import SentenceTransformer
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
@@ -22,11 +24,8 @@ class EmbeddingService:
     """
     Service for generating text embeddings using sentence transformers.
     
-    In future phases, this will:
-    - Initialize SentenceTransformer model (all-MiniLM-L6-v2)
-    - Generate embeddings for single texts or batches
-    - Cache models for performance
-    - Handle GPU/CPU selection
+    Uses all-MiniLM-L6-v2 model which produces 384-dimensional embeddings.
+    Model is loaded once and cached for performance.
     """
     
     def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
@@ -37,8 +36,18 @@ class EmbeddingService:
             model_name: Name of the SentenceTransformer model to use
         """
         self.model_name = model_name
-        self.model = None  # Will be loaded in Phase 2
-        logger.info(f"EmbeddingService initialized (stub) with model: {model_name}")
+        self.model: Optional[SentenceTransformer] = None
+        self._load_model()
+    
+    def _load_model(self) -> None:
+        """Load the SentenceTransformer model."""
+        try:
+            logger.info(f"Loading embedding model: {self.model_name}")
+            self.model = SentenceTransformer(self.model_name)
+            logger.info(f"Embedding model loaded successfully. Dimension: {self.get_embedding_dimension()}")
+        except Exception as e:
+            logger.error(f"Failed to load embedding model: {e}")
+            raise
     
     def encode(self, text: str) -> List[float]:
         """
@@ -48,12 +57,25 @@ class EmbeddingService:
             text: Input text to encode
             
         Returns:
-            List of floats representing the embedding vector
+            List of floats representing the embedding vector (384 dimensions)
             
-        NOTE: Stub implementation - returns empty list for now
+        Raises:
+            ValueError: If text is empty
+            RuntimeError: If model is not loaded
         """
-        logger.warning("encode() called but not implemented (Phase 1 stub)")
-        return []
+        if not text or not text.strip():
+            raise ValueError("Text cannot be empty")
+        
+        if self.model is None:
+            raise RuntimeError("Embedding model not loaded")
+        
+        try:
+            # Generate embedding
+            embedding = self.model.encode(text, convert_to_numpy=True)
+            return embedding.tolist()
+        except Exception as e:
+            logger.error(f"Error encoding text: {e}")
+            raise
     
     def encode_batch(self, texts: List[str]) -> List[List[float]]:
         """
@@ -65,21 +87,39 @@ class EmbeddingService:
         Returns:
             List of embedding vectors
             
-        NOTE: Stub implementation - returns empty list for now
+        Raises:
+            ValueError: If texts list is empty
+            RuntimeError: If model is not loaded
         """
-        logger.warning("encode_batch() called but not implemented (Phase 1 stub)")
-        return []
+        if not texts:
+            raise ValueError("Texts list cannot be empty")
+        
+        if self.model is None:
+            raise RuntimeError("Embedding model not loaded")
+        
+        try:
+            # Filter out empty texts
+            valid_texts = [t for t in texts if t and t.strip()]
+            if not valid_texts:
+                raise ValueError("All texts are empty")
+            
+            # Generate embeddings in batch (more efficient)
+            embeddings = self.model.encode(valid_texts, convert_to_numpy=True, show_progress_bar=len(valid_texts) > 10)
+            return embeddings.tolist()
+        except Exception as e:
+            logger.error(f"Error encoding batch: {e}")
+            raise
     
     def get_embedding_dimension(self) -> int:
         """
         Get the dimension of the embedding vectors.
         
         Returns:
-            Dimensionality of embeddings (e.g., 384 for all-MiniLM-L6-v2)
-            
-        NOTE: Stub implementation - returns 0 for now
+            Dimensionality of embeddings (384 for all-MiniLM-L6-v2)
         """
-        return 0
+        if self.model is None:
+            return 0
+        return self.model.get_sentence_embedding_dimension()
 
 
 # Singleton instance

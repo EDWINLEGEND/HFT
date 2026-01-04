@@ -4,3 +4,8 @@ pydantic
 pydantic-settings
 requests
 python-multipart
+# Phase 2: RAG Dependencies
+sentence-transformers
+chromadb
+PyMuPDF
+python-docx

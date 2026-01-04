@@ -1,0 +1,119 @@
+# Kerala Industrial Safety Regulations 2023
+
+## Chapter 1: General Provisions
+
+### Section 1.1: Scope and Application
+These regulations apply to all industrial establishments in Kerala, including manufacturing units, processing plants, and assembly facilities. All new industrial units must obtain necessary clearances before commencing operations.
+
+### Section 1.2: Definitions
+- **Industrial Unit**: Any establishment engaged in manufacturing, processing, or assembly of goods
+- **Competent Authority**: The designated officer responsible for enforcement
+- **Hazardous Industry**: Industries dealing with flammable, toxic, or explosive materials
+
+## Chapter 2: Fire Safety Requirements
+
+### Section 2.1: Fire Extinguishers
+All industrial units must maintain fire extinguishers at intervals not exceeding 15 meters. Fire extinguishers must be:
+- Properly maintained and inspected quarterly
+- Easily accessible and clearly marked
+- Appropriate for the type of fire risk present
+
+### Section 2.2: Emergency Exits
+Every industrial building must have:
+- Minimum two emergency exits on each floor
+- Emergency exits clearly marked with illuminated signs
+- Unobstructed access to all emergency exits at all times
+- Emergency exit doors that open outward
+
+### Section 2.3: Fire Safety Certificate
+No industrial unit shall operate without a valid Fire Safety Certificate issued by the Fire Department. The certificate must be renewed annually.
+
+## Chapter 3: Environmental Compliance
+
+### Section 3.1: Air Pollution Control
+Industries must install appropriate air pollution control equipment including:
+- Electrostatic precipitators for particulate matter
+- Scrubbers for gaseous emissions
+- Regular monitoring of emissions
+
+### Section 3.2: Water Management
+Industries must:
+- Obtain water source approval from the Water Authority
+- Install water treatment facilities if using groundwater
+- Maintain groundwater levels above 40 feet depth
+- Implement rainwater harvesting systems
+
+### Section 3.3: Waste Management
+All industrial units must:
+- Segregate waste into hazardous and non-hazardous categories
+- Dispose of hazardous waste through authorized agencies only
+- Maintain waste disposal records for minimum 5 years
+- Submit quarterly waste management reports
+
+## Chapter 4: Location and Buffer Zones
+
+### Section 4.1: Residential Buffer Zone
+Industrial units must maintain minimum distance from residential areas:
+- Light industries: 100 meters
+- Medium industries: 500 meters
+- Heavy industries: 1000 meters
+- Hazardous industries: 2000 meters
+
+### Section 4.2: Water Body Protection
+No industrial unit shall be established within 200 meters of any river, lake, or water body without special permission from the Environmental Authority.
+
+## Chapter 5: Building and Safety Standards
+
+### Section 5.1: Building Requirements
+Industrial buildings must comply with:
+- National Building Code standards
+- Minimum ceiling height of 4 meters for manufacturing areas
+- Adequate ventilation and lighting
+- Separate storage areas for hazardous materials
+
+### Section 5.2: Worker Safety
+Industries must provide:
+- Personal protective equipment to all workers
+- First aid facilities on premises
+- Safety training programs conducted quarterly
+- Emergency response plan displayed prominently
+
+## Chapter 6: Inspection and Compliance
+
+### Section 6.1: Regular Inspections
+All industrial units are subject to:
+- Annual safety inspections by competent authorities
+- Surprise inspections at any time
+- Mandatory compliance with inspection findings within 30 days
+
+### Section 6.2: Penalties
+Non-compliance may result in:
+- Warning notices for minor violations
+- Fines ranging from ₹10,000 to ₹5,00,000
+- Suspension of operations for serious violations
+- Cancellation of license for repeated violations
+
+## Chapter 7: Documentation Requirements
+
+### Section 7.1: Mandatory Documents
+Every industrial unit must maintain:
+- Valid industrial license
+- Fire safety certificate
+- Environmental clearance certificate
+- Building plan approval
+- Water source NOC
+- Waste disposal agreements
+- Employee safety training records
+
+### Section 7.2: Renewal Requirements
+All certificates and licenses must be renewed:
+- Industrial license: Every 5 years
+- Fire safety certificate: Annually
+- Environmental clearance: Every 3 years
+- Building plan approval: One-time (unless modifications)
+
+---
+
+**Issued by**: Department of Industries and Commerce, Government of Kerala
+**Effective Date**: January 1, 2023
+**Last Updated**: January 1, 2023
