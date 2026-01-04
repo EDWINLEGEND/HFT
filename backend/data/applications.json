@@ -51,5 +51,58 @@
     "id": "f6484349-61d0-48fd-b16a-332ff5b90e66",
     "submitted_at": "2026-01-04T14:13:00.581068",
     "status": "submitted"
+  },
+  {
+    "application_data": {
+      "industry_name": "GreenLeaf Processing Unit",
+      "square_feet": "8,500 Square Feet (Approx. 20 cents)",
+      "water_source": "Secured connection from KWA (Kerala Water Authority) Municipal Supply Line",
+      "drainage": "All effluent will be treated in an on-site Effluent Treatment Plant (ETP) with a capacity of 50 KLD. Treated water reused for gardening.",
+      "air_pollution": "Boiler unit equipped with Wet Scrubber system to control particulate matter. Chimney height maintained at 30 meters.",
+      "waste_management": "Biodegradable waste composted using a biogas plant. Non-biodegradable waste handed over to Clean Kerala Company Ltd.",
+      "nearby_homes": "750 meters away from the boundary wall",
+      "water_level_depth": "25 feet below ground level"
+    },
+    "compliance_report": {
+      "application_id": "GreenLeaf Processing Unit",
+      "status": "partially_compliant",
+      "confidence_score": 0.85,
+      "issues": [
+        {
+          "issue_type": "missing_document",
+          "severity": "medium",
+          "description": "GreenLeaf Processing Unit does not mention the implementation of a ZLD system in their application. However, it's unclear if they fall under the Red Category as that information was not provided.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Rule 3",
+          "department": "environment"
+        },
+        {
+          "issue_type": "ambiguity",
+          "severity": "low",
+          "description": "The term 'processing unit' used in the application matches the definition of an 'industrial unit', but it's essential to clarify if this specific unit falls under this category.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 1.2",
+          "department": "local_body"
+        },
+        {
+          "issue_type": "violation",
+          "severity": "medium",
+          "description": "The application does not mention the frequency of fire extinguisher maintenance.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 2.1",
+          "department": "fire"
+        }
+      ],
+      "missing_documents": [
+        "GreenLeaf Processing Unit does not mention the implementation of a ZLD system in their application. However, it's unclear if they fall under the Red Category as that information was not provided."
+      ],
+      "recommendations": [
+        "Verify industrial unit category and obtain ZLD system implementation status if required",
+        "Establish a schedule for regular fire extinguisher inspections"
+      ],
+      "regulation_coverage": 0.9,
+      "generated_at": "2026-01-04T15:23:35.308306"
+    },
+    "submission_reason": "ok submit for me please",
+    "id": "c4a21d73-b3d6-45ff-bb99-383040011917",
+    "submitted_at": "2026-01-04T16:03:29.056877",
+    "status": "submitted"
   }
 ]
