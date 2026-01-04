@@ -440,5 +440,65 @@
     "rejection_reason": "",
     "time_saved_seconds": 1200.0,
     "issue_overrides": null
+  },
+  {
+    "application_data": {
+      "industry_name": "GreenLeaf Processing Unit",
+      "square_feet": "8,500 Square Feet (Approx. 20 cents)",
+      "water_source": "Secured connection from KWA (Kerala Water Authority) Municipal Supply Line",
+      "drainage": "All effluent will be treated in an on-site Effluent Treatment Plant (ETP) with a capacity of 50 KLD. Treated water will be reused for gardening purposes. Zero liquid discharge to public drains.",
+      "air_pollution": "The boiler unit is equipped with a Wet Scrubber system to control particulate matter. Chimney height is maintained at 30 meters as per PCB norms.",
+      "waste_management": "Biodegradable waste will be composted using a biogas plant. Non-biodegradable waste will be handed over to Clean Kerala Company Ltd.",
+      "nearby_homes": "750 meters",
+      "water_level_depth": "25 feet below ground level",
+      "document_url": "/uploads/20260105012556_Project_Proposal_GreenLeaf_Processing_Unit.pdf"
+    },
+    "compliance_report": {
+      "application_id": "GreenLeaf Processing Unit",
+      "status": "partially_compliant",
+      "confidence_score": 0.85,
+      "issues": [
+        {
+          "issue_type": "missing_document",
+          "severity": "medium",
+          "description": "GreenLeaf Processing Unit does not mention the submission of quarterly waste management reports in their application.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Section 3.3: Waste Management",
+          "department": "environment"
+        },
+        {
+          "issue_type": "ambiguity",
+          "severity": "low",
+          "description": "It is unclear whether GreenLeaf Processing Unit falls under 'Light', 'Medium', 'Heavy' or 'Hazardous' industries, which impacts the required residential buffer zone.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 4.1: Residential Buffer Zone",
+          "department": "local_body"
+        },
+        {
+          "issue_type": "violation",
+          "severity": "medium",
+          "description": "As per regulation, every industrial building must have a minimum of two emergency exits on each floor.",
+          "regulation_reference": "Kerala Industrial Safety Regulations 2023, Section 2.2: Emergency Exits",
+          "department": "fire"
+        }
+      ],
+      "missing_documents": [
+        "GreenLeaf Processing Unit does not mention the submission of quarterly waste management reports in their application."
+      ],
+      "recommendations": [
+        "Ensure submission of quarterly waste management reports",
+        "Determine the type of industry for GreenLeaf Processing Unit and verify residential buffer zone accordingly",
+        "Install appropriate number of emergency exits on each floor"
+      ],
+      "regulation_coverage": 0.9,
+      "generated_at": "2026-01-04T19:56:31.426263"
+    },
+    "submission_reason": "wesdfasdas",
+    "id": "3b919abf-efbc-4b15-bad8-34e21a303205",
+    "submitted_at": "2026-01-04T19:57:33.244369",
+    "status": "submitted",
+    "officer_action": null,
+    "officer_notes": null,
+    "rejection_reason": null,
+    "time_saved_seconds": 1200.0,
+    "issue_overrides": null
   }
 ]
