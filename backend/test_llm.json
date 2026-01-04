@@ -1,0 +1,11 @@
+{
+    "model": "mistralai-mistral-7b-instruct-v0.2-smashed",
+    "messages": [
+        {
+            "role": "user",
+            "content": "Say hello"
+        }
+    ],
+    "max_tokens": 50,
+    "temperature": 0.3
+}

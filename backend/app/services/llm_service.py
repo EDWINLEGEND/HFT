@@ -140,6 +140,7 @@ class LLMService:
         try:
             self.local_llm_calls += 1
             logger.info(f"[LOCAL LLM] Call #{self.local_llm_calls} to {self.api_url}")
+            logger.debug(f"[LOCAL LLM] Payload: {json.dumps(payload, indent=2)}")
             
             response = requests.post(
                 self.api_url,
@@ -378,7 +379,14 @@ Provide a comprehensive compliance analysis in JSON format."""
             Parsed JSON dict if valid, None otherwise
         """
         try:
-            result = json.loads(response_text)
+            # Clean markdown code blocks if present
+            cleaned_text = response_text.strip()
+            if "```json" in cleaned_text:
+                cleaned_text = cleaned_text.split("```json")[1].split("```")[0].strip()
+            elif "```" in cleaned_text:
+                cleaned_text = cleaned_text.split("```")[1].split("```")[0].strip()
+            
+            result = json.loads(cleaned_text)
             
             # Validate required fields
             required_fields = ["overall_status", "confidence_score", "issues", "checklist"]
