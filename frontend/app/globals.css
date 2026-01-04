@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-@plugin "tailwindcss-animate";
 
 /* ========================================
    CivicAssist Design System
@@ -15,118 +14,147 @@
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
 
-  /* ===== COLORS - Light Mode ===== */
-  /* Primary - Teal/Cyan (Government Portal) */
-  --primary: 180 100% 33%;        /* #00A9A0 */
+  /* ===== EARTHY OLIVE THEME ===== */
+
+  /* Primary - Olive Green (Start Button / Pill) */
+  --primary: 67 11% 31%;
+  /* #505645 */
   --primary-foreground: 0 0% 100%;
-  --primary-hover: 180 100% 27%;  /* #008780 */
+  /* White */
+  --primary-hover: 67 11% 25%;
+  /* Darker Olive */
 
-  /* Background & Surfaces */
-  --background: 0 0% 98%;          /* #F9FAFB */
-  --foreground: 220 13% 9%;        /* #111827 */
-  --card: 0 0% 100%;               /* #FFFFFF */
-  --card-foreground: 220 13% 9%;
-  --card-border: 220 13% 91%;      /* #E5E7EB */
+  /* Secondary - Light Olive/Grey (Accents) */
+  --secondary: 78 7% 55%;
+  /* #858A77 */
+  --secondary-foreground: 84 6% 10%;
+  /* Soft Black */
 
-  /* Secondary */
-  --secondary: 250 100% 90%;       /* Light purple */
-  --secondary-foreground: 250 60% 30%;
+  /* Backgrounds */
+  --background: 120 4% 96%;
+  /* #F4F5F4 (Soft Sage White) */
+  --foreground: 84 6% 10%;
+  /* #171915 (Soft Black) */
 
-  /* Muted */
-  --muted: 220 13% 95%;            /* #F3F4F6 */
-  --muted-foreground: 220 9% 46%;  /* #6B7280 */
+  /* Cards & Surfaces */
+  --card: 60 7% 91%;
+  /* #E8E8E3 (Beige/Card) */
+  --card-foreground: 84 6% 10%;
+  --card-border: 74 12% 80%;
+  /* #D0D1C9 */
+
+  /* Muted Elements */
+  --muted: 74 12% 80%;
+  /* #D0D1C9 (Muted Beige) */
+  --muted-foreground: 67 11% 31%;
+  /* Olive Text */
 
   /* Accent */
-  --accent: 220 13% 95%;
-  --accent-foreground: 220 13% 23%;
+  --accent: 74 12% 66%;
+  /* #AFB2A3 */
+  --accent-foreground: 84 6% 10%;
 
   /* Destructive */
-  --destructive: 0 84% 60%;        /* #EF4444 */
-  --destructive-foreground: 0 0% 100%;
+  --destructive: 0 60% 50%;
+  --destructive-foreground: 0 0% 98%;
+
+  /* Borders & Inputs */
+  --border: 74 12% 80%;
+  /* Match muted/card border */
+  --input: 74 12% 80%;
+  --ring: 67 11% 31%;
+  /* Olive Ring */
 
   /* Success */
-  --success: 158 64% 52%;          /* #10B981 */
+  --success: 100 40% 50%;
   --success-foreground: 0 0% 100%;
-  --success-light: 158 64% 90%;    /* Light green bg */
+  --success-light: 100 40% 90%;
+  /* Light green bg */
 
   /* Warning */
-  --warning: 38 92% 50%;           /* #F59E0B */
+  --warning: 38 92% 50%;
+  /* #F59E0B */
   --warning-foreground: 38 90% 20%;
-  --warning-light: 48 96% 89%;     /* #FEF3C7 */
+  --warning-light: 48 96% 89%;
+  /* #FEF3C7 */
 
   /* Info */
-  --info: 217 91% 60%;             /* Blue */
+  --info: 217 91% 60%;
+  /* Blue */
   --info-foreground: 0 0% 100%;
   --info-light: 217 91% 95%;
 
   /* Borders */
-  --border: 220 13% 83%;           /* #D1D5DB */
-  --input: 220 13% 91%;            /* #E5E7EB */
-  --ring: 180 100% 33%;            /* Same as primary */
+  --border: 220 13% 83%;
+  /* #D1D5DB */
+  --input: 220 13% 91%;
+  /* #E5E7EB */
+  --ring: 180 100% 33%;
+  /* Same as primary */
 
   /* Popover */
+  --background: 60 6% 99%;
+  /* #FBFBF9 - Warm off-white */
+  --foreground: 0 0% 10%;
+  /* #1A1A1A - Soft Black */
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
   --popover: 0 0% 100%;
-  --popover-foreground: 220 13% 9%;
+  --popover-foreground: 0 0% 10%;
+  --primary: 0 0% 10%;
+  /* Neutral 900 for primary actions */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 40 10% 96%;
+  /* Warm gray/beige for secondary */
+  --secondary-foreground: 0 0% 10%;
+  --muted: 40 10% 96%;
+  --muted-foreground: 0 0% 45%;
+  /* Neutral gray for secondary text */
+  --accent: 40 10% 94%;
+  --accent-foreground: 0 0% 10%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 92%;
+  /* Very subtle borders */
+  --input: 0 0% 92%;
+  --ring: 0 0% 80%;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+  --radius: 0.5rem;
 
-  /* Status Colors */
-  --status-in-review-bg: 48 96% 89%;
-  --status-in-review-text: 38 90% 30%;
-  --status-in-review-border: 45 93% 66%;
-
-  --status-approved-bg: 158 64% 90%;
-  --status-approved-text: 158 75% 20%;
-  --status-approved-border: 158 64% 72%;
-
-  --status-rejected-bg: 0 86% 90%;
-  --status-rejected-text: 0 70% 35%;
-  --status-rejected-border: 0 86% 80%;
-
-  --status-pending-bg: 234 89% 90%;
-  --status-pending-text: 234 68% 30%;
-  --status-pending-border: 234 89% 74%;
-
-  --status-submitted-bg: 217 92% 90%;
-  --status-submitted-text: 217 80% 30%;
-  --status-submitted-border: 217 92% 76%;
-
-  /* Charts */
-  --chart-1: 180 100% 33%;
-  --chart-2: 158 64% 52%;
-  --chart-3: 38 92% 50%;
-  --chart-4: 0 84% 60%;
-  --chart-5: 250 100% 70%;
+  /* Custom Fonts */
+  --font-sans: var(--font-manrope), sans-serif;
+  --font-heading: var(--font-instrument), serif;
 }
 
 .dark {
-  /* Dark mode color adjustments */
-  --background: 220 13% 9%;
-  --foreground: 220 13% 98%;
-  --card: 220 13% 13%;
-  --card-foreground: 220 13% 98%;
-  --card-border: 220 13% 20%;
-  
-  --primary: 180 100% 40%;
-  --primary-foreground: 220 13% 9%;
-  --primary-hover: 180 100% 35%;
-  
-  --secondary: 220 13% 17%;
-  --secondary-foreground: 220 13% 98%;
-  
-  --muted: 220 13% 17%;
-  --muted-foreground: 220 9% 65%;
-  
-  --accent: 220 13% 17%;
-  --accent-foreground: 220 13% 98%;
-  
-  --destructive: 0 63% 45%;
-  --destructive-foreground: 220 13% 98%;
-  
-  --border: 220 13% 20%;
-  --input: 220 13% 20%;
-  --ring: 180 100% 40%;
-  
-  --popover: 220 13% 13%;
-  --popover-foreground: 220 13% 98%;
+  --background: 0 0% 10%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 10%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 9%;
+  --secondary: 0 0% 15%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 64%;
+  --accent: 0 0% 15%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 0 0% 83%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
 }
 
 @theme inline {
@@ -190,7 +218,12 @@ body {
    TYPOGRAPHY ENHANCEMENTS
    ======================================== */
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
   line-height: 1.25;
@@ -409,6 +442,7 @@ textarea::placeholder {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

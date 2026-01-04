@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Header from '@/components/Header';
+// import Header from '@/components/Header';
 import { CivicAssistAPI, getStatusColor, formatConfidence } from '@/lib/api';
 import type { SavedApplication } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -222,11 +222,27 @@ export default function OfficerPage() {
         }
     };
 
+    const getStatusBadge = (status: string) => {
+        const styles = {
+            approved: "bg-emerald-50 text-emerald-700 border-emerald-100",
+            rejected: "bg-red-50 text-red-700 border-red-100",
+            in_review: "bg-yellow-50 text-yellow-700 border-yellow-100",
+            pending: "bg-blue-50 text-blue-700 border-blue-100"
+        };
+        const style = styles[status as keyof typeof styles] || styles.pending;
+
+        return (
+            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border ${style} uppercase tracking-wide`}>
+                {status.replace('_', ' ')}
+            </span>
+        );
+    };
+
     if (loading) return <div className="p-8 text-center text-gray-500 font-medium">Loading Dashboard...</div>;
 
     return (
-        <div className="min-h-screen bg-gray-50 text-foreground">
-            <Header showNav={true} activeTab="officer" />
+        <div className="bg-transparent text-foreground pb-20">
+            {/* Header removed */}
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {viewMode === 'list' && (
@@ -240,54 +256,57 @@ export default function OfficerPage() {
 
                         <Card>
                             <CardContent className="p-0">
-                                <div className="rounded-lg border border-gray-200 overflow-hidden">
-                                    <table className="w-full text-left text-sm">
-                                        <thead className="bg-gray-100 border-b border-gray-200">
-                                            <tr>
-                                                <th className="p-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Application ID</th>
-                                                <th className="p-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Applicant</th>
-                                                <th className="p-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Status</th>
-                                                <th className="p-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">AI Confidence</th>
-                                                <th className="p-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Time Saved</th>
-                                                <th className="p-4 font-semibold text-gray-700 uppercase text-xs tracking-wider">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-gray-200 bg-white">
-                                            {applications.length === 0 ? (
+                                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden animate-in fade-in duration-500">
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full">
+                                            <thead className="bg-gray-50/50 text-xs uppercase text-gray-400 font-semibold tracking-wider">
                                                 <tr>
-                                                    <td colSpan={6} className="p-8 text-center text-gray-500">No applications found.</td>
+                                                    <th className="px-6 py-4 text-left">Application ID</th>
+                                                    <th className="px-6 py-4 text-left">Applicant</th>
+                                                    <th className="px-6 py-4 text-left">Date</th>
+                                                    <th className="px-6 py-4 text-left">Confidence</th>
+                                                    <th className="px-6 py-4 text-left">Status</th>
+                                                    <th className="px-6 py-4 text-left">Action</th>
                                                 </tr>
-                                            ) : (
-                                                applications.map((app) => (
-                                                    <tr key={app.id} className="hover:bg-gray-50 transition-colors">
-                                                        <td className="p-4 font-mono text-xs text-gray-600">{app.id.slice(0, 8)}...</td>
-                                                        <td className="p-4 font-medium text-gray-900">{app.application_data.industry_name}</td>
-                                                        <td className="p-4">
-                                                            <Badge variant="outline" className={`${getStatusColor(app.status)}`}>
-                                                                {app.status.replace('_', ' ').toUpperCase()}
-                                                            </Badge>
+                                            </thead>
+                                            <tbody className="divide-y divide-gray-50">
+                                                {applications.map((app) => (
+                                                    <tr key={app.id} className="group hover:bg-gray-50/50 transition-colors">
+                                                        <td className="px-6 py-4 text-sm font-medium text-gray-900">#{app.id.slice(0, 8)}...</td>
+                                                        <td className="px-6 py-4 text-sm text-gray-600">{app.application_data.industry_name}</td>
+                                                        <td className="px-6 py-4 text-sm text-gray-500">{new Date(app.submitted_at).toLocaleDateString()}</td>
+                                                        <td className="px-6 py-4">
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                                                    <div
+                                                                        className={`h-full rounded-full ${app.compliance_report.confidence_score * 100 > 80 ? 'bg-green-500' : app.compliance_report.confidence_score * 100 > 50 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                                                                        style={{ width: `${app.compliance_report.confidence_score * 100}%` }}
+                                                                    />
+                                                                </div>
+                                                                <span className="text-xs font-medium text-gray-600">{Math.round(app.compliance_report.confidence_score * 100)}%</span>
+                                                            </div>
                                                         </td>
-                                                        <td className="p-4 text-gray-700">
-                                                            {formatConfidence(app.compliance_report.confidence_score)}
+                                                        <td className="px-6 py-4">
+                                                            {getStatusBadge(app.status)}
                                                         </td>
-                                                        <td className="p-4 font-semibold text-[#00A9A0]">
-                                                            {Math.round(app.time_saved_seconds / 60)} mins
-                                                        </td>
-                                                        <td className="p-4">
+                                                        <td className="px-6 py-4">
                                                             <Button
-                                                                variant="ghost"
                                                                 size="sm"
-                                                                onClick={() => handleViewApp(app)}
-                                                                className="text-[#00A9A0] hover:text-[#008780] hover:bg-[#E6F7F6]"
+                                                                variant="outline"
+                                                                onClick={() => {
+                                                                    setSelectedApp(app);
+                                                                    setViewMode('detail');
+                                                                }}
+                                                                className="h-8 text-xs hover:bg-[#00A9A0] hover:text-white hover:border-[#00A9A0] transition-colors"
                                                             >
-                                                                Review <ArrowRight className="ml-1 w-4 h-4" />
+                                                                Review
                                                             </Button>
                                                         </td>
                                                     </tr>
-                                                ))
-                                            )}
-                                        </tbody>
-                                    </table>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </CardContent>
                         </Card>
@@ -469,17 +488,24 @@ export default function OfficerPage() {
                                                             <div className="space-y-3">
                                                                 {deptIssues.map((issue, idx) => {
                                                                     const globalIdx = selectedApp.compliance_report.issues.indexOf(issue);
+                                                                    const risk = issue.severity;
+                                                                    const dept = issue.department || 'Other';
                                                                     return (
                                                                         <div key={globalIdx}>
-                                                                            <Alert variant="destructive" className="bg-destructive/10 border-destructive/20 text-destructive-foreground">
-                                                                                <AlertTriangle className="h-4 w-4" />
-                                                                                <AlertTitle className="text-sm font-bold flex items-center gap-2">
-                                                                                    {issue.severity.toUpperCase()} <span className="font-normal opacity-80">- {issue.issue_type}</span>
-                                                                                </AlertTitle>
-                                                                                <AlertDescription>
-                                                                                    {issue.description}
-                                                                                </AlertDescription>
-                                                                            </Alert>
+                                                                            <div className="p-4 rounded-lg border border-gray-200 bg-gray-50">
+                                                                                <div className="flex items-center gap-2 mb-2">
+                                                                                    <span className={`px-2 py-0.5 text-xs font-bold rounded uppercase tracking-wide border ${risk === 'high' ? 'bg-red-50 text-red-700 border-red-100' :
+                                                                                        risk === 'medium' ? 'bg-yellow-50 text-yellow-700 border-yellow-100' :
+                                                                                            'bg-blue-50 text-blue-700 border-blue-100'
+                                                                                        }`}>
+                                                                                        {risk.toUpperCase()}
+                                                                                    </span>
+                                                                                    <span className="text-xs text-gray-400 font-medium px-2 py-0.5 bg-gray-50 rounded border border-gray-100 uppercase">
+                                                                                        {dept.replace('_', ' ')}
+                                                                                    </span>
+                                                                                </div>
+                                                                                <p className="text-sm text-gray-700 font-medium leading-relaxed">{issue.description}</p>
+                                                                            </div>
 
                                                                             {/* 🔴 PHASE 1: INLINE EXPLAINABILITY */}
                                                                             <Button

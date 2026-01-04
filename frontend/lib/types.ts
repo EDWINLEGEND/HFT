@@ -6,14 +6,18 @@
 // Application Types
 export interface IndustrialApplication {
   industry_name: string;
+  industry_type: string; // Added field
   square_feet: string;
+  total_area: number; // Added field
   water_source: string;
-  drainage: string;
+  drainage_method: string; // Changed from drainage
+  drainage: string; // Keep for compatibility if needed, else remove
   air_pollution: string;
   waste_management: string;
   nearby_homes: string;
   water_level_depth: string;
-  document_url?: string; // New field
+  document_url?: string;
+  documents: string[]; // Added field
 }
 
 // Compliance Report Types

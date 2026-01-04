@@ -500,5 +500,62 @@
     "rejection_reason": null,
     "time_saved_seconds": 1200.0,
     "issue_overrides": null
+  },
+  {
+    "application_data": {
+      "industry_name": "GreenLeaf Processing Unit",
+      "square_feet": "8,500 Square Feet (Approx. 20 cents)",
+      "water_source": "Secured connection from KWA (Kerala Water Authority) Municipal Supply Line",
+      "drainage": "All effluent will be treated in an on-site Effluent Treatment Plant (ETP) with a capacity of 50 KLD. Treated water will be reused for gardening purposes. Zero liquid discharge to public drains.",
+      "air_pollution": "The boiler unit is equipped with a Wet Scrubber system to control particulate matter. Chimney height is maintained at 30 meters as per PCB norms.",
+      "waste_management": "Biodegradable waste will be composted using a biogas plant. Non-biodegradable waste will be handed over to Clean Kerala Company Ltd.",
+      "nearby_homes": "750 meters",
+      "water_level_depth": "25 feet below ground level",
+      "document_url": "/uploads/20260105021209_Project_Proposal_GreenLeaf_Processing_Unit.pdf"
+    },
+    "compliance_report": {
+      "application_id": "GreenLeaf Processing Unit",
+      "status": "compliant",
+      "confidence_score": 0.95,
+      "issues": [
+        {
+          "issue_type": "ambiguity",
+          "severity": "medium",
+          "description": "The term 'Light industries' is used but not defined in the given regulations. It is essential to clarify this term to determine the exact buffer zone requirement for this industry.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Section 4.1: Residential Buffer Zone",
+          "department": "local_body"
+        },
+        {
+          "issue_type": "compliance",
+          "severity": "low",
+          "description": "The industrial unit has a plan for managing hazardous and non-hazardous waste as per the regulations.",
+          "regulation_reference": "Water Pollution Control (Chemical Industries) Rules, 2024, Section 3.3: Waste Management",
+          "department": "environment"
+        },
+        {
+          "issue_type": "compliance",
+          "severity": "low",
+          "description": "The industrial unit has a Wet Scrubber system installed for controlling particulate matter and maintains the chimney height at 30 meters as per PCB norms.",
+          "regulation_reference": "Kerala Industrial Safety Regulations, 2023, Chapter 2: Fire Safety Requirements",
+          "department": "fire"
+        }
+      ],
+      "missing_documents": [],
+      "recommendations": [
+        "Ensure clarification on 'Light industries' buffer zone requirement",
+        "Maintain proper records of hazardous and non-hazardous waste disposal"
+      ],
+      "regulation_coverage": 1.0,
+      "generated_at": "2026-01-04T20:42:30.708206"
+    },
+    "submission_reason": "",
+    "id": "2076ca15-fe73-4a34-971a-a5d91a3295e4",
+    "submitted_at": "2026-01-04T20:46:59.125683",
+    "status": "submitted",
+    "officer_action": null,
+    "officer_notes": null,
+    "rejection_reason": null,
+    "time_saved_seconds": 1200.0,
+    "issue_overrides": null
   }
 ]
