@@ -5,9 +5,8 @@
 ### Final Structure
 
 **Current State**:
-- `/frontend-nextjs` - **Next.js app (ACTIVE)** ✅
+- `/frontend` - **Next.js app (ACTIVE)** ✅
 - `/OLD/ui/` - Streamlit files (preserved for reference) ✅
-- `/frontend` - **REMOVED** ✅
 
 ---
 
@@ -20,7 +19,7 @@
 - `/frontend-nextjs` - Next.js app (created in Phase 2)
 
 **After**:
-- `/frontend-nextjs` - **Single Next.js application**
+- `/frontend` - **Single Next.js application** (renamed from frontend-nextjs)
 - Old Streamlit files preserved in `/OLD/ui/`
 
 ### 2. Removed Files
@@ -34,7 +33,7 @@ These files are preserved in `/OLD/ui/` for reference only.
 ### 3. Final Frontend Structure
 
 ```
-/frontend-nextjs
+/frontend
 ├── app/
 │   ├── page.tsx              # Home page
 │   ├── applicant/
@@ -57,7 +56,7 @@ These files are preserved in `/OLD/ui/` for reference only.
 
 ## Verification
 
-✅ Only ONE frontend directory exists: `/frontend-nextjs`
+✅ Only ONE frontend directory exists: `/frontend`
 ✅ Next.js app is properly configured
 ✅ OLD folder is untouched
 ✅ No Streamlit artifacts outside OLD/
@@ -67,7 +66,7 @@ These files are preserved in `/OLD/ui/` for reference only.
 ## Using the Frontend
 
 ```bash
-cd frontend-nextjs
+cd frontend
 npm install
 npm run dev
 ```
@@ -78,14 +77,7 @@ Frontend will be available at: **http://localhost:3000**
 
 ## Note on Naming
 
-The frontend folder is named `frontend-nextjs` to clearly distinguish it from the old Streamlit frontend. This is intentional and acceptable. If you prefer, you can rename it to just `frontend`:
-
-```bash
-# Optional: Rename for cleaner structure
-mv frontend-nextjs frontend
-```
-
-However, `frontend-nextjs` is perfectly fine and makes it clear which framework is being used.
+The frontend folder has been renamed to `frontend` to serve as the unified frontend directory for the project.
 
 ---
 

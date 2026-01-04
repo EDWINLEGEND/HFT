@@ -11,10 +11,10 @@ Next.js-based frontend for the CivicAssist industrial compliance system.
 - `/frontend-nextjs` - Next.js app (created in Phase 2)
 
 **After Phase 4**:
-- `/frontend-nextjs` - Single Next.js application
+- `/frontend` - Single Next.js application (renamed from frontend-nextjs)
 - Old Streamlit files preserved in `/OLD/ui/` for reference
 
-See `FRONTEND_CLEANUP.md` for details.
+See `Documentation/Review_Docs/FRONTEND_CLEANUP.md` for details.
 
 ---
 
@@ -68,7 +68,7 @@ See `FRONTEND_CLEANUP.md` for details.
 ## Installation
 
 ```bash
-cd frontend-nextjs
+cd frontend
 npm install
 ```
 

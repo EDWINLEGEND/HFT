@@ -15,7 +15,7 @@ Phase 4 implements the **user interface** for CivicAssist with a focus on clarit
 - `/frontend-nextjs` - Next.js app
 
 **After**:
-- `/frontend-nextjs` - Single Next.js application
+- `/frontend` - Single Next.js application (renamed from frontend-nextjs)
 - Old Streamlit preserved in `/OLD/ui/`
 
 ✅ Only ONE frontend directory
@@ -383,7 +383,7 @@ curl -X POST http://localhost:8000/api/v1/regulations/ingest
 ### 3. Start Frontend
 
 ```bash
-cd frontend-nextjs
+cd frontend
 npm install
 npm run dev
 ```

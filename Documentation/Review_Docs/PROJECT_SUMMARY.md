@@ -116,7 +116,7 @@ backend/
 ### Frontend (Next.js)
 
 ```
-frontend-nextjs/
+frontend/
 ├── app/
 │   ├── page.tsx                  # Home
 │   ├── applicant/page.tsx        # Applicant mode
@@ -247,7 +247,7 @@ curl -X POST http://localhost:8000/api/v1/compliance/analyze \
 
 ```bash
 # 1. Install dependencies
-cd frontend-nextjs
+cd frontend
 npm install
 
 # 2. Start dev server
@@ -281,22 +281,22 @@ npm run dev
 ## 📚 Documentation
 
 ### Phase Summaries
-- `PHASE1_COMPLETE.md` - Foundation
-- `PHASE2_COMPLETE.md` - RAG Core
-- `PHASE3_COMPLETE.md` - Compliance Engine
-- `PHASE4_COMPLETE.md` - Frontend
+- `Documentation/Review_Docs/PHASE1_COMPLETE.md` - Foundation
+- `Documentation/Review_Docs/PHASE2_COMPLETE.md` - RAG Core
+- `Documentation/Review_Docs/PHASE3_COMPLETE.md` - Compliance Engine
+- `Documentation/Review_Docs/PHASE4_COMPLETE.md` - Frontend
 
 ### Technical Docs
 - `backend/README.md` - Backend architecture
-- `frontend-nextjs/README.md` - Frontend guide
-- `API_CONTRACT.md` - API documentation
-- `FRONTEND_CONTRACT.md` - Frontend contract
-- `TESTING_GUIDE_PHASE3.md` - Testing procedures
-- `FRONTEND_CLEANUP.md` - Cleanup documentation
+- `frontend/README.md` - Frontend guide
+- `frontend/API_CONTRACT.md` - API documentation
+- `frontend/FRONTEND_CONTRACT.md` - Frontend contract
+- `Documentation/Test_Docs/TESTING_GUIDE_PHASE3.md` - Testing procedures
+- `Documentation/Review_Docs/FRONTEND_CLEANUP.md` - Cleanup documentation
 
 ### Quick Start
-- `QUICKSTART.md` - Getting started guide
-- `PRD.md` - Product requirements
+- `Documentation/QUICKSTART.md` - Getting started guide
+- `Documentation/Review_Docs/PRD.md` - Product requirements
 
 ---
 
@@ -318,7 +318,7 @@ python main.py
 ### Frontend Setup
 
 ```bash
-cd frontend-nextjs
+cd frontend
 npm install
 npm run dev
 ```

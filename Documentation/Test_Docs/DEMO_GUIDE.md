@@ -26,7 +26,7 @@ curl -X POST http://localhost:8000/api/v1/regulations/ingest
 
 ### 4. Start Frontend
 ```bash
-cd frontend-nextjs
+cd frontend
 npm run dev
 ```
 
@@ -220,10 +220,10 @@ npm run dev
 ## After the Demo
 
 ### Next Steps
-1. Review documentation in `PROJECT_SUMMARY.md`
+1. Review documentation in `Documentation/Review_Docs/PROJECT_SUMMARY.md`
 2. Explore API documentation at http://localhost:8000/docs
-3. Read phase completion documents (PHASE1-4_COMPLETE.md)
-4. Review testing guide (TESTING_GUIDE_PHASE3.md)
+3. Read phase completion documents in `Documentation/Review_Docs/`
+4. Review testing guide (`Documentation/Test_Docs/TESTING_GUIDE_PHASE3.md`)
 
 ### Feedback
 - What features would be most valuable?
