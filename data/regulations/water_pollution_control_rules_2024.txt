@@ -1,0 +1,45 @@
+WATER POLLUTION CONTROL RULES 2024
+(Applicable to Chemical & Industrial Processing Units)
+
+CHAPTER 1: PRELIMINARY
+
+1. Short Title and Commencement
+   (1) These rules may be called the Water Pollution Control (Chemical Industries) Rules, 2024.
+   (2) They shall come into force on the date of their publication in the Official Gazette.
+
+2. Application
+   These rules apply to all industrial units engaged in chemical processing, pharmaceutical manufacturing, dye production, and heavy metal processing.
+
+CHAPTER 2: EFFLUENT DISCHARGE STANDARDS
+
+3. Zero Liquid Discharge (ZLD)
+   (1) All "Red Category" chemical industries, including those processing hazardous chemicals, dyes, or heavy metals, MUST implement a Zero Liquid Discharge (ZLD) system.
+   (2) The discharge of treated or untreated effluent into any water body, river, stream, or public sewer is STRICTLY PROHIBITED for these industries.
+   (3) All process water must be recycled and reused within the plant premises.
+
+4. Heavy Metal Limits
+   (1) For industries where ZLD is not yet mandatory (Orange/Green categories), the following limits apply for discharge into Common Effluent Treatment Plants (CETP):
+       (a) Lead (Pb): Max 0.1 mg/l
+       (b) Mercury (Hg): Max 0.01 mg/l
+       (c) Chromium (Hexavalent): Max 0.1 mg/l
+       (d) Arsenic (As): Max 0.2 mg/l
+
+5. Buffer Zones
+   (1) No chemical processing unit shall be established within 500 meters of a notified river, lake, or wetland.
+   (2) A green belt of at least 10 meters width must be maintained around the periphery of the industrial unit.
+
+CHAPTER 3: STORAGE AND HANDLING
+
+6. Chemical Storage
+   (1) All hazardous chemicals must be stored in double-walled tanks with leak detection systems.
+   (2) Storage areas must have impervious flooring to prevent groundwater contamination.
+
+7. Storm Water Management
+   (1) Industrial units must have a separate storm water drainage system, distinct from the effluent collection system.
+   (2) First-flush rain water from the process area must be collected and treated in the Effluent Treatment Plant (ETP).
+
+CHAPTER 4: PENALTIES
+
+8. Violation Consequences
+   (1) Any unit found discharging effluent outside premises in violation of Rule 3 (ZLD) shall be liable for immediate closure.
+   (2) A fine of up to ₹50,00,000 (Fifty Lakhs) may be imposed for unauthorized dumping of chemical waste.

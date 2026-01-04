@@ -50,7 +50,7 @@ class RegulationIngestionService:
     
     def __init__(
         self,
-        regulations_dir: str = "./data/regulations",
+        regulations_dir: str = "../data/regulations",
         chunk_size: int = 400,  # Target tokens (roughly 300-500 words)
         chunk_overlap: int = 50
     ):
