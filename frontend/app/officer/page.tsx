@@ -63,7 +63,7 @@ export default function OfficerMode() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
             {/* Header */}
             <header className="bg-white shadow-sm border-b">
                 <div className="max-w-7xl mx-auto px-4 py-4">
@@ -84,12 +84,12 @@ export default function OfficerMode() {
 
                 {/* Application Selector */}
                 <div className="bg-white p-6 rounded-lg shadow mb-6">
-                    <h2 className="text-xl font-bold mb-4">Select Application to Review</h2>
+                    <h2 className="text-xl font-bold text-gray-900 mb-4">Select Application to Review</h2>
                     <div className="flex gap-4">
                         <select
                             value={selectedApp}
                             onChange={(e) => setSelectedApp(e.target.value)}
-                            className="flex-1 border border-gray-300 rounded px-3 py-2"
+                            className="flex-1 border border-gray-300 rounded px-3 py-2 text-gray-900 bg-white"
                         >
                             <option value="">-- Select an application --</option>
                             <option value="app-001">APP-001: ABC Textile Manufacturing</option>
@@ -119,18 +119,18 @@ export default function OfficerMode() {
                         <div className="lg:col-span-2 space-y-6">
                             {/* Overview Card */}
                             <div className="bg-white p-6 rounded-lg shadow">
-                                <h2 className="text-xl font-bold mb-4">Compliance Overview</h2>
+                                <h2 className="text-xl font-bold text-gray-900 mb-4">Compliance Overview</h2>
 
                                 <div className="grid md:grid-cols-2 gap-4 mb-6">
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Overall Status</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Overall Status</label>
                                         <div className={`inline-block px-4 py-2 rounded border-2 font-semibold ${getStatusColor(report.status)}`}>
                                             {report.status.toUpperCase().replace('_', ' ')}
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Confidence Score</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Confidence Score</label>
                                         <div className="flex items-center gap-3">
                                             <div className="flex-1 bg-gray-200 rounded-full h-3">
                                                 <div
@@ -159,7 +159,7 @@ export default function OfficerMode() {
                             {/* Issues List */}
                             {report.issues.length > 0 && (
                                 <div className="bg-white p-6 rounded-lg shadow">
-                                    <h2 className="text-xl font-bold mb-4">Flagged Issues</h2>
+                                    <h2 className="text-xl font-bold text-gray-900 mb-4">Flagged Issues</h2>
                                     <div className="space-y-3">
                                         {report.issues.map((issue, i) => (
                                             <div
@@ -175,7 +175,7 @@ export default function OfficerMode() {
                                                         <span className="text-xs bg-gray-200 px-2 py-1 rounded">{issue.department}</span>
                                                     )}
                                                 </div>
-                                                <p className="font-medium mb-1">{issue.description}</p>
+                                                <p className="font-medium text-gray-900 mb-1">{issue.description}</p>
                                                 {issue.regulation_reference && (
                                                     <p className="text-sm text-gray-600">📖 {issue.regulation_reference}</p>
                                                 )}
@@ -190,7 +190,7 @@ export default function OfficerMode() {
                             {report.recommendations.length > 0 && (
                                 <div className="bg-white p-6 rounded-lg shadow">
                                     <div className="flex items-center justify-between mb-4">
-                                        <h2 className="text-xl font-bold">Recommended Actions</h2>
+                                        <h2 className="text-xl font-bold text-gray-900">Recommended Actions</h2>
                                         <button
                                             onClick={handleCopyChecklist}
                                             className="text-sm bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded"
@@ -202,7 +202,7 @@ export default function OfficerMode() {
                                         {report.recommendations.map((rec, i) => (
                                             <li key={i} className="flex gap-3">
                                                 <span className="font-semibold text-gray-600">{i + 1}.</span>
-                                                <span>{rec}</span>
+                                                <span className="text-gray-900">{rec}</span>
                                             </li>
                                         ))}
                                     </ol>
@@ -213,7 +213,7 @@ export default function OfficerMode() {
                         {/* Explainability Panel */}
                         <div className="lg:col-span-1">
                             <div className="bg-white p-6 rounded-lg shadow sticky top-4">
-                                <h2 className="text-xl font-bold mb-4">📖 Issue Details</h2>
+                                <h2 className="text-xl font-bold text-gray-900 mb-4">📖 Issue Details</h2>
 
                                 {selectedIssue ? (
                                     <div className="space-y-4">

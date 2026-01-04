@@ -45,7 +45,7 @@ export default function ApplicantMode() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
             {/* Header */}
             <header className="bg-white shadow-sm border-b">
                 <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -69,23 +69,23 @@ export default function ApplicantMode() {
                 <div className="grid lg:grid-cols-2 gap-8">
                     {/* Application Form */}
                     <div className="bg-white p-6 rounded-lg shadow">
-                        <h2 className="text-xl font-bold mb-4">Application Details</h2>
+                        <h2 className="text-xl font-bold text-gray-900 mb-4">Application Details</h2>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium mb-1">Industry Name *</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Industry Name *</label>
                                 <input
                                     type="text"
                                     name="industry_name"
                                     value={formData.industry_name}
                                     onChange={handleChange}
                                     required
-                                    className="w-full border border-gray-300 rounded px-3 py-2"
+                                    className="w-full border border-gray-300 rounded px-3 py-2 text-gray-900 bg-white"
                                     placeholder="e.g., ABC Textile Mill"
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium mb-1">Square Footage *</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Square Footage *</label>
                                 <input
                                     type="text"
                                     name="square_feet"
@@ -98,7 +98,7 @@ export default function ApplicantMode() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium mb-1">Water Source *</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Water Source *</label>
                                 <input
                                     type="text"
                                     name="water_source"
@@ -111,7 +111,7 @@ export default function ApplicantMode() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium mb-1">Drainage System *</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Drainage System *</label>
                                 <input
                                     type="text"
                                     name="drainage"
@@ -124,7 +124,7 @@ export default function ApplicantMode() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium mb-1">Air Pollution Control *</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Air Pollution Control *</label>
                                 <textarea
                                     name="air_pollution"
                                     value={formData.air_pollution}
@@ -137,7 +137,7 @@ export default function ApplicantMode() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium mb-1">Waste Management Plan *</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Waste Management Plan *</label>
                                 <textarea
                                     name="waste_management"
                                     value={formData.waste_management}
@@ -150,7 +150,7 @@ export default function ApplicantMode() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium mb-1">Distance to Nearest Homes *</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Distance to Nearest Homes *</label>
                                 <input
                                     type="text"
                                     name="nearby_homes"
@@ -163,7 +163,7 @@ export default function ApplicantMode() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium mb-1">Water Level Depth *</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Water Level Depth *</label>
                                 <input
                                     type="text"
                                     name="water_level_depth"
@@ -195,11 +195,11 @@ export default function ApplicantMode() {
 
                         {report && (
                             <div className="bg-white p-6 rounded-lg shadow space-y-6">
-                                <h2 className="text-xl font-bold">Compliance Analysis Results</h2>
+                                <h2 className="text-xl font-bold text-gray-900">Compliance Analysis Results</h2>
 
                                 {/* Status */}
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">Overall Status</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Overall Status</label>
                                     <div className={`inline-block px-4 py-2 rounded border-2 font-semibold ${getStatusColor(report.status)}`}>
                                         {report.status.toUpperCase().replace('_', ' ')}
                                     </div>
@@ -207,7 +207,7 @@ export default function ApplicantMode() {
 
                                 {/* Confidence Score */}
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">Confidence Score</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Confidence Score</label>
                                     <div className="flex items-center gap-4">
                                         <div className="flex-1 bg-gray-200 rounded-full h-4">
                                             <div
@@ -222,7 +222,7 @@ export default function ApplicantMode() {
                                 {/* Missing Documents */}
                                 {report.missing_documents.length > 0 && (
                                     <div>
-                                        <h3 className="font-semibold mb-2">❌ Missing Documents</h3>
+                                        <h3 className="font-semibold text-gray-900 mb-2">❌ Missing Documents</h3>
                                         <ul className="space-y-1">
                                             {report.missing_documents.map((doc, i) => (
                                                 <li key={i} className="text-sm text-gray-700">• {doc}</li>
@@ -234,7 +234,7 @@ export default function ApplicantMode() {
                                 {/* Issues */}
                                 {report.issues.length > 0 && (
                                     <div>
-                                        <h3 className="font-semibold mb-2">⚠️ Flagged Issues</h3>
+                                        <h3 className="font-semibold text-gray-900 mb-2">⚠️ Flagged Issues</h3>
                                         <div className="space-y-3">
                                             {report.issues.map((issue, i) => (
                                                 <div key={i} className={`border-l-4 p-3 rounded ${getRiskColor(issue.severity)}`}>
@@ -246,7 +246,7 @@ export default function ApplicantMode() {
                                                             <span className="text-xs text-gray-600">{issue.department}</span>
                                                         )}
                                                     </div>
-                                                    <p className="text-sm font-medium mt-2">{issue.description}</p>
+                                                    <p className="text-sm font-medium text-gray-900 mt-2">{issue.description}</p>
                                                     {issue.regulation_reference && (
                                                         <p className="text-xs text-gray-600 mt-1">📖 {issue.regulation_reference}</p>
                                                     )}
@@ -259,7 +259,7 @@ export default function ApplicantMode() {
                                 {/* Recommendations */}
                                 {report.recommendations.length > 0 && (
                                     <div>
-                                        <h3 className="font-semibold mb-2">✅ Recommended Actions</h3>
+                                        <h3 className="font-semibold text-gray-900 mb-2">✅ Recommended Actions</h3>
                                         <ol className="space-y-2">
                                             {report.recommendations.map((rec, i) => (
                                                 <li key={i} className="text-sm text-gray-700">
