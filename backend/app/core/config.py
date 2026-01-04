@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     
     # API Configuration
     app_name: str = "CivicAssist API"
-    app_version: str = "0.3.0"  # Phase 3
+    app_version: str = "0.5.0"  # Phase 5
     api_host: str = "0.0.0.0"
     api_port: int = 8000
     debug: bool = False
@@ -42,9 +42,13 @@ class Settings(BaseSettings):
     llm_max_tokens: int = 2000  # Hard limit for safety
     llm_timeout: int = 30  # 30 second timeout
     
-    # OpenAI Fallback (Not used in Phase 3)
-    openai_api_key: Optional[str] = None
-    openai_model: str = "gpt-4"
+    # OpenAI Fallback Configuration (Phase 5)
+    use_openai_fallback: bool = False  # Set to True to enable OpenAI fallback
+    openai_api_key: Optional[str] = None  # Set via environment variable
+    openai_model: str = "gpt-4o-mini"  # Cost-effective model (~$0.0001-0.0005 per call)
+    
+    # Demo Mode (Phase 5)
+    demo_mode: bool = False  # Set to True for demo hardening
     
     class Config:
         env_file = ".env"

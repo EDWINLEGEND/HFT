@@ -9,3 +9,5 @@ sentence-transformers
 chromadb
 PyMuPDF
 python-docx
+# Phase 5: OpenAI Fallback (optional)
+openai
