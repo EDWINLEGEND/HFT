@@ -74,7 +74,7 @@ export default function Sidebar() {
 
                         <NavItem href="/applicant/history" icon={History} label="Past Applications" active={pathname === '/applicant/history'} />
 
-                        <NavItem href="#" icon={Settings} label="Settings" />
+                        <NavItem href="/applicant/settings" icon={Settings} label="Settings" active={pathname === '/applicant/settings'} />
                     </div>
                 ) : (
                     <div className="space-y-1">

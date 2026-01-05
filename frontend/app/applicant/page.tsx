@@ -13,6 +13,8 @@ import {
 import { CivicAssistAPI } from '@/lib/api';
 import type { IndustrialApplication, ComplianceReport, ComplianceIssue, ApplicationData } from '@/lib/types';
 import { getFormConfig, type FormSection, type FormField } from '@/lib/form-configs';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 // --- TYPES ---
 // --- TYPES ---
@@ -298,6 +300,26 @@ export default function ApplicantPage() {
         fileInputRef.current?.click();
     };
 
+    const handleExportPDF = async () => {
+        const input = document.getElementById('compliance-report-content');
+        if (!input) return;
+
+        try {
+            // Create a loading toast or state if needed
+            const canvas = await html2canvas(input, { scale: 2 });
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`${formData.industry_name.replace(/\s+/g, '_')}_Compliance_Report.pdf`);
+        } catch (err) {
+            console.error('PDF Export failed', err);
+            alert("Failed to export PDF.");
+        }
+    };
+
     const handleAnalyze = async () => {
         setStep('ANALYZING');
         setIsAnalyzing(true);
@@ -543,7 +565,9 @@ export default function ApplicantPage() {
                         <div className="absolute top-0 left-8 right-8 h-1 bg-gradient-to-r from-[#505645] to-[#858A77]"></div>
 
                         <div>
-                            <h2 className="text-3xl font-bold text-[#171915]">Review Application</h2>
+                            <h2 className="text-3xl font-bold text-[#171915] flex items-center gap-2">
+                                Review <span className="font-serif italic">Application</span>
+                            </h2>
                             <p className="text-[#858A77] mt-1">We extracted this from your {requiredDocs[0].name}.</p>
                         </div>
                         <button onClick={() => setStep('UPLOAD')} className="p-2 rounded-full hover:bg-black/5 transition-colors">
@@ -735,13 +759,13 @@ export default function ApplicantPage() {
                         <button onClick={() => setStep('FORM')} className="px-6 py-2 rounded-full border border-[#D0D1C9] text-[#171915] font-medium hover:bg-white hover:border-[#858A77] transition-all">
                             Edit Details
                         </button>
-                        <button className="px-6 py-2 rounded-full bg-[#171915] text-white font-medium hover:bg-black transition-all flex items-center gap-2">
+                        <button onClick={handleExportPDF} className="px-6 py-2 rounded-full bg-[#171915] text-white font-medium hover:bg-black transition-all flex items-center gap-2">
                             <FileText className="w-4 h-4" /> Export PDF
                         </button>
                     </div>
                 </div>
 
-                <div className="flex flex-col lg:flex-row gap-12">
+                <div id="compliance-report-content" className="flex flex-col lg:flex-row gap-12 p-4 bg-[#F9F9F8]">
                     {/* Left Column: Score & Summary */}
                     <div className="lg:w-1/3 space-y-8">
                         {/* Score Card */}

@@ -68,9 +68,16 @@ export default function HistoryPage() {
     const handleClearAll = async () => {
         try {
             await Promise.all(applications.map(app => CivicAssistAPI.deleteApplication(app.id)));
-            setApplications([]);
+            // Even if some fail, we assume intent was to clear all local view or we could re-fetch
+            const remaining = await CivicAssistAPI.getApplications();
+            setApplications(remaining);
+            if (remaining.length === 0) {
+                // Success feedback could go here
+            }
         } catch (err) {
             console.error('Failed to clear all applications', err);
+            // Fallback: re-fetch to show what's left
+            loadApplications();
         }
     };
 
@@ -241,96 +248,145 @@ export default function HistoryPage() {
                                     </div>
                                 </div>
 
-                                {/* Expanded Content - Enhanced */}
+                                {/* Expanded Content - Redesigned with Professional UX */}
                                 {expandedId === app.id && (
-                                    <div className="border-t-2 border-[#EFEFEF] bg-gradient-to-br from-[#F9F9F8] to-white p-7 animate-in slide-in-from-top-2 duration-300">
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-                                            {/* Application Details - Enhanced */}
+                                    <div className="border-t border-[#E8E8E3] bg-white animate-in slide-in-from-top-2 duration-300">
+                                        {/* Content Grid with Adjusted Spacing */}
+                                        <div className="p-7 grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                                            {/* Left Column: Application Details */}
                                             <div className="space-y-4">
-                                                <div className="flex items-center gap-2 mb-4">
-                                                    <div className="w-8 h-8 rounded-lg bg-[#505645] flex items-center justify-center">
+                                                <div className="flex items-center gap-3 mb-2">
+                                                    <div className="w-8 h-8 rounded-xl bg-[#505645] flex items-center justify-center shadow-sm">
                                                         <Info className="w-4 h-4 text-white" />
                                                     </div>
-                                                    <h4 className="text-sm font-bold uppercase tracking-wider text-[#505645]">Application Details</h4>
+                                                    <div>
+                                                        <h4 className="text-xs uppercase tracking-wider text-[#858A77] font-bold mb-0.5">Application</h4>
+                                                        <p className="text-base font-serif italic text-[#171915]">Details</p>
+                                                    </div>
                                                 </div>
-                                                <div className="space-y-3 bg-white p-5 rounded-2xl border border-[#D0D1C9] shadow-sm">
-                                                    <div className="flex justify-between items-center py-2 border-b border-[#EFEFEF]">
-                                                        <span className="text-sm text-[#858A77]">Area</span>
-                                                        <span className="text-sm font-bold text-[#171915]">{app.application_data.square_feet || '-'} sq ft</span>
+
+                                                <div className="bg-[#F9F9F8] rounded-2xl p-5 border border-[#E8E8E3] space-y-4 h-[180px] flex flex-col justify-between">
+                                                    <div className="flex justify-between items-start pb-3 border-b border-[#E8E8E3]">
+                                                        <div>
+                                                            <p className="text-xs uppercase tracking-wide text-[#858A77] font-semibold mb-1">Total Area</p>
+                                                            <div className="flex items-baseline gap-1">
+                                                                <p className="text-xl font-bold text-[#171915]">{app.application_data.square_feet || '-'}</p>
+                                                                <p className="text-xs text-[#858A77]">sq ft</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="p-2 bg-[#E8E8E3] rounded-lg">
+                                                            <svg className="w-4 h-4 text-[#505645]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                                                            </svg>
+                                                        </div>
                                                     </div>
-                                                    <div className="flex justify-between items-center py-2 border-b border-[#EFEFEF]">
-                                                        <span className="text-sm text-[#858A77]">Water Source</span>
-                                                        <span className="text-sm font-bold text-[#171915]">{app.application_data.water_source || '-'}</span>
-                                                    </div>
-                                                    <div className="flex justify-between items-center py-2">
-                                                        <span className="text-sm text-[#858A77]">Documents</span>
-                                                        <div className="flex items-center gap-1.5">
-                                                            <FileText className="w-3.5 h-3.5 text-[#505645]" />
-                                                            <span className="text-sm font-bold text-[#171915]">{app.application_data.documents?.length || 0} files</span>
+
+                                                    <div className="space-y-3">
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm text-[#858A77] font-medium">Project Type</span>
+                                                            <span className="text-xs font-bold text-[#171915] bg-white px-3 py-1 rounded-lg border border-[#E8E8E3]">
+                                                                {app.application_data.industry_type || 'Unknown'}
+                                                            </span>
+                                                        </div>
+
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm text-[#858A77] font-medium">Documents</span>
+                                                            <div className="flex items-center gap-2 bg-white px-3 py-1 rounded-lg border border-[#E8E8E3]">
+                                                                <FileText className="w-3.5 h-3.5 text-[#505645]" />
+                                                                <span className="text-xs font-bold text-[#171915]">
+                                                                    {app.application_data.documents?.length || 0} files
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            {/* Compliance Snapshot - Enhanced */}
+                                            {/* Right Column: Compliance Snapshot */}
                                             <div className="space-y-4">
-                                                <div className="flex items-center gap-2 mb-4">
-                                                    <div className="w-8 h-8 rounded-lg bg-[#505645] flex items-center justify-center">
+                                                <div className="flex items-center gap-3 mb-2">
+                                                    <div className="w-8 h-8 rounded-xl bg-[#505645] flex items-center justify-center shadow-sm">
                                                         <CheckCircle className="w-4 h-4 text-white" />
                                                     </div>
-                                                    <h4 className="text-sm font-bold uppercase tracking-wider text-[#505645]">Compliance Snapshot</h4>
+                                                    <div>
+                                                        <h4 className="text-xs uppercase tracking-wider text-[#858A77] font-bold mb-0.5">Compliance</h4>
+                                                        <p className="text-base font-serif italic text-[#171915]">Snapshot</p>
+                                                    </div>
                                                 </div>
+
                                                 {app.compliance_report ? (
-                                                    <div className="space-y-4 bg-gradient-to-br from-[#505645] to-[#404537] p-6 rounded-2xl text-white shadow-lg">
-                                                        <div className="flex items-end justify-between">
-                                                            <span className="text-xs uppercase tracking-wider text-white/60 font-bold">Score</span>
-                                                            <div className="text-right">
-                                                                <span className="text-4xl font-black font-serif italic">{Math.round(app.compliance_report.confidence_score * 100)}</span>
-                                                                <span className="text-lg text-white/40 font-bold">/100</span>
+                                                    <div className="bg-gradient-to-br from-[#505645] via-[#404537] to-[#505645] rounded-2xl p-6 shadow-lg relative overflow-hidden h-[180px] flex flex-col justify-between">
+                                                        {/* Decorative Background Element */}
+                                                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+
+                                                        <div className="relative z-10 flex-1 flex flex-col justify-center">
+                                                            {/* Score Display (Compact) */}
+                                                            <div className="flex items-center justify-between mb-4">
+                                                                <p className="text-xs uppercase tracking-widest text-white/50 font-bold">Score</p>
+                                                                <div className="flex items-baseline gap-1">
+                                                                    <span className="text-5xl font-black font-serif italic text-white leading-none">
+                                                                        {Math.round(app.compliance_report.confidence_score * 100)}
+                                                                    </span>
+                                                                    <span className="text-lg text-white/40 font-bold">/100</span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div className="w-full bg-white/20 rounded-full h-2 overflow-hidden backdrop-blur">
-                                                            <div
-                                                                className="bg-gradient-to-r from-green-400 to-green-300 h-full rounded-full transition-all duration-1000"
-                                                                style={{ width: `${app.compliance_report.confidence_score * 100}%` }}
-                                                            ></div>
-                                                        </div>
-                                                        <div className="flex items-center gap-2 pt-2 border-t border-white/20">
-                                                            <AlertTriangle className="w-4 h-4 text-yellow-300" />
-                                                            <p className="text-sm font-medium text-white/90">
-                                                                {app.compliance_report.issues.length} issue{app.compliance_report.issues.length !== 1 ? 's' : ''} found
-                                                            </p>
+
+                                                            {/* Progress Bar */}
+                                                            <div className="space-y-2 mb-4">
+                                                                <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden backdrop-blur border border-white/20">
+                                                                    <div
+                                                                        className="bg-gradient-to-r from-green-300 via-green-400 to-green-300 h-full rounded-full transition-all duration-1000 shadow-lg"
+                                                                        style={{ width: `${app.compliance_report.confidence_score * 100}%` }}
+                                                                    ></div>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* Issues Summary */}
+                                                            <div className="flex items-center justify-between pt-3 border-t border-white/20">
+                                                                <div className="flex items-center gap-2">
+                                                                    <AlertTriangle className="w-4 h-4 text-yellow-300" />
+                                                                    <span className="text-xs font-semibold text-white">Issues Found</span>
+                                                                </div>
+                                                                <div className="px-3 py-1.5 bg-white/10 rounded-full backdrop-blur border border-white/20">
+                                                                    <span className="text-xs font-bold text-white">
+                                                                        {app.compliance_report.issues.length}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <div className="p-6 bg-white rounded-2xl border-2 border-dashed border-[#D0D1C9] text-center">
-                                                        <div className="w-12 h-12 bg-[#F4F5F4] rounded-full flex items-center justify-center mx-auto mb-3">
+                                                    <div className="bg-[#F9F9F8] rounded-2xl p-6 border-2 border-dashed border-[#D0D1C9] text-center h-[180px] flex flex-col items-center justify-center">
+                                                        <div className="w-12 h-12 bg-[#E8E8E3] rounded-full flex items-center justify-center mb-3">
                                                             <AlertTriangle className="w-6 h-6 text-[#858A77]" />
                                                         </div>
-                                                        <p className="text-sm text-[#858A77] font-medium">Analysis not run yet</p>
-                                                        <p className="text-xs text-[#858A77]/60 mt-1">Open to analyze compliance</p>
+                                                        <h5 className="text-sm font-bold text-[#171915] mb-1">No Analysis Yet</h5>
+                                                        <p className="text-xs text-[#858A77] leading-relaxed max-w-xs mx-auto">
+                                                            Compliance analysis hasn't been run.
+                                                        </p>
                                                     </div>
                                                 )}
                                             </div>
                                         </div>
 
-                                        {/* Action Buttons - Enhanced */}
-                                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t-2 border-[#EFEFEF]">
+                                        {/* Action Bar (Compact) */}
+                                        <div className="px-7 py-4 bg-[#F9F9F8] border-t border-[#E8E8E3] flex flex-col sm:flex-row items-center justify-between gap-4">
                                             <Button
                                                 variant="ghost"
-                                                className="group/del text-red-500 hover:text-red-600 hover:bg-red-50 px-4 py-2 rounded-full border-2 border-transparent hover:border-red-200 transition-all"
+                                                className="h-10 text-xs group/del text-red-600 hover:text-white hover:bg-red-600 px-4 rounded-lg border border-red-200 hover:border-red-600 transition-all font-semibold"
                                                 onClick={(e) => handleDelete(app.id, e)}
                                             >
-                                                <Trash2 className="w-4 h-4 mr-2 group-hover/del:scale-110 transition-transform" />
-                                                Delete Application
+                                                <Trash2 className="w-3.5 h-3.5 mr-2 group-hover/del:scale-110 transition-transform" />
+                                                Delete
                                             </Button>
 
                                             <Button
                                                 onClick={() => router.push(`/applicant?id=${app.id}`)}
-                                                className="bg-gradient-to-r from-[#171915] to-[#2d2f28] text-white hover:from-black hover:to-[#171915] rounded-full px-8 py-6 shadow-xl hover:shadow-2xl transition-all hover:scale-105 font-bold"
+                                                className="h-10 bg-[#505645] text-white hover:bg-[#404537] rounded-lg px-6 shadow-sm hover:shadow-md transition-all hover:scale-105 font-bold text-sm flex items-center gap-2"
                                             >
-                                                Open Application
-                                                <ExternalLink className="w-4 h-4 ml-2" />
+                                                <span>Open Application</span>
+                                                <ExternalLink className="w-3.5 h-3.5" />
                                             </Button>
                                         </div>
                                     </div>
