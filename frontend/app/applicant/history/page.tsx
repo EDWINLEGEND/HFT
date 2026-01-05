@@ -30,7 +30,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "../../../components/ui/alert-dialog";
+} from "@/components/ui/alert-dialog";
+
 
 export default function HistoryPage() {
     const [applications, setApplications] = useState<SavedApplication[]>([]);
@@ -231,7 +232,7 @@ export default function HistoryPage() {
                                                     <span className="font-medium">{new Date(app.submitted_at).toLocaleDateString()}</span>
                                                 </div>
                                                 <span className="w-1 h-1 rounded-full bg-[#D0D1C9]"></span>
-                                                <span className="font-medium">{app.application_data.industry_type || 'Unknown Type'}</span>
+                                                <span className="font-medium">{app.application_data?.industry_type || 'Unknown Type'}</span>
                                             </div>
                                         </div>
                                     </div>

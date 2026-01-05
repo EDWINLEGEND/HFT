@@ -342,3 +342,19 @@ async def review_application(app_id: str, review: OfficerReviewRequest):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Review failed: {str(e)}")
+
+@router.delete("/applications/{app_id}", tags=["Applications"])
+async def delete_application(app_id: str):
+    """
+    Delete an application by ID.
+    """
+    try:
+        service = get_application_service()
+        success = service.delete_application(app_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Application not found")
+        return {"message": "Application deleted successfully", "id": app_id}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Delete failed: {str(e)}")

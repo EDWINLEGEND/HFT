@@ -1,52 +1,225 @@
-# MANUFACTURING UNIT COMPLIANCE REGULATIONS (2024 EDITION)
+MANUFACTURING UNIT COMPLIANCE REGULATIONS
+(Updated Reference Edition – 2024–25)
 
-## 1. POLLUTION CONTROL BOARD (PCB) STANDARDS
-### 1.1 Water Pollution Control (Zero Liquid Discharge)
-All manufacturing units classified under the "Red" and "Orange" categories must implement a Zero Liquid Discharge (ZLD) system.
-- **Effluent Treatment Plant (ETP):** Mandatory for units discharging > 10 KLD of trade effluent.
-- **Treated Water Quality:**
-  - pH: 6.5 - 8.5
-  - BOD (3 days at 27°C): < 30 mg/l
-  - COD: < 250 mg/l
-  - TSS: < 100 mg/l
-  - Oil & Grease: < 10 mg/l
+For Small & Medium Manufacturing Units
 
-### 1.2 Air Pollution Control
-Units contributing to particulate matter emissions must install appropriate Air Pollution Control Devices (APCD) such as:
-- Electrostatic Precipitators (ESP) for boilers > 2 TPH.
-- Bag Filters for cement/dust generating units.
-- Stack Height: Minimum H = 14(Q)^0.3 where Q is SO2 emission rate in kg/hr, or strictly 30m whichever is higher.
+Purpose:
+This document consolidates key regulatory requirements applicable to manufacturing units seeking Consent to Establish (CTE) and Factory License approval. It is intended as a reference guide for applicants to understand documentation, infrastructure, and compliance expectations before submission to local government authorities.
 
-## 2. HAZARDOUS WASTE MANAGEMENT
-### 2.1 Storage and Labeling
-- Designated storage area must be impervious and covered.
-- Containers must be labeled with "HAZARDOUS WASTE" in fluorescent yellow background with red letters.
-- Maximum storage period: 90 days.
+1. GENERAL APPLICABILITY
 
-### 2.2 Disposal
-- Must be handed over only to authorized TSDF (Treatment, Storage, and Disposal Facilities).
-- Manifest system (Form 10) must be maintained for every consignment.
+These regulations apply to:
 
-## 3. INDUSTRIAL SAFETY & HEALTH
-### 3.1 Factory Act Compliance
-- **Ventilation:** Adequate air changes per hour (minimum 6 ACPH) in work halls.
-- **Lighting:** Minimum 500 Lux in production areas.
-- **Exits:** Minimum two distinct exits for every floor/room > 500 sq.ft.
-- **Fire Safety:**
-  - Hydrant system mandatory for built-up area > 500 sq.m.
-  - Automatic Sprinklers required in high-hazard zones (e.g., chemical storage).
+Manufacturing units classified under Red or Orange category
 
-## 4. LABOR WELFARE
-- **Rest Rooms:** Mandatory if > 150 workers.
-- **Crèche:** Mandatory if > 30 women workers.
-- **Drinking Water:** 1 point for every 50 workers, located at least 6m away from toilets.
+Units with built-up area exceeding 500 sq. m
 
-## 5. DOCUMENTATION REQUIREMENTS FOR APPROVAL
-1. **Consent to Establish (CTE):** From State Pollution Control Board.
-2. **Factory License:** From Department of Factories & Boilers.
-3. **Fire NOC:** From Fire & Emergency Services.
-4. **Detailed Project Report (DPR):** Including process flow, chemical mass balance, and water balance chart.
-5. **On-site Emergency Plan:** For handling hazardous chemical leaks.
+Units employing more than 10 workers with power or 20 workers without power
 
----
-*Failure to comply with ZLD norms results in immediate closure under Section 33A of the Water Act.*
+Units generating trade effluent, air emissions, or hazardous waste
+
+2. WATER & EFFLUENT MANAGEMENT
+(Pollution Control Board Standards – 2024)
+2.1 Water Source Declaration
+
+All manufacturing units must declare:
+
+Primary water source (Borewell / Municipal / Surface water)
+
+Secondary sources (Recycled water, rainwater harvesting)
+
+Note: Use of borewell water requires declaration in the Consent to Establish (CTE).
+
+2.2 Effluent Treatment & Zero Liquid Discharge (ZLD)
+
+ZLD is mandatory for units that:
+
+Discharge more than 10 KLD of trade effluent
+
+Handle chemicals, food processing waste, or hazardous substances
+
+Requirements:
+
+Installation of Effluent Treatment Plant (ETP)
+
+ZLD system type must be declared (RO + MEE or equivalent)
+
+No untreated effluent shall be discharged outside premises
+
+Minimum Standards:
+
+pH: 6.5 – 8.5
+
+BOD: < 30 mg/l
+
+COD: < 250 mg/l
+
+TSS: < 100 mg/l
+
+Required Documents:
+
+ZLD Technical Report
+
+Water Balance Chart
+
+PCB Consent (CTE)
+
+3. AIR POLLUTION CONTROL
+(PCB Standards 1.2)
+
+Manufacturing units generating air emissions must install Air Pollution Control Devices (APCDs).
+
+3.1 Stack Height Requirements
+
+Minimum stack height: 30 meters
+
+OR calculated using:
+H = 14(Q)^0.3, where Q = SO₂ emission rate (kg/hr)
+
+The higher value shall apply
+
+3.2 Approved APCDs
+
+Bag Filters – dust-generating units
+
+Electrostatic Precipitators (ESP) – boilers > 2 TPH
+
+Wet Scrubbers – chemical processes
+
+Required Documents:
+
+Site Plan showing stack location
+
+APCD specification in DPR
+
+4. HAZARDOUS WASTE MANAGEMENT
+(Hazardous Waste Rules, 2016)
+4.1 Waste Identification
+
+Units must declare:
+
+Waste category (e.g., 5.1 Used Oil, 33.1 Empty Containers)
+
+Annual quantity generated
+
+4.2 Storage Requirements
+
+Impervious, covered storage area
+
+Fluorescent yellow signage with red lettering
+
+Maximum on-site storage: 90 days
+
+4.3 Disposal
+
+Waste must be handed over only to authorized TSDF
+
+Manifest system (Form 10) mandatory for transport
+
+Required Documents:
+
+Hazardous Waste Declaration
+
+TSDF Authorization Letter
+
+5. FACTORY SAFETY & LABOR WELFARE
+(Factories Act, 1948)
+5.1 Ventilation & Lighting
+
+Minimum 6 Air Changes Per Hour (ACPH) in work halls
+
+Lighting:
+
+Production areas: minimum 500 Lux
+
+5.2 Fire Safety
+
+Mandatory if:
+
+Built-up area > 500 sq. m
+
+Hazardous materials stored
+
+Requirements:
+
+Fire hydrant system
+
+Automatic sprinklers in high-risk zones
+
+Minimum two emergency exits per floor
+
+Required Documents:
+
+Factory License Plan
+
+Fire Safety Layout
+
+6. LABOR WELFARE FACILITIES
+
+Applicable thresholds:
+
+Rest rooms: Mandatory if > 150 workers
+
+Crèche: Mandatory if > 30 women workers
+
+Drinking Water:
+
+1 point per 50 workers
+
+Located minimum 6 meters away from toilets
+
+7. LOCATION & BUFFER ZONE REQUIREMENTS
+7.1 Proximity to Residential Areas
+
+Minimum buffer distance must be maintained from:
+
+Residential buildings
+
+Schools, hospitals, places of worship
+
+Distance must be clearly marked in the Site Plan.
+
+7.2 Noise & Safety Considerations
+
+Units near residential areas may be required to:
+
+Install noise barriers
+
+Restrict operating hours
+
+Submit additional safety declarations
+
+8. DOCUMENTATION CHECKLIST FOR APPROVAL
+
+Applicants must prepare the following before visiting local authorities:
+
+Site Plan with dimensions and surroundings
+
+Consent to Establish (PCB)
+
+Factory License Plan
+
+ZLD Technical Report
+
+Detailed Project Report (DPR)
+
+Fire Safety Declaration / NOC
+
+Hazardous Waste Declaration
+
+On-site Emergency Plan (if applicable)
+
+9. NON-COMPLIANCE CONSEQUENCES
+
+Failure to comply with mandatory requirements may result in:
+
+Rejection of Consent to Establish
+
+Delay in Factory License issuance
+
+Closure directions under Section 33A of the Water Act
+
+10. IMPORTANT DISCLAIMER
+
+This document is intended for guidance and preparation purposes only.
+Final approval authority rests with respective government departments and officers.

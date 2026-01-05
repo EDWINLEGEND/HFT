@@ -114,3 +114,17 @@ class ApplicationService:
                 self._save_applications(apps)
                 return SavedApplication(**app)
         return None
+    
+    def delete_application(self, app_id: str) -> bool:
+        """
+        Delete an application by ID.
+        Returns True if deleted, False if not found.
+        """
+        apps = self._load_applications()
+        initial_count = len(apps)
+        apps = [app for app in apps if app['id'] != app_id]
+        
+        if len(apps) < initial_count:
+            self._save_applications(apps)
+            return True
+        return False
