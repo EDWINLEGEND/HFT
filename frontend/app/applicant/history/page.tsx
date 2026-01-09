@@ -47,7 +47,13 @@ export default function HistoryPage() {
         try {
             const data = await CivicAssistAPI.getApplications();
             // Sort by Date Descending
-            const sorted = data.sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime());
+            let sorted = data.sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime());
+
+            // DEMO: If no apps, show mock history
+            if (sorted.length === 0) {
+                sorted = MOCK_HISTORY;
+            }
+
             setApplications(sorted);
         } catch (err) {
             console.error(err);
@@ -55,6 +61,124 @@ export default function HistoryPage() {
             setLoading(false);
         }
     };
+
+    // --- MOCK HISTORY FOR DEMO ---
+    const MOCK_HISTORY: SavedApplication[] = [
+        {
+            id: 'mock-1',
+            status: 'compliant',
+            submitted_at: '2026-01-04T10:30:00.000Z', // 4th Jan
+            time_saved_seconds: 1200,
+            application_data: {
+                industry_name: 'GreenTech Industries',
+                industry_type: 'Manufacturing',
+                square_feet: '12000',
+                total_area: 12000,
+                documents: ['site_plan.pdf', 'pcb_consent.pdf'],
+                water_source: 'Municipal Supply',
+                drainage_method: 'ETP Treated Recycled'
+            },
+            compliance_report: {
+                status: 'compliant',
+                confidence_score: 0.98,
+                issues: [],
+                missing_documents: [],
+                recommendations: ['Maintain current standards'],
+                regulation_coverage: 1.0,
+                generated_at: '2026-01-04T10:31:00.000Z'
+            }
+        },
+        {
+            id: 'mock-2',
+            status: 'compliant',
+            submitted_at: '2026-01-04T15:45:00.000Z', // 4th Jan
+            time_saved_seconds: 1150,
+            application_data: {
+                industry_name: 'GreenTech Industries',
+                industry_type: 'Manufacturing',
+                square_feet: '12000',
+                total_area: 12000,
+                documents: ['site_plan_v1.pdf', 'pcb_consent.pdf'],
+                water_source: 'Municipal Supply',
+                drainage_method: 'ETP Treated Recycled'
+            },
+            compliance_report: {
+                status: 'compliant',
+                confidence_score: 0.98,
+                issues: [],
+                missing_documents: [],
+                recommendations: [],
+                regulation_coverage: 1.0,
+                generated_at: '2026-01-04T15:46:00.000Z'
+            }
+        },
+        {
+            id: 'mock-3',
+            status: 'partial',
+            submitted_at: '2026-01-05T09:15:00.000Z', // 5th Jan
+            time_saved_seconds: 950,
+            application_data: {
+                industry_name: 'EcoTextile Dyeing Unit',
+                industry_type: 'Manufacturing',
+                square_feet: '8000',
+                total_area: 8000,
+                documents: ['layout.pdf'],
+                water_source: 'Borewell',
+                drainage_method: 'Soak Pit'
+            },
+            compliance_report: {
+                status: 'partial',
+                confidence_score: 0.78,
+                issues: [
+                    { issue_type: 'violation', severity: 'medium', description: 'Soak pit not allowed for dyeing effluent', department: 'Pollution Control' }
+                ],
+                missing_documents: [],
+                recommendations: ['Install ETP'],
+                regulation_coverage: 0.95,
+                generated_at: '2026-01-05T09:16:00.000Z'
+            }
+        },
+        {
+            id: 'mock-4',
+            status: 'compliant',
+            submitted_at: '2026-01-05T11:20:00.000Z', // 5th Jan
+            time_saved_seconds: 1210,
+            application_data: {
+                industry_name: 'GreenTech Industries',
+                industry_type: 'Manufacturing',
+                square_feet: '12000',
+                total_area: 12000,
+                documents: ['initial_proposal.pdf'],
+                water_source: 'Municipal Supply',
+                drainage_method: 'ETP Treated'
+            },
+            compliance_report: {
+                status: 'compliant',
+                confidence_score: 0.97,
+                issues: [],
+                missing_documents: [],
+                recommendations: [],
+                regulation_coverage: 1.0,
+                generated_at: '2026-01-05T11:21:00.000Z'
+            }
+        },
+        {
+            id: 'mock-5',
+            status: 'pending',
+            submitted_at: '2026-01-05T14:30:00.000Z', // 5th Jan
+            time_saved_seconds: 0,
+            application_data: {
+                industry_name: 'GreenTech Industries',
+                industry_type: 'Manufacturing',
+                square_feet: '15000',
+                total_area: 15000,
+                documents: ['expansion_plan.pdf'],
+                water_source: 'Municipal Supply',
+                drainage_method: 'Zero Liquid Discharge'
+            },
+            compliance_report: null
+        }
+    ];
 
     const handleDelete = async (id: string, e: React.MouseEvent) => {
         e.stopPropagation();
