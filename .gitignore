@@ -1,0 +1,63 @@
+# Project Root .gitignore
+
+# --------------------------------------------------------------------------
+# 🐍 Python Specific
+# --------------------------------------------------------------------------
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# --------------------------------------------------------------------------
+# 🔌 Node.js Specific (Redundant but safe)
+# --------------------------------------------------------------------------
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# --------------------------------------------------------------------------
+# 🔒 Environment Secrets & Local Config
+# --------------------------------------------------------------------------
+.env
+.env.local
+.env.*
+!.env.example
+
+# --------------------------------------------------------------------------
+# 📄 OS & Misc
+# --------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.log
